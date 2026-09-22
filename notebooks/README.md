@@ -9,7 +9,7 @@ The notebook contains **one overview and eight step diagrams**, each explaining 
 
 1. Pinned DROID-100 source files and join keys.
 2. Video decoding, sampling, and SigLIP2 embeddings.
-3. OSS Lance writes, checkpoints, and vector indexes.
+3. S3 / OSS Lance writes, checkpoints, and vector indexes.
 4. Doris Catalog and internal analysis tables.
 5. `vector_search()` and episode deduplication.
 6. Video playback, state/action joins, and human review.
@@ -17,6 +17,8 @@ The notebook contains **one overview and eight step diagrams**, each explaining 
 8. Training history, scene deduplication, and training candidates.
 
 Local SVG diagrams are embedded in the exported HTML and do not depend on an online diagram service.
+
+See the [storage guide](../docs/STORAGE.md) for S3. Replace the `oss://` examples below with your `s3://` paths; use `01_setup_s3.sql` for Doris. The notebook selects the provider from `NOTEBOOK_DATASET_ROOT`.
 
 ## Install and start
 
@@ -44,7 +46,7 @@ Python installation.
 
 ### live: run actual ingestion and queries
 
-1. Configure OSS/Doris in the root `.env`; optionally set `NOTEBOOK_DATASET_ROOT`. Enter the database password through getpass if you prefer not to store it in `.env`.
+1. Configure S3 / OSS/Doris in the root `.env`; optionally set `NOTEBOOK_DATASET_ROOT`. Enter the database password through getpass if you prefer not to store it in `.env`.
 2. Change `MODE` to `"live"`. Set `RUN_EXPORT=True` for a first export and `RUN_SETUP=True` for initial catalog/table creation. Keep the respective flag False when an export or catalog already exists. Install dependencies and create the bucket before exporting.
 3. Execute through step 06 to inspect real retrieval results, videos, and state/action rows. One export cell runs steps 01–03 together; preceding diagrams explain each phase. The existing CLI performs downloads, inference, writes, and indexing.
 4. **Pause before importing labels** and fill the two CSVs under `work/notebook/labels`. See the [Doris guide](../doris/README.md) for fields. episode_policy must cover every exported episode.
@@ -52,7 +54,7 @@ Python installation.
 6. Results appear as DataFrames and charts. Retrieval, coverage, distributions, and candidate CSVs are saved under `work/notebook/queries/<run_id>/report/`.
 
 The default exports 100 episodes at frame-stride=15, yielding about 6,591 frame vectors. Existing
-per-frame exports can also be queried. A two-episode smoke test needs a separate OSS prefix and a
+per-frame exports can also be queried. A two-episode smoke test needs a separate S3 / OSS prefix and a
 catalog pointing to that export; changing only Notebook parameters is insufficient. Reconfigure
 the catalog correctly when returning to the full dataset. Resume exports with the same configuration
 and `RESUME_EXPORT=True`. Missing candidates, labels, or training history produce explicit empty
@@ -103,5 +105,5 @@ GitHub's source view does not render HTML as a live website.
 Preview mode was fully executed locally and exported to HTML. SQL/annotation helpers also have
 offline tests. With notebook and development dependencies installed, `python -m pytest -q` runs
 all 34 tests. Live mode reuses the existing ingestion/query code but has not connected to your
-OSS/Doris environment. The preview must not be presented as a real business report. Source video
+S3 / OSS/Doris environment. The preview must not be presented as a real business report. Source video
 and model weights are excluded from the package; see the [validation record](../docs/VALIDATION.md).

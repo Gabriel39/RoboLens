@@ -15,7 +15,7 @@ import re
 import lance
 import numpy as np
 
-from pipeline.export_droid import Encoders, VISION_DIM, VISION_MODEL, VISION_REVISION, storage_options
+from pipeline.export_droid import Encoders, VISION_DIM, VISION_MODEL, VISION_REVISION, add_storage_arguments, storage_options
 
 CAMERAS = {
     "wrist": "observation.images.wrist_image_left",
@@ -84,8 +84,7 @@ def main():
     source.add_argument("--sample-id", help="An existing exported episode:camera:frame_index")
     source.add_argument("--image", type=Path, help="A new local RGB reference image")
     parser.add_argument("--dataset-root", help="Export root required with --sample-id")
-    parser.add_argument("--oss-endpoint")
-    parser.add_argument("--oss-region")
+    add_storage_arguments(parser)
     parser.add_argument("--camera", choices=CAMERAS, default="wrist", help="Camera view of --image")
     parser.add_argument("--device", default="auto")
     parser.add_argument("--work-dir", type=Path, default=Path("work/query-cache"))
@@ -95,7 +94,8 @@ def main():
     if args.sample_id:
         if not args.dataset_root:
             parser.error("--sample-id requires --dataset-root")
-        options = storage_options(args.dataset_root, args.oss_endpoint, args.oss_region)
+        options = storage_options(args.dataset_root, args.oss_endpoint, args.oss_region,
+                                  s3_endpoint=args.s3_endpoint, s3_region=args.s3_region)
         reference = read_reference(args.dataset_root, args.sample_id, options)
     else:
         from PIL import Image

@@ -45,7 +45,7 @@
 
 - 未下载并导出全部 100 集；全量规模取自固定源元数据，向量条数按各集长度和采样规则计算。
 - 未在本机加载完整 SigLIP2/CLAP 权重进行推理，未评估 GPU 吞吐和语义召回率。
-- 未连接用户 OSS，未验证实际凭证、网络、对象存储吞吐。
+- 未连接用户 S3 / OSS，未验证实际凭证、网络、对象存储吞吐。
 - 未连接 Doris 执行 SQL，SQL 依据官方 Lance Catalog/Vector Search 和 Stream Load 文档编写。
 - 未生成或假设真实失败标签，未产出实际失败比例和训练收益结论。
 
@@ -60,5 +60,16 @@ Notebook 包含 34 个单元，1 张总览图和 8 张分步骤 SVG 示意图。
 
 Notebook 辅助测试覆盖 SQL 字符串内分号的正确切分、参数化标签写入、错误 run/episode 标签、
 非法布尔值/时间/结果值的写前拒绝，以及缺失评估集登记时的拒绝。
-安装 Notebook 依赖后，完整测试套件为 **34 passed**；仅安装基础开发依赖时可跳过可选 Notebook 测试。
-已生成的 HTML 是流程讲解预览，未连接 OSS/Doris，也不包含推测的检索命中或失败统计。
+安装 Notebook 依赖后，完整测试套件为 **43 passed**；仅安装基础开发依赖时可跳过可选 Notebook 测试。
+已生成的 HTML 是流程讲解预览，未连接 S3 / OSS/Doris，也不包含推测的检索命中或失败统计。
+
+## S3 协议验证
+
+新增测试通过 Moto 5.2.3 在本机启动 S3 HTTP 服务，使用真实 Lance SDK 导出两集
+合成测试视频和状态数据，验证六张业务表、checkpoint、索引文件写入、带索引检索、
+续传后索引保留、读取参考向量及 MP4 原字节提取。embedding 仍使用明确的模型替身。
+配置测试覆盖 AWS region/临时 token、endpoint 与请求方式、OSS 配置隔离，
+以及 Notebook 对 AWS、AWS 中国区域、S3 兼容 endpoint 的 Catalog 映射。
+这些测试不代表真实 AWS、MinIO 部署或 Doris 集成已经验证。中英文 Notebook 的 preview
+模式已重新执行并生成 HTML。运行测试需安装 `requirements-dev.txt`；Notebook 辅助测试
+另需 `requirements-notebook.txt`。

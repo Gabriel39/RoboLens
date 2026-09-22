@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 356" width="1080" role="img" aria-labelledby="title desc">
-<title id="title">04 / 让 Doris 访问 Lance 数据</title><desc id="desc">连接：MySQL 协议访问 Doris；FE / BE 访问 OSS。原始视频、状态、动作和向量留在 Lance；分析内表只保存检索结果与业务补充信息。</desc>
+<title id="title">04 / 让 Doris 访问 Lance 数据</title><desc id="desc">连接：MySQL 协议访问 Doris；FE / BE 访问 S3 / OSS。原始视频、状态、动作和向量留在 Lance；分析内表只保存检索结果与业务补充信息。</desc>
 <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#64748b"/></marker></defs>
 <rect width="1080" height="356" rx="18" fill="#f4f7fb"/>
 <g font-family="Noto Sans CJK SC,Microsoft YaHei,Arial,sans-serif">
 <text x="30" y="43" font-size="25" font-weight="700" fill="#102a43">04 / 让 Doris 访问 Lance 数据</text>
-<text x="30" y="73" font-size="15" fill="#52667a">连接：MySQL 协议访问 Doris；FE / BE 访问 OSS</text>
+<text x="30" y="73" font-size="15" fill="#52667a">连接：MySQL 协议访问 Doris；FE / BE 访问 S3 / OSS</text>
 <rect x="30" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef"/>
 <rect x="30" y="102" width="6" height="184" rx="3" fill="#2563eb"/>
 <text x="50" y="136" font-size="19" font-weight="700" fill="#2563eb">Notebook</text>
@@ -16,7 +16,7 @@
 <rect x="380" y="102" width="6" height="184" rx="3" fill="#08918c"/>
 <text x="400" y="136" font-size="19" font-weight="700" fill="#08918c">Lance Catalog</text>
 <text x="400" y="170" font-size="15" font-weight="400" fill="#334e68">droid100.default.*</text>
-<text x="400" y="204" font-size="15" font-weight="400" fill="#334e68">外表读取 OSS schema 和数据</text>
+<text x="400" y="204" font-size="15" font-weight="400" fill="#334e68">外表读取 S3 / OSS schema 和数据</text>
 <text x="400" y="238" font-size="15" font-weight="400" fill="#334e68">检查导出完成状态和向量索引</text>
 <path d="M705,194 H725" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
 <rect x="730" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef"/>

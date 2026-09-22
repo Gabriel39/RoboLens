@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 356" width="1080" role="img" aria-labelledby="title desc">
-<title id="title">From robot data to traceable training candidates</title><desc id="desc">DROID-100 · OSS Lance · Doris. The walkthrough reuses project code. Preview mode explains the workflow without inventing execution results.</desc>
+<title id="title">From robot data to traceable training candidates</title><desc id="desc">DROID-100 · S3 / OSS Lance · Doris. The walkthrough reuses project code. Preview mode explains the workflow without inventing execution results.</desc>
 <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#64748b" /></marker></defs>
 <rect width="1080" height="356" rx="18" fill="#f4f7fb" />
 <g font-family="Noto Sans CJK SC,Microsoft YaHei,Arial,sans-serif">
 <text x="30" y="43" font-size="25" font-weight="700" fill="#102a43">From robot data to traceable training candidates</text>
-<text x="30" y="73" font-size="14" fill="#52667a">DROID-100 · OSS Lance · Doris</text>
+<text x="30" y="73" font-size="14" fill="#52667a">DROID-100 · S3 / OSS Lance · Doris</text>
 <rect x="30" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef" />
 <rect x="30" y="102" width="6" height="184" rx="3" fill="#2563eb" />
 <text x="50" y="136" font-size="18" font-weight="700" fill="#2563eb">Prepare the data</text>

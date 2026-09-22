@@ -9,7 +9,7 @@ Notebook 包含 **1 张总览图 + 8 张步骤示意图**，每张图说明输�
 
 1. 固定版 DROID-100 源文件和数据关联。
 2. 视频解码、采样、SigLIP2 embedding。
-3. 写入 OSS Lance、checkpoint 和向量索引。
+3. 写入 S3 / OSS Lance、checkpoint 和向量索引。
 4. Doris Catalog 与业务分析内表。
 5. `vector_search()` 与 episode 去重。
 6. 视频回放、状态/动作关联、人工复核。
@@ -18,6 +18,8 @@ Notebook 包含 **1 张总览图 + 8 张步骤示意图**，每张图说明输�
 
 示意图为本地 SVG，
 会随 Notebook 输出嵌入 HTML，不依赖在线画图服务。
+
+S3 配置见 [存储指南](../docs/STORAGE.zh-CN.md)。下文 `oss://` 示例可替换为对应的 `s3://` 路径；Doris 使用 `01_setup_s3.sql` 模板，Notebook 根据 `NOTEBOOK_DATASET_ROOT` 自动选择。
 
 ## 安装和启动
 
@@ -44,7 +46,7 @@ Notebook 可以从项目根目录或 notebooks 目录启动；不要只拷贝 ip
 
 ### live：真实执行导入与查询
 
-1. 在项目根目录配置 `.env` 中的 OSS/Doris 信息，可设 `NOTEBOOK_DATASET_ROOT` 指向输出前缀。
+1. 在项目根目录配置 `.env` 中的 S3 / OSS/Doris 信息，可设 `NOTEBOOK_DATASET_ROOT` 指向输出前缀。
    密码可以通过 Notebook 的 getpass 输入框输入，不必写入 `.env`。
 2. 配置单元改为 `MODE="live"`；首次导出设 `RUN_EXPORT=True`，首次建 Catalog/表设 `RUN_SETUP=True`。
    已有完整导出或 Catalog 时相应设为 False。首次导出前确认依赖已安装、bucket 已存在。
@@ -58,7 +60,7 @@ Notebook 可以从项目根目录或 notebooks 目录启动；不要只拷贝 ip
    `work/notebook/queries/<run_id>/report/`。
 
 默认导出 100 集、frame-stride=15，约 6,591 条帧向量；已有逐帧导出也能直接查询。
-用两集试跑时换独立的 OSS 前缀，试跑期间 Catalog 也需指向这份导出，不能只改变 Notebook 参数。
+用两集试跑时换独立的 S3 / OSS 前缀，试跑期间 Catalog 也需指向这份导出，不能只改变 Notebook 参数。
 切回全量时应重新正确配置 Catalog。恢复导出沿用同一配置并设 `RESUME_EXPORT=True`。
 没有候选、没有标签或没有训练登记时，Notebook 明确显示空结果，不编造图表。
 
@@ -102,5 +104,5 @@ GitHub 源码页面不会直接运行 HTML；可下载仓库后在浏览器打�
 
 已在本地完整执行 preview 模式并导出 HTML；SQL/标签辅助函数另有离线测试。
 安装 Notebook 和开发依赖后，运行 `python -m pytest -q` 可执行全部 34 项测试。
-live 模式复用已有导出和查询代码，但尚未连接用户的 OSS/Doris 环境，不能把附带页面当作真实业务报告。
+live 模式复用已有导出和查询代码，但尚未连接用户的 S3 / OSS/Doris 环境，不能把附带页面当作真实业务报告。
 源视频和模型不包含在项目压缩包内；详见 [验证记录](../docs/VALIDATION.zh-CN.md)。

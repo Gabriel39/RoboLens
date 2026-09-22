@@ -49,7 +49,7 @@ used a model double; those test vectors must not be used for business retrieval.
 
 - The complete 100-episode export was not downloaded/run. Full counts come from pinned metadata; embedding counts are calculated from episode lengths and sampling rules.
 - Full SigLIP2/CLAP weights were not loaded for local inference. GPU throughput and semantic recall were not evaluated.
-- No connection to your OSS was made; credentials, networking, and object-store throughput remain untested.
+- No connection to your S3 / OSS was made; credentials, networking, and object-store throughput remain untested.
 - SQL was not executed against Doris. It follows the official Lance Catalog/Vector Search and Stream Load documentation.
 - No real failure labels were generated or assumed, and no actual failure rates or training gains were reported.
 
@@ -66,5 +66,17 @@ hidden. The nine embedded diagrams were checked in a browser, including page and
 Notebook helper tests cover SQL semicolons inside literals, parameterized label writes, rejection
 of invalid run/episode labels and boolean/time/outcome values before writes, and rejection of
 incomplete split registry coverage. With notebook dependencies installed, the full suite passes
-**34 tests**. Optional notebook tests can be skipped when only base development dependencies are installed.
-The HTML is a process walkthrough, not an OSS/Doris execution report or fabricated search/failure result.
+**43 tests**. Optional notebook tests can be skipped when only base development dependencies are installed.
+The HTML is a process walkthrough, not an S3 / OSS/Doris execution report or fabricated search/failure result.
+
+## S3 protocol validation
+
+New tests run Moto 5.2.3 as a local S3 HTTP service and use the real Lance SDK to export two
+synthetic episodes with media and state data. They verify six business tables, checkpoints, index
+files, indexed retrieval, index preservation on resume, reference-vector reads, and byte-exact MP4
+extraction. Embeddings remain explicit model doubles. Configuration tests cover AWS regions and
+temporary tokens, endpoint/request style, OSS isolation, and notebook catalog mapping for AWS,
+AWS China regions, and compatible endpoints. This does not establish compatibility with a real
+AWS account, a deployed MinIO service, or Doris. Both notebook previews were executed again and
+exported to HTML. Install `requirements-dev.txt` for tests and `requirements-notebook.txt` for the
+optional notebook helper tests.

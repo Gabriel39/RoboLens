@@ -3,7 +3,9 @@
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 从项目根目录运行 `python -m pipeline.export_droid`。入口、配置和两集/全量运行命令见
-[根 README](../README.zh-CN.md)。本目录负责源数据到 OSS Lance，不连接 Doris。
+[根 README](../README.zh-CN.md)。本目录负责源数据到 S3 / OSS Lance，不连接 Doris。
+
+S3 配置见 [存储指南](../docs/STORAGE.zh-CN.md)。下文 `oss://` 示例可替换为对应的 `s3://` 路径；Doris 使用 `01_setup_s3.sql` 模板，Notebook 根据 `NOTEBOOK_DATASET_ROOT` 自动选择。
 
 ## 处理步骤
 
@@ -30,7 +32,7 @@ state/action 是原始机器人记录，保留 7 维数值，不经过 embedding
 
 | 参数 | 默认 | 含义 |
 |---|---|---|
-| `--output` | 必填 | `oss://bucket/prefix` 或本地目录 |
+| `--output` | 必填 | `s3://bucket/prefix`、`oss://bucket/prefix` 或本地目录 |
 | `--work-dir` | `./work` | 模型缓存、源元数据和批次临时文件 |
 | `--source-root` | 无 | 已下载的 DROID-100 v2.1 根目录；包含 meta/data/videos |
 | `--max-episodes` | 无限制 | 小样本数量；与 start-episode 共同定义范围 |
@@ -55,7 +57,7 @@ state/action 是原始机器人记录，保留 7 维数值，不经过 embedding
 ## 索引及恢复
 
 索引列为 `frame_embeddings.embedding`、`media.video_embedding`、非空的
-`audio_embeddings.embedding`；它们直接存放于 OSS Lance dataset。
+`audio_embeddings.embedding`；它们直接存放于 S3 / OSS Lance dataset。
 
 IVF_PQ 默认 64 个子向量、SDK 默认 8-bit 码本。小于 256 行无法训练该 PQ 码本，
 因此自动改用 IVF_FLAT。索引参数与名称摘要关联，开始后需沿用原参数；不会静默覆盖

@@ -5,7 +5,7 @@ import re
 
 import lance
 
-from pipeline.export_droid import digest, storage_options
+from pipeline.export_droid import add_storage_arguments, digest, storage_options
 
 
 def extract(root: str, media_id: str, destination: Path, options: dict) -> None:
@@ -29,10 +29,10 @@ def main():
     parser.add_argument("--dataset-root", required=True)
     parser.add_argument("--media-id", required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--oss-endpoint")
-    parser.add_argument("--oss-region")
+    add_storage_arguments(parser)
     args = parser.parse_args()
-    options = storage_options(args.dataset_root, args.oss_endpoint, args.oss_region)
+    options = storage_options(args.dataset_root, args.oss_endpoint, args.oss_region,
+                              s3_endpoint=args.s3_endpoint, s3_region=args.s3_region)
     extract(args.dataset_root, args.media_id, args.output, options)
     print(args.output.resolve())
 

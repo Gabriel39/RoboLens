@@ -4,9 +4,9 @@
 
 **Explore robot behavior through data.**
 
-DROID-100 → OSS Lance → Doris Vector Search
+DROID-100 → S3 / OSS Lance → Doris Vector Search
 
-RoboLens 使用 Python 下载和加工 DROID-100，生成 embedding、写入 OSS 上的 Lance
+RoboLens 使用 Python 下载和加工 DROID-100，生成 embedding、写入 S3 / OSS 上的 Lance
 并构建向量索引；Doris 通过 `vector_search()` 搜索相似片段，再分析抓取失败分布和筛选训练候选。
 
 [Jupyter 全流程演示](notebooks/README.zh-CN.md)：包含 1 张总览图和 8 张步骤示意图，
@@ -55,6 +55,7 @@ RoboLens/
     prepare_query.py
     sql/
       01_setup.sql
+      01_setup_s3.sql
       02_vector_search.sql
       03_review_clips.sql
       04_failure_distribution.sql
@@ -90,7 +91,7 @@ python -m pip install -r requirements.txt
 cp .env.example .env
 ```
 
-按机器的 CUDA/CPU 环境安装相应 PyTorch wheel。编辑 `.env` 填入 OSS 凭证和 endpoint，
+按机器的 CUDA/CPU 环境安装相应 PyTorch wheel。编辑 `.env` 填入 S3 / OSS 凭证和 endpoint，
 再加载变量：
 
 ```bash
@@ -99,8 +100,24 @@ source .env
 set +a
 ```
 
-密钥只从环境读取，不写入导出 manifest。脚本不会创建 OSS bucket；使用已存在的 bucket
+密钥只从环境读取，不写入导出 manifest。脚本不会创建 S3 / OSS bucket；使用已存在的 bucket
 和有读、列举、写权限的凭证。临时 STS token 到期后更新环境变量并恢复任务。
+
+## AWS S3
+
+使用 AWS S3 时，在 `.env` 中填写 `AWS_REGION`、`AWS_ACCESS_KEY_ID` 和
+`AWS_SECRET_ACCESS_KEY`（临时凭证还需 `AWS_SESSION_TOKEN`），输出路径改为 `s3://`：
+
+```bash
+python -m pipeline.export_droid \
+  --output s3://YOUR_BUCKET/robotics/droid100_smoke \
+  --work-dir work/s3-smoke --max-episodes 2 --frame-stride 15
+```
+
+所有导出、续传、建索引、查询向量和视频提取命令均支持 S3。Doris 使用
+`doris/sql/01_setup_s3.sql`；Notebook 设置 `NOTEBOOK_DATASET_ROOT=s3://YOUR_BUCKET/robotics/droid100`。
+详见 [S3、S3 兼容服务与 OSS 配置](docs/STORAGE.zh-CN.md)。下文保留 OSS 命令示例；
+使用 S3 时将路径换成对应的 `s3://` 前缀，并使用 AWS 配置。
 
 ## 2. 先验证两集，再导出全部 100 集
 
@@ -126,7 +143,7 @@ python -m pipeline.export_droid \
 
 不传 `--max-episodes` 就是全部 100 集。需要减少 embedding 计算量时用 `--frame-stride 15`；
 原始视频和状态/动作仍完整保存。显存不足时降低 `--embedding-batch-size`。
-离线验证可将 `--output` 改为 `work/local-output`，不需要 OSS 凭证。
+离线验证可将 `--output` 改为 `work/local-output`，不需要 S3 / OSS 凭证。
 
 输出包含六个业务 dataset 和三个运行记录 dataset：
 
@@ -144,7 +161,7 @@ oss://YOUR_BUCKET/robotics/droid100/
 ```
 
 原始视频作为 `media.video_bytes` 写入 Lance，索引保存在相应 dataset 的 `_indices/` 中。
-它们不是独立 OSS MP4 地址，也不需要再导入 Doris 内表才能进行 Vector Search。
+它们不是独立 S3 / OSS MP4 地址，也不需要再导入 Doris 内表才能进行 Vector Search。
 
 ## 3. 恢复与补建索引
 
@@ -176,7 +193,7 @@ python -m pipeline.export_droid \
 
 按 [doris/README.md](doris/README.zh-CN.md) 的顺序执行：
 
-1. 配置 `01_setup.sql` 中的 OSS bucket/凭证，建立 Lance Catalog 和分析表。
+1. 配置 `01_setup_s3.sql`（S3）或 `01_setup.sql`（OSS）中的 bucket/凭证，建立 Lance Catalog 和分析表。
 2. 从真实参考帧生成 SQL，工具自动填入 768 维查询向量。
 3. 执行 Vector Search，获取片段复核清单。
 4. 导入实际的人工复核标签与训练集登记，执行失败分布和选样 SQL。
@@ -209,12 +226,12 @@ python -m pytest -q
 模型使用明确的测试替身；索引使用真实 Lance SDK。另验证过真实 DROID-100 第 0 集，
 详情和未验证的环境边界见 [docs/VALIDATION.md](docs/VALIDATION.zh-CN.md)。
 
-业务案例见 [docs/CASE_STUDY.md](docs/CASE_STUDY.zh-CN.md)。代码未连接用户的 OSS/Doris 环境执行。
+业务案例见 [docs/CASE_STUDY.md](docs/CASE_STUDY.zh-CN.md)。代码未连接用户的 S3 / OSS/Doris 环境执行。
 
 ## 官方资料
 
 - [固定数据版本](https://huggingface.co/datasets/lerobot/droid_100/tree/78f887947f976d85dd04594bcbd0b05c29893349)
 - [Doris Lance Catalog / Vector Search](https://doris.apache.org/docs/4.x/lakehouse/catalogs/lance-catalog/)
-- [Lance OSS 配置](https://lance.org/guide/object_store/#alicloud-object-storage-service-configuration)
+- [Lance 对象存储配置](https://lance.org/guide/object_store/)
 - [SigLIP2](https://huggingface.co/google/siglip2-base-patch16-224)
 - [CLAP](https://huggingface.co/laion/clap-htsat-unfused)

@@ -82,18 +82,38 @@ def initialize_doris(connection, project: Path, dataset_root: str) -> list[pd.Da
     """Fill the trusted setup template in memory without displaying credentials."""
     from pipeline.export_droid import storage_options
     options = storage_options(dataset_root, None, None)
-    if not dataset_root.startswith("oss://"):
-        raise ValueError("Live Doris setup requires an OSS dataset root")
-    if options.get("oss_security_token"):
-        raise ValueError("Configure an STS-enabled catalog outside this setup helper")
-    text = (project / "doris/sql/01_setup.sql").read_text()
-    replacements = {
-        '"oss://REPLACE_BUCKET/robotics/droid100"': dataset_root,
-        '"https://oss-cn-hangzhou.aliyuncs.com"': options["oss_endpoint"],
-        '"cn-hangzhou"': os.environ.get("OSS_REGION", "cn-hangzhou"),
-        '"REPLACE_ACCESS_KEY"': options["oss_access_key_id"],
-        '"REPLACE_SECRET_KEY"': options["oss_secret_access_key"],
-    }
+    if dataset_root.startswith("s3://"):
+        from urllib.parse import urlparse
+        if options.get("aws_session_token") or not options.get("aws_access_key_id"):
+            raise ValueError("Configure an STS/IAM-enabled S3 catalog separately and leave RUN_SETUP=False")
+        bucket = urlparse(dataset_root).netloc
+        region = options["aws_region"]
+        virtual = options["aws_virtual_hosted_style_request"] == "true"
+        suffix = "amazonaws.com.cn" if region.startswith("cn-") else "amazonaws.com"
+        endpoint = options.get("aws_endpoint") or f"https://{bucket + '.' if virtual else ''}s3.{region}.{suffix}"
+        text = (project / "doris/sql/01_setup_s3.sql").read_text()
+        replacements = {
+            '"s3://REPLACE_BUCKET/robotics/droid100"': dataset_root,
+            '"https://REPLACE_BUCKET.s3.us-east-1.amazonaws.com"': endpoint,
+            '"us-east-1"': region,
+            '"REPLACE_ACCESS_KEY"': options["aws_access_key_id"],
+            '"REPLACE_SECRET_KEY"': options["aws_secret_access_key"],
+        }
+        text = text.replace('"use_path_style" = "false"',
+                            '"use_path_style" = "' + str(not virtual).lower() + '"')
+    elif dataset_root.startswith("oss://"):
+        if options.get("oss_security_token"):
+            raise ValueError("Configure an STS-enabled catalog outside this setup helper")
+        text = (project / "doris/sql/01_setup.sql").read_text()
+        replacements = {
+            '"oss://REPLACE_BUCKET/robotics/droid100"': dataset_root,
+            '"https://oss-cn-hangzhou.aliyuncs.com"': options["oss_endpoint"],
+            '"cn-hangzhou"': os.environ.get("OSS_REGION", "cn-hangzhou"),
+            '"REPLACE_ACCESS_KEY"': options["oss_access_key_id"],
+            '"REPLACE_SECRET_KEY"': options["oss_secret_access_key"],
+        }
+    else:
+        raise ValueError("Live Doris setup requires an S3 or OSS dataset root")
     for token, value in replacements.items():
         # Use the driver's escaping rather than concatenating raw SQL literals.
         text = text.replace(token, connection.escape(value))

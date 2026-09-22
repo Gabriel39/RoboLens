@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export pinned LeRobot DROID-100 data and local embeddings to OSS Lance.
+"""Export pinned LeRobot DROID-100 data and local embeddings to S3 or OSS Lance.
 
 Read Parquet, JSONL, and MP4 directly without installing LeRobot. Preserve all
 state/action rows and original video bytes. Compute SigLIP2 frame embeddings;
@@ -87,13 +87,52 @@ def unit_vectors(values: np.ndarray, dimension: int) -> np.ndarray:
     return values / norms
 
 
-def storage_options(output: str, endpoint: str | None, region: str | None) -> dict[str, str]:
-    """Configure native OSS access without persisting credentials."""
-    scheme = urlparse(output).scheme
-    if scheme == "":  # Use local output for smoke tests and oss://bucket/prefix for production.
+def add_storage_arguments(parser: argparse.ArgumentParser) -> None:
+    """Expose the same storage overrides in all three command-line tools."""
+    parser.add_argument("--oss-endpoint", help="Native OSS HTTPS endpoint")
+    parser.add_argument("--oss-region", help="Native OSS region, such as cn-hangzhou")
+    parser.add_argument("--s3-endpoint", help="Optional S3-compatible endpoint; defaults to AWS S3")
+    parser.add_argument("--s3-region", help="S3 region; overrides AWS_REGION / AWS_DEFAULT_REGION")
+
+
+def storage_options(output: str, endpoint: str | None = None, region: str | None = None,
+                    *, s3_endpoint: str | None = None, s3_region: str | None = None) -> dict[str, str]:
+    """Select native storage by URI and keep credentials out of export metadata."""
+    uri = urlparse(output)
+    if uri.scheme == "":
         return {}
-    if scheme != "oss" or not urlparse(output).netloc or not urlparse(output).path.strip("/"):
-        raise ValueError("--output must be a local directory or oss://bucket/nonempty-prefix")
+    if (uri.scheme not in {"oss", "s3"} or not uri.netloc or not uri.path.strip("/")
+            or uri.username or uri.password or uri.query or uri.fragment):
+        raise ValueError("--output must be a local directory, oss://bucket/nonempty-prefix, or s3://bucket/nonempty-prefix")
+    if uri.scheme == "s3":
+        selected_region = s3_region or os.getenv("AWS_REGION") or os.getenv("AWS_DEFAULT_REGION")
+        if not selected_region:
+            raise ValueError("Set --s3-region, AWS_REGION, or AWS_DEFAULT_REGION")
+        selected_endpoint = s3_endpoint or os.getenv("AWS_ENDPOINT")
+        virtual = os.getenv("AWS_VIRTUAL_HOSTED_STYLE_REQUEST", "false" if selected_endpoint else "true").lower()
+        allow_http = os.getenv("AWS_ALLOW_HTTP", "false").lower()
+        if virtual not in {"true", "false"} or allow_http not in {"true", "false"}:
+            raise ValueError("AWS_VIRTUAL_HOSTED_STYLE_REQUEST and AWS_ALLOW_HTTP must be true or false")
+        options = {"aws_region": selected_region, "timeout": "300s",
+                   "aws_virtual_hosted_style_request": virtual, "allow_http": allow_http}
+        if selected_endpoint:
+            parsed = urlparse(selected_endpoint)
+            if (parsed.scheme not in {"https", "http"} or not parsed.netloc
+                    or parsed.username or parsed.password or parsed.query or parsed.fragment
+                    or parsed.path.strip("/")):
+                raise ValueError("The S3 endpoint must be an HTTP(S) origin without credentials, path, or query")
+            if parsed.scheme == "http" and allow_http != "true":
+                raise ValueError("An HTTP S3 endpoint requires AWS_ALLOW_HTTP=true")
+            options["aws_endpoint"] = selected_endpoint.rstrip("/")
+        for env, key in {"AWS_ACCESS_KEY_ID": "aws_access_key_id",
+                         "AWS_SECRET_ACCESS_KEY": "aws_secret_access_key",
+                         "AWS_SESSION_TOKEN": "aws_session_token"}.items():
+            if os.getenv(env):
+                options[key] = os.environ[env]
+        if bool(options.get("aws_access_key_id")) != bool(options.get("aws_secret_access_key")):
+            raise ValueError("Set both AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY, or neither for SDK credentials")
+        # Without static keys, let Lance resolve its supported AWS credential providers.
+        return options
     endpoint = endpoint or os.getenv("OSS_ENDPOINT")
     if not endpoint or not endpoint.startswith("https://"):
         raise ValueError("Set --oss-endpoint or OSS_ENDPOINT to an HTTPS endpoint")
@@ -729,9 +768,8 @@ def local_lock(work: Path):
 
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--output", required=True, help="oss://bucket/prefix or a local test directory")
-    parser.add_argument("--oss-endpoint", help="For example https://oss-cn-hangzhou.aliyuncs.com")
-    parser.add_argument("--oss-region", help="For example cn-hangzhou")
+    parser.add_argument("--output", required=True, help="s3://bucket/prefix, oss://bucket/prefix, or a local test directory")
+    add_storage_arguments(parser)
     parser.add_argument("--work-dir", type=Path, default=Path("./work"), help="Model cache and batch working directory")
     parser.add_argument("--revision", default=SOURCE_REVISION, help="Hugging Face revision; defaults to the verified v2.1 commit")
     parser.add_argument("--source-root", type=Path, help="Optional local copy of lerobot/droid_100 v2.1")
@@ -775,7 +813,8 @@ def main():
     os.environ.setdefault("HF_HOME", str(work / "hf"))
     os.environ.setdefault("HF_HUB_DISABLE_TELEMETRY", "1")
     os.environ.setdefault("TMPDIR", str(work))
-    options = storage_options(args.output, args.oss_endpoint, args.oss_region)
+    options = storage_options(args.output, args.oss_endpoint, args.oss_region,
+                              s3_endpoint=args.s3_endpoint, s3_region=args.s3_region)
     output = args.output if urlparse(args.output).scheme else str(Path(args.output).resolve())
     with local_lock(work):
         if not args.index_only:

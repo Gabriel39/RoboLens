@@ -9,7 +9,7 @@ This is a hypothetical use case, not a claim about any DROID-100 episode's outco
 
 ## Prepare the data
 
-The export pipeline writes states, actions, videos, and metadata from 100 episodes to OSS Lance.
+The export pipeline writes states, actions, videos, and metadata from 100 episodes to S3 / OSS Lance.
 SigLIP2 produces 768-dimensional vectors for sampled frames, followed by cosine vector indexes.
 The default per-frame export has 96,636 image vectors and preserves all three video views.
 DROID-100 is useful for validating the workflow; it is not a massive dataset itself and does not

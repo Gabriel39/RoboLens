@@ -3,8 +3,10 @@
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 Run `python -m pipeline.export_droid` from the project root. See the [root README](../README.md)
-for configuration and smoke-test/full-export commands. This directory handles source data to OSS Lance;
+for configuration and smoke-test/full-export commands. This directory handles source data to S3 / OSS Lance;
 it does not connect to Doris.
+
+See the [storage guide](../docs/STORAGE.md) for S3. Replace the `oss://` examples below with your `s3://` paths; use `01_setup_s3.sql` for Doris. The notebook selects the provider from `NOTEBOOK_DATASET_ROOT`.
 
 ## Processing steps
 
@@ -32,7 +34,7 @@ values and do not pass through an embedding model.
 
 | Parameter | Default | Meaning |
 |---|---|---|
-| `--output` | Required | `oss://bucket/prefix` or a local directory |
+| `--output` | Required | `s3://bucket/prefix`, `oss://bucket/prefix`, or a local directory |
 | `--work-dir` | `./work` | Model cache, source metadata, and batch temporary files |
 | `--source-root` | None | Downloaded DROID-100 v2.1 root containing meta/data/videos |
 | `--max-episodes` | Unlimited | Episode count limit; combines with start-episode to define the range |
@@ -57,7 +59,7 @@ supported. The default is a fixed source commit; avoid replacing it with a movin
 ## Indexes and recovery
 
 Indexed columns are `frame_embeddings.embedding`, `media.video_embedding`, and nonempty
-`audio_embeddings.embedding`. They live directly in the OSS Lance datasets.
+`audio_embeddings.embedding`. They live directly in the S3 / OSS Lance datasets.
 
 IVF_PQ defaults to 64 subvectors and the SDK's default 8-bit codebook. Fewer than 256 rows cannot train
 that codebook, so the script switches to IVF_FLAT. Index parameters are included in the name digest;

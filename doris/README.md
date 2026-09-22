@@ -6,9 +6,11 @@ This directory contains the SQL workflow for finding similar scenes after a fail
 analyzing failure distributions, and selecting training candidates. Complete [ingestion](../pipeline/README.md)
 first, then run the following commands from the project root.
 
+See the [storage guide](../docs/STORAGE.md) for S3. Replace the `oss://` examples below with your `s3://` paths; use `01_setup_s3.sql` for Doris. The notebook selects the provider from `NOTEBOOK_DATASET_ROOT`.
+
 ## 1. Create the catalog and analysis tables
 
-You need Doris FE/BE nodes that can access the same OSS bucket, a MySQL client, and a Doris build
+You need Doris FE/BE nodes that can access the same S3 / OSS bucket, a MySQL client, and a Doris build
 supporting Lance Catalog and `vector_search()`. The [public 4.x documentation](https://doris.apache.org/docs/4.x/lakehouse/catalogs/lance-catalog/)
 currently marks Lance Catalog as supported from 4.2; a “4.1” version label alone does not establish support.
 
@@ -32,7 +34,7 @@ index. Run the initial setup only once; inspect existing catalogs/tables before 
 
 | Location | Contents |
 |---|---|
-| `droid100.default.*` | Lance external tables on OSS: original data and vectors |
+| `droid100.default.*` | Lance external tables on S3 / OSS: original data and vectors |
 | `internal.droid100_analysis.grasp_hits` | Selected episodes and reference frames for each search run |
 | `internal.droid100_analysis.grasp_review` | Human review labels and time intervals for complete attempts |
 | `internal.droid100_analysis.episode_policy` | Scene groups, dataset splits, and training-use registry |
@@ -106,7 +108,7 @@ python -m pipeline.export_media \
 ```
 
 This extracts the whole video and verifies SHA256. Original videos are stored in a Lance binary
-column; source_path is not an OSS MP4 URL.
+column; source_path is not an S3 / OSS MP4 URL.
 
 ```bash
 mkdir -p work/labels

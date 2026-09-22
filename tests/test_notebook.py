@@ -134,3 +134,52 @@ def test_incomplete_policy_is_rejected_before_review_write(labels):
     with pytest.raises(ValueError, match="every exported episode"):
         ingest(connection, labels, episode_ids={0, 1})
     assert connection.calls == []
+
+
+@pytest.mark.parametrize("endpoint,virtual,region,expected", [
+    (None, None, "us-east-1", "https://bucket.s3.us-east-1.amazonaws.com"),
+    (None, None, "cn-north-1", "https://bucket.s3.cn-north-1.amazonaws.com.cn"),
+    ("https://minio.example.com", "false", "us-east-1", "https://minio.example.com"),
+    ("https://bucket.s3.example.com", "true", "us-east-1", "https://bucket.s3.example.com"),
+])
+def test_s3_notebook_catalog_mapping(monkeypatch, endpoint, virtual, region, expected):
+    from notebooks.demo_support import initialize_doris
+    import pymysql.converters
+    for key in ("AWS_ENDPOINT", "AWS_SESSION_TOKEN", "AWS_VIRTUAL_HOSTED_STYLE_REQUEST", "AWS_ALLOW_HTTP"):
+        monkeypatch.delenv(key, raising=False)
+    monkeypatch.setenv("AWS_REGION", region)
+    monkeypatch.setenv("AWS_ACCESS_KEY_ID", "test-key")
+    monkeypatch.setenv("AWS_SECRET_ACCESS_KEY", "test-secret")
+    if endpoint:
+        monkeypatch.setenv("AWS_ENDPOINT", endpoint)
+    if virtual:
+        monkeypatch.setenv("AWS_VIRTUAL_HOSTED_STYLE_REQUEST", virtual)
+    connection = RecordingConnection()
+    connection.escape = pymysql.converters.escape_item
+    initialize_doris(connection, ROOT, "s3://bucket/robotics/droid100")
+    import sqlparse
+    catalog = sqlparse.format(connection.calls[0], strip_comments=True)
+    assert expected in catalog
+    assert '"fs.s3.support" = "true"' in catalog
+    assert '"use_path_style" = "' + str(virtual == "false").lower() + '"' in catalog
+    assert "oss." not in catalog and "REPLACE_" not in catalog
+    assert "CREATE TABLE internal.droid100_analysis.grasp_hits" in "\n".join(connection.calls)
+
+
+def test_s3_notebook_temporary_credentials_do_not_create_catalog(monkeypatch):
+    from notebooks.demo_support import initialize_doris
+    monkeypatch.setenv("AWS_REGION", "us-east-1")
+    monkeypatch.setenv("AWS_ACCESS_KEY_ID", "test-key")
+    monkeypatch.setenv("AWS_SECRET_ACCESS_KEY", "test-secret")
+    monkeypatch.setenv("AWS_SESSION_TOKEN", "test-token")
+    connection = RecordingConnection()
+    with pytest.raises(ValueError, match="RUN_SETUP=False"):
+        initialize_doris(connection, ROOT, "s3://bucket/robotics/droid100")
+    assert connection.calls == []
+
+
+def test_storage_setup_templates_share_analysis_schema():
+    marker = "SHOW TABLES FROM"
+    oss = (ROOT / "doris/sql/01_setup.sql").read_text().split(marker, 1)[1]
+    s3 = (ROOT / "doris/sql/01_setup_s3.sql").read_text().split(marker, 1)[1]
+    assert oss == s3

@@ -449,3 +449,103 @@ def test_source_code_and_comments_are_english():
         for path in (root / directory).rglob("*"):
             if path.suffix in {".py", ".sql"}:
                 assert path.read_text().isascii(), str(path)
+
+
+@pytest.fixture
+def aws_env(monkeypatch):
+    import os
+    for key in list(os.environ):
+        if key.startswith("AWS_"):
+            monkeypatch.delenv(key)
+    monkeypatch.setenv("AWS_REGION", "us-east-1")
+    monkeypatch.setenv("AWS_ACCESS_KEY_ID", "s3-test-key")
+    monkeypatch.setenv("AWS_SECRET_ACCESS_KEY", "s3-test-secret")
+    monkeypatch.setenv("AWS_EC2_METADATA_DISABLED", "true")
+
+
+def test_s3_credentials_overrides_and_provider_isolation(aws_env, monkeypatch):
+    monkeypatch.setenv("OSS_ENDPOINT", "https://oss-cn-hangzhou.aliyuncs.com")
+    monkeypatch.setenv("OSS_ACCESS_KEY_ID", "oss-test-key")
+    monkeypatch.setenv("OSS_ACCESS_KEY_SECRET", "oss-test-secret")
+    monkeypatch.setenv("AWS_SESSION_TOKEN", "temporary-token")
+    options = app.storage_options("s3://bucket/droid", s3_region="eu-west-1")
+    assert options["aws_region"] == "eu-west-1"
+    assert options["aws_session_token"] == "temporary-token"
+    assert options["aws_virtual_hosted_style_request"] == "true"
+    assert not any(key.startswith("oss_") for key in options)
+    assert not any(key.startswith("aws_") for key in app.storage_options("oss://bucket/droid"))
+    assert app.storage_options("local/output") == {}
+    monkeypatch.delenv("AWS_REGION")
+    monkeypatch.setenv("AWS_DEFAULT_REGION", "eu-central-1")
+    assert app.storage_options("s3://bucket/droid")["aws_region"] == "eu-central-1"
+    for key in ("AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY", "AWS_SESSION_TOKEN"):
+        monkeypatch.delenv(key)
+    assert "aws_access_key_id" not in app.storage_options("s3://bucket/droid")
+
+
+def test_s3_endpoint_guards_and_path_style(aws_env, monkeypatch):
+    with pytest.raises(ValueError, match="AWS_ALLOW_HTTP"):
+        app.storage_options("s3://bucket/droid", s3_endpoint="http://localhost:9000")
+    monkeypatch.setenv("AWS_ALLOW_HTTP", "true")
+    monkeypatch.setenv("AWS_ENDPOINT", "http://localhost:9000")
+    options = app.storage_options("s3://bucket/droid")
+    assert options["aws_endpoint"] == "http://localhost:9000"
+    assert options["aws_virtual_hosted_style_request"] == "false"
+    assert app.storage_options("s3://bucket/droid", s3_endpoint="https://other.example")["aws_endpoint"] == "https://other.example"
+    for uri in ("s3://bucket", "s3://bucket/", "s3://bucket/prefix?secret=bad"):
+        with pytest.raises(ValueError):
+            app.storage_options(uri)
+    for endpoint in ("https://user:password@example.com", "https://example.com/bucket", "ftp://example.com"):
+        with pytest.raises(ValueError, match="HTTP"):
+            app.storage_options("s3://bucket/droid", s3_endpoint=endpoint)
+    monkeypatch.delenv("AWS_SECRET_ACCESS_KEY")
+    with pytest.raises(ValueError, match="both"):
+        app.storage_options("s3://bucket/droid")
+
+
+def test_s3_protocol_export_index_resume_and_media(source, tmp_path, aws_env, monkeypatch):
+    """Exercise real Lance HTTP requests against a local S3 protocol emulator."""
+    import boto3
+    from moto.server import ThreadedMotoServer
+    from doris.prepare_query import read_reference
+    from pipeline.export_media import extract
+
+    server = ThreadedMotoServer(ip_address="127.0.0.1", port=0, verbose=False)
+    server.start()
+    try:
+        host, port = server.get_host_and_port()
+        endpoint = f"http://{host}:{port}"
+        monkeypatch.setenv("AWS_ENDPOINT", endpoint)
+        monkeypatch.setenv("AWS_ALLOW_HTTP", "true")
+        client = boto3.client("s3", endpoint_url=endpoint)
+        client.create_bucket(Bucket="robolens-test")
+        root = "s3://robolens-test/robotics/droid100"
+        options = app.storage_options(root)
+        work = tmp_path / "s3-work"
+        work.mkdir()
+        encoders = TestEncoders()
+        counts = app.export(source, root, options, work, encoders, episodes_per_commit=1, frame_stride=2)
+        assert counts == {"frames": 8, "episodes": 2, "media": 6,
+                          "frame_embeddings": 12, "audio_embeddings": 0, "metadata": 3}
+        summary = app.build_indexes(root, options)
+        ds = lance.dataset(root + "/frame_embeddings.lance", storage_options=options)
+        index_uuid = ds.list_indices()[0]["uuid"]
+        sample_id = f"0:{source.cameras[0]}:0"
+        reference = read_reference(root, sample_id, options)
+        hits = ds.to_table(nearest={"column": "embedding", "q": reference["embedding"],
+                                   "k": 1, "metric": "cosine", "nprobes": 1})
+        assert hits["_distance"][0].as_py() == pytest.approx(0, abs=1e-5)
+        calls = encoders.image_calls
+        app.export(source, root, options, work, encoders, episodes_per_commit=1, frame_stride=2, resume=True)
+        assert encoders.image_calls == calls
+        assert app.build_indexes(root, options) == summary
+        assert lance.dataset(root + "/frame_embeddings.lance", storage_options=options).list_indices()[0]["uuid"] == index_uuid
+        target = tmp_path / "review.mp4"
+        extract(root, f"0:{source.cameras[0]}", target, options)
+        original = source.local_root / f"videos/chunk-000/{source.cameras[0]}/episode_000000.mp4"
+        assert target.read_bytes() == original.read_bytes()
+        manifest = lance.dataset(root + "/export_manifest.lance", storage_options=options).to_table().to_pylist()
+        assert "s3-test-secret" not in json.dumps(manifest)
+        assert any("/_indices/" in item["Key"] for item in client.list_objects_v2(Bucket="robolens-test")["Contents"])
+    finally:
+        server.stop()

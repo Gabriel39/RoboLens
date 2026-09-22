@@ -5,9 +5,11 @@
 本目录对应“抓取失败后找相似场景、分析失败分布、筛选训练候选”的完整 SQL 流程。
 先完成 [数据导入](../pipeline/README.zh-CN.md)，再从项目根目录执行以下命令。
 
+S3 配置见 [存储指南](../docs/STORAGE.zh-CN.md)。下文 `oss://` 示例可替换为对应的 `s3://` 路径；Doris 使用 `01_setup_s3.sql` 模板，Notebook 根据 `NOTEBOOK_DATASET_ROOT` 自动选择。
+
 ## 1. 建立 Catalog 和分析表
 
-需要可以访问同一个 OSS bucket 的 Doris FE/BE、MySQL 客户端，以及支持 Lance Catalog
+需要可以访问同一个 S3 / OSS bucket 的 Doris FE/BE、MySQL 客户端，以及支持 Lance Catalog
 和 `vector_search()` 的 Doris 构建。当前[官方 4.x 文档](https://doris.apache.org/docs/4.x/lakehouse/catalogs/lance-catalog/)
 标注 Lance Catalog 从 4.2 起支持，不能仅凭“4.1”版本号假定功能存在。
 
@@ -31,7 +33,7 @@ mysql -h "$DORIS_HOST" -P "$DORIS_QUERY_PORT" -u "$DORIS_USER" -p \
 
 | 位置 | 保存内容 |
 |---|---|
-| `droid100.default.*` | OSS 上的 Lance 外表，原始数据和向量 |
+| `droid100.default.*` | S3 / OSS 上的 Lance 外表，原始数据和向量 |
 | `internal.droid100_analysis.grasp_hits` | 每次搜索选出的 episode 和参考帧 |
 | `internal.droid100_analysis.grasp_review` | 人工复核结果和完整尝试的时间区间 |
 | `internal.droid100_analysis.episode_policy` | 场景分组、数据切分和训练使用登记 |
@@ -99,7 +101,7 @@ python -m pipeline.export_media \
   --output work/review/episode_000000_wrist.mp4
 ```
 
-该命令提取整段视频并校验 SHA256。原始视频位于 Lance 二进制列中，source_path 不是 OSS MP4 URL。
+该命令提取整段视频并校验 SHA256。原始视频位于 Lance 二进制列中，source_path 不是 S3 / OSS MP4 URL。
 
 ```bash
 mkdir -p work/labels
