@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 356" width="1080" role="img" aria-labelledby="title desc">
+<title id="title">06 / 回看视频，补充真实业务标签</title><desc id="desc">关联：sample_id → media_id → 视频；episode + frame → 状态 / 动作。next.reward / next.done 不自动等于一次抓取的成败；unknown 不当作成功。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#64748b"/></marker></defs>
+<rect width="1080" height="356" rx="18" fill="#f4f7fb"/>
+<g font-family="Noto Sans CJK SC,Microsoft YaHei,Arial,sans-serif">
+<text x="30" y="43" font-size="25" font-weight="700" fill="#102a43">06 / 回看视频，补充真实业务标签</text>
+<text x="30" y="73" font-size="15" fill="#52667a">关联：sample_id → media_id → 视频；episode + frame → 状态 / 动作</text>
+<rect x="30" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef"/>
+<rect x="30" y="102" width="6" height="184" rx="3" fill="#2563eb"/>
+<text x="50" y="136" font-size="19" font-weight="700" fill="#2563eb">候选帧</text>
+<text x="50" y="170" font-size="15" font-weight="400" fill="#334e68">定位相似时刻</text>
+<text x="50" y="204" font-size="15" font-weight="400" fill="#334e68">初始窗口：前 2 秒 / 后 3 秒</text>
+<text x="50" y="238" font-size="15" font-weight="400" fill="#334e68">联查 state / action / task</text>
+<path d="M355,194 H375" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="380" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef"/>
+<rect x="380" y="102" width="6" height="184" rx="3" fill="#08918c"/>
+<text x="400" y="136" font-size="19" font-weight="700" fill="#08918c">人工复核</text>
+<text x="400" y="170" font-size="15" font-weight="400" fill="#334e68">回看完整的一次抓取</text>
+<text x="400" y="204" font-size="15" font-weight="400" fill="#334e68">确认物体、场景和片段起止</text>
+<text x="400" y="238" font-size="15" font-weight="400" fill="#334e68">标注 success / failure / unknown</text>
+<path d="M705,194 H725" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="730" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef"/>
+<rect x="730" y="102" width="6" height="184" rx="3" fill="#8452ce"/>
+<text x="750" y="136" font-size="19" font-weight="700" fill="#8452ce">写入分析表</text>
+<text x="750" y="170" font-size="15" font-weight="400" fill="#334e68">grasp_review + episode_policy</text>
+<text x="750" y="204" font-size="15" font-weight="400" fill="#334e68">记录原因、质量和标签来源</text>
+<text x="750" y="238" font-size="15" font-weight="400" fill="#334e68">登记场景组、split、训练使用</text>
+<text x="30" y="324" font-size="14" fill="#52667a">next.reward / next.done 不自动等于一次抓取的成败；unknown 不当作成功。</text></g></svg>

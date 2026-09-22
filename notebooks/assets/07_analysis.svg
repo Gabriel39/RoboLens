@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 356" width="1080" role="img" aria-labelledby="title desc">
+<title id="title">07 / 统计失败分布</title><desc id="desc">分析对象：本次检索、复核后且有明确结果的样本群。相似度检索带来选择偏差；这里的比例不代表线上总体失败率，也不直接证明因果。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#64748b"/></marker></defs>
+<rect width="1080" height="356" rx="18" fill="#f4f7fb"/>
+<g font-family="Noto Sans CJK SC,Microsoft YaHei,Arial,sans-serif">
+<text x="30" y="43" font-size="25" font-weight="700" fill="#102a43">07 / 统计失败分布</text>
+<text x="30" y="73" font-size="15" fill="#52667a">分析对象：本次检索、复核后且有明确结果的样本群</text>
+<rect x="30" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef"/>
+<rect x="30" y="102" width="6" height="184" rx="3" fill="#2563eb"/>
+<text x="50" y="136" font-size="19" font-weight="700" fill="#2563eb">先检查覆盖率</text>
+<text x="50" y="170" font-size="15" font-weight="400" fill="#334e68">检索数 → 复核数 → 可用数</text>
+<text x="50" y="204" font-size="15" font-weight="400" fill="#334e68">排除非目标任务和低质量片段</text>
+<text x="50" y="238" font-size="15" font-weight="400" fill="#334e68">排除未知成败结果</text>
+<path d="M355,194 H375" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="380" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef"/>
+<rect x="380" y="102" width="6" height="184" rx="3" fill="#08918c"/>
+<text x="400" y="136" font-size="19" font-weight="700" fill="#08918c">分组聚合</text>
+<text x="400" y="170" font-size="15" font-weight="400" fill="#334e68">物体 × 场景</text>
+<text x="400" y="204" font-size="15" font-weight="400" fill="#334e68">失败数 / 已知成败样本数</text>
+<text x="400" y="238" font-size="15" font-weight="400" fill="#334e68">按失败阶段和原因继续分组</text>
+<path d="M705,194 H725" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="730" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef"/>
+<rect x="730" y="102" width="6" height="184" rx="3" fill="#8452ce"/>
+<text x="750" y="136" font-size="19" font-weight="700" fill="#8452ce">Notebook 图表</text>
+<text x="750" y="170" font-size="15" font-weight="400" fill="#334e68">覆盖率表 + 失败分布图</text>
+<text x="750" y="204" font-size="15" font-weight="400" fill="#334e68">看清问题集中在哪些条件</text>
+<text x="750" y="238" font-size="15" font-weight="400" fill="#334e68">保留分母和样本数量</text>
+<text x="30" y="324" font-size="14" fill="#52667a">相似度检索带来选择偏差；这里的比例不代表线上总体失败率，也不直接证明因果。</text></g></svg>

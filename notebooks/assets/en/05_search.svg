@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 356" width="1080" role="img" aria-labelledby="title desc">
+<title id="title">05 / Find similar scenes from a failure image</title><desc id="desc">Query: Doris vector_search() TVF. Similarity is not a failure probability. DROID-100 has only 100 episodes; fewer matches may be returned.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#64748b" /></marker></defs>
+<rect width="1080" height="356" rx="18" fill="#f4f7fb" />
+<g font-family="Noto Sans CJK SC,Microsoft YaHei,Arial,sans-serif">
+<text x="30" y="43" font-size="25" font-weight="700" fill="#102a43">05 / Find similar scenes from a failure image</text>
+<text x="30" y="73" font-size="14" fill="#52667a">Query: Doris vector_search() TVF</text>
+<rect x="30" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef" />
+<rect x="30" y="102" width="6" height="184" rx="3" fill="#2563eb" />
+<text x="50" y="136" font-size="18" font-weight="700" fill="#2563eb">Reference image</text>
+<text x="50" y="170" font-size="14" font-weight="400" fill="#334e68">Exported frame / new image</text>
+<text x="50" y="204" font-size="14" font-weight="400" fill="#334e68">Same model, 768-dimensional vector</text>
+<text x="50" y="238" font-size="14" font-weight="400" fill="#334e68">Restrict to the same camera view</text>
+<path d="M355,194 H375" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" />
+<rect x="380" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef" />
+<rect x="380" y="102" width="6" height="184" rx="3" fill="#08918c" />
+<text x="400" y="136" font-size="18" font-weight="700" fill="#08918c">Lance vector index</text>
+<text x="400" y="170" font-size="14" font-weight="400" fill="#334e68">Prefilter → ANN retrieval</text>
+<text x="400" y="204" font-size="14" font-weight="400" fill="#334e68">Retrieve up to 2,000 frame candidates</text>
+<text x="400" y="238" font-size="14" font-weight="400" fill="#334e68">Keep successful comparison samples</text>
+<path d="M705,194 H725" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" />
+<rect x="730" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef" />
+<rect x="730" y="102" width="6" height="184" rx="3" fill="#8452ce" />
+<text x="750" y="136" font-size="18" font-weight="700" fill="#8452ce">Candidate episodes</text>
+<text x="750" y="170" font-size="14" font-weight="400" fill="#334e68">Deduplicate by episode</text>
+<text x="750" y="204" font-size="14" font-weight="400" fill="#334e68">Keep up to 50 episodes for review</text>
+<text x="750" y="238" font-size="14" font-weight="400" fill="#334e68">Smaller distance = more similar</text>
+<text x="30" y="324" font-size="13" fill="#52667a">Similarity is not a failure probability. DROID-100 has only 100 episodes; fewer matches may be returned.</text></g></svg>

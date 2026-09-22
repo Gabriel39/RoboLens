@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 356" width="1080" role="img" aria-labelledby="title desc">
+<title id="title">05 / 从一次失败画面找到相似场景</title><desc id="desc">查询：Doris vector_search() TVF。相似度不是失败概率；DROID-100 仅有 100 集，命中集数可能少于设定上限。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#64748b"/></marker></defs>
+<rect width="1080" height="356" rx="18" fill="#f4f7fb"/>
+<g font-family="Noto Sans CJK SC,Microsoft YaHei,Arial,sans-serif">
+<text x="30" y="43" font-size="25" font-weight="700" fill="#102a43">05 / 从一次失败画面找到相似场景</text>
+<text x="30" y="73" font-size="15" fill="#52667a">查询：Doris vector_search() TVF</text>
+<rect x="30" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef"/>
+<rect x="30" y="102" width="6" height="184" rx="3" fill="#2563eb"/>
+<text x="50" y="136" font-size="19" font-weight="700" fill="#2563eb">参考画面</text>
+<text x="50" y="170" font-size="15" font-weight="400" fill="#334e68">已导出帧 / 新采集图片</text>
+<text x="50" y="204" font-size="15" font-weight="400" fill="#334e68">得到同模型的 768 维向量</text>
+<text x="50" y="238" font-size="15" font-weight="400" fill="#334e68">限定同一路相机视角</text>
+<path d="M355,194 H375" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="380" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef"/>
+<rect x="380" y="102" width="6" height="184" rx="3" fill="#08918c"/>
+<text x="400" y="136" font-size="19" font-weight="700" fill="#08918c">Lance 向量索引</text>
+<text x="400" y="170" font-size="15" font-weight="400" fill="#334e68">预过滤 → ANN 检索</text>
+<text x="400" y="204" font-size="15" font-weight="400" fill="#334e68">最多召回 2,000 个帧候选</text>
+<text x="400" y="238" font-size="15" font-weight="400" fill="#334e68">不预先排除成功对照样本</text>
+<path d="M705,194 H725" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="730" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef"/>
+<rect x="730" y="102" width="6" height="184" rx="3" fill="#8452ce"/>
+<text x="750" y="136" font-size="19" font-weight="700" fill="#8452ce">候选 episode</text>
+<text x="750" y="170" font-size="15" font-weight="400" fill="#334e68">按 episode 去重</text>
+<text x="750" y="204" font-size="15" font-weight="400" fill="#334e68">最多保留 50 集供复核</text>
+<text x="750" y="238" font-size="15" font-weight="400" fill="#334e68">距离更小表示画面更相似</text>
+<text x="30" y="324" font-size="14" fill="#52667a">相似度不是失败概率；DROID-100 仅有 100 集，命中集数可能少于设定上限。</text></g></svg>

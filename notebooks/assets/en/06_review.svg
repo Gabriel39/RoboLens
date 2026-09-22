@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 356" width="1080" role="img" aria-labelledby="title desc">
+<title id="title">06 / Review video and add actual labels</title><desc id="desc">Join: sample_id → media_id → video; episode + frame → state / action. next.reward / next.done do not automatically label a grasp outcome. Unknown outcomes are not successes.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#64748b" /></marker></defs>
+<rect width="1080" height="356" rx="18" fill="#f4f7fb" />
+<g font-family="Noto Sans CJK SC,Microsoft YaHei,Arial,sans-serif">
+<text x="30" y="43" font-size="25" font-weight="700" fill="#102a43">06 / Review video and add actual labels</text>
+<text x="30" y="73" font-size="14" fill="#52667a">Join: sample_id → media_id → video; episode + frame → state / action</text>
+<rect x="30" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef" />
+<rect x="30" y="102" width="6" height="184" rx="3" fill="#2563eb" />
+<text x="50" y="136" font-size="18" font-weight="700" fill="#2563eb">Candidate frame</text>
+<text x="50" y="170" font-size="14" font-weight="400" fill="#334e68">Locate the similar moment</text>
+<text x="50" y="204" font-size="14" font-weight="400" fill="#334e68">Initial window: -2 s / +3 s</text>
+<text x="50" y="238" font-size="14" font-weight="400" fill="#334e68">Join state / action / task</text>
+<path d="M355,194 H375" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" />
+<rect x="380" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef" />
+<rect x="380" y="102" width="6" height="184" rx="3" fill="#08918c" />
+<text x="400" y="136" font-size="18" font-weight="700" fill="#08918c">Human review</text>
+<text x="400" y="170" font-size="14" font-weight="400" fill="#334e68">Watch one complete grasp attempt</text>
+<text x="400" y="204" font-size="14" font-weight="400" fill="#334e68">Identify object, scene, and interval</text>
+<text x="400" y="238" font-size="14" font-weight="400" fill="#334e68">Label success / failure / unknown</text>
+<path d="M705,194 H725" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" />
+<rect x="730" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef" />
+<rect x="730" y="102" width="6" height="184" rx="3" fill="#8452ce" />
+<text x="750" y="136" font-size="18" font-weight="700" fill="#8452ce">Write analysis tables</text>
+<text x="750" y="170" font-size="14" font-weight="400" fill="#334e68">grasp_review + episode_policy</text>
+<text x="750" y="204" font-size="14" font-weight="400" fill="#334e68">Record cause, quality, and source</text>
+<text x="750" y="238" font-size="14" font-weight="400" fill="#334e68">Register scene group, split, and use</text>
+<text x="30" y="324" font-size="13" fill="#52667a">next.reward / next.done do not automatically label a grasp outcome. Unknown outcomes are not successes.</text></g></svg>

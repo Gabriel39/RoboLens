@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 356" width="1080" role="img" aria-labelledby="title desc">
+<title id="title">02 / 将视频画面转换为 embedding</title><desc id="desc">处理：本地模型推理，不调用在线 embedding API。该版本没有音轨：audio_embeddings 为空；只有实际存在音频时才调用 CLAP。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#64748b"/></marker></defs>
+<rect width="1080" height="356" rx="18" fill="#f4f7fb"/>
+<g font-family="Noto Sans CJK SC,Microsoft YaHei,Arial,sans-serif">
+<text x="30" y="43" font-size="25" font-weight="700" fill="#102a43">02 / 将视频画面转换为 embedding</text>
+<text x="30" y="73" font-size="15" fill="#52667a">处理：本地模型推理，不调用在线 embedding API</text>
+<rect x="30" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef"/>
+<rect x="30" y="102" width="6" height="184" rx="3" fill="#2563eb"/>
+<text x="50" y="136" font-size="19" font-weight="700" fill="#2563eb">解码和采样</text>
+<text x="50" y="170" font-size="15" font-weight="400" fill="#334e68">MP4 → RGB 画面</text>
+<text x="50" y="204" font-size="15" font-weight="400" fill="#334e68">frame_stride=15：约每秒一帧</text>
+<text x="50" y="238" font-size="15" font-weight="400" fill="#334e68">原视频和全部状态仍完整保留</text>
+<path d="M355,194 H375" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="380" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef"/>
+<rect x="380" y="102" width="6" height="184" rx="3" fill="#08918c"/>
+<text x="400" y="136" font-size="19" font-weight="700" fill="#08918c">SigLIP2</text>
+<text x="400" y="170" font-size="15" font-weight="400" fill="#334e68">固定模型 + 固定 revision</text>
+<text x="400" y="204" font-size="15" font-weight="400" fill="#334e68">每张图像 → 768 维 float32</text>
+<text x="400" y="238" font-size="15" font-weight="400" fill="#334e68">对向量做 L2 归一化</text>
+<path d="M705,194 H725" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="730" y="102" width="320" height="184" rx="12" fill="white" stroke="#d9e3ef"/>
+<rect x="730" y="102" width="6" height="184" rx="3" fill="#8452ce"/>
+<text x="750" y="136" font-size="19" font-weight="700" fill="#8452ce">两种视觉向量</text>
+<text x="750" y="170" font-size="15" font-weight="400" fill="#334e68">帧向量 + 视频聚合向量</text>
+<text x="750" y="204" font-size="15" font-weight="400" fill="#334e68">帧向量用来定位相似时刻</text>
+<text x="750" y="238" font-size="15" font-weight="400" fill="#334e68">均值聚合不表示动作先后</text>
+<text x="30" y="324" font-size="14" fill="#52667a">该版本没有音轨：audio_embeddings 为空；只有实际存在音频时才调用 CLAP。</text></g></svg>
