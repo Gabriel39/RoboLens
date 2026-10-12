@@ -144,6 +144,8 @@ def test_incomplete_policy_is_rejected_before_review_write(labels):
 ])
 def test_s3_notebook_catalog_mapping(monkeypatch, endpoint, virtual, region, expected):
     from notebooks.demo_support import initialize_doris
+    monkeypatch.setattr("notebooks.demo_support.ensure_doris_objects",
+                        lambda conn, sql, root, config, secrets: run_sql(conn, sql))
     import pymysql.converters
     for key in ("AWS_ENDPOINT", "AWS_SESSION_TOKEN", "AWS_VIRTUAL_HOSTED_STYLE_REQUEST", "AWS_ALLOW_HTTP"):
         monkeypatch.delenv(key, raising=False)
@@ -163,7 +165,7 @@ def test_s3_notebook_catalog_mapping(monkeypatch, endpoint, virtual, region, exp
     assert '"fs.s3.support" = "true"' in catalog
     assert '"use_path_style" = "' + str(virtual == "false").lower() + '"' in catalog
     assert "oss." not in catalog and "REPLACE_" not in catalog
-    assert "CREATE TABLE `internal`.`droid100_analysis`.`grasp_hits`" in "\n".join(connection.calls)
+    assert "CREATE TABLE IF NOT EXISTS `internal`.`droid100_analysis`.`grasp_hits`" in "\n".join(connection.calls)
 
 
 def test_s3_notebook_temporary_credentials_do_not_create_catalog(monkeypatch):
@@ -224,13 +226,18 @@ def test_setup_error_preserves_details_and_redacts_escaped_credentials(monkeypat
     class FailingConnection(RecordingConnection):
         escape = staticmethod(escape_item)
         def execute(self, query):
+            if query == "SHOW CATALOGS":
+                self.description = [("CatalogName",)]
+                return
             raise OperationalError(1105, "Catalog had already exist; query=" + query)
+        def fetchall(self):
+            return []
     with pytest.raises(RuntimeError) as error:
         initialize_doris(FailingConnection(), ROOT, "oss://bucket/robotics/droid100")
     report = "".join(traceback.format_exception(error.value))
     assert "Catalog had already exist" in report
     assert "1105" in report and "Failed SQL" in report
-    assert "CREATE CATALOG `droid100`" in report
+    assert "CREATE CATALOG IF NOT EXISTS `droid100`" in report
     assert "private-access-key" not in report
     assert "private-secret" not in report
     assert secret not in report and escape_string(secret) not in report

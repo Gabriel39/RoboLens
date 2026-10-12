@@ -32,7 +32,7 @@ finally:
 
 确认 `export_checkpoints.complete` 和 `export_index_status.complete` 均为 true。
 `SHOW INDEX` 应能看到 frame_embeddings 的 cosine 向量索引。空音频表不需要索引。
-初次建表脚本只运行一次；已有同名 Catalog/表时先核对其来源，不要直接删除重建。
+初始化可以重复执行：已有对象校验后复用，缺失对象才创建，不删除或重建已有数据。
 
 | 位置 | 保存内容 |
 |---|---|

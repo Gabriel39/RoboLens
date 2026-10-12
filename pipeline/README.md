@@ -44,7 +44,7 @@ values and do not pass through an embedding model.
 | `--episodes-per-commit` | 16 | Batch size for staging, committing, and recomputation after failure |
 | `--device` | auto | Automatic CUDA/CPU, or explicit cpu/cuda/cuda:0 |
 | `--timestamp-tolerance` | 0.04 seconds | Maximum difference between video and state timestamps |
-| `--resume` | Off | Resume the current export and continue indexing |
+| `--resume` | Compatibility flag | Matching exports automatically resume or reuse completed data/indexes |
 | `--index-only` | Off | Index a complete export without reading HF source files or models |
 | `--skip-indexes` | Off | Export data now and build indexes later |
 | `--index-type` | IVF_PQ | IVF_FLAT is also supported; automatic IVF_FLAT below 256 rows |

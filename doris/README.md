@@ -33,7 +33,7 @@ finally:
 
 Check that both `export_checkpoints.complete` and `export_index_status.complete` are true.
 `SHOW INDEX` should show the cosine vector index on frame_embeddings. Empty audio tables need no
-index. Run the initial setup only once; inspect existing catalogs/tables before considering any replacement.
+index. Setup can be repeated: matching objects are validated and reused, missing objects are created, and existing data is preserved.
 
 | Location | Contents |
 |---|---|

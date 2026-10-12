@@ -43,7 +43,7 @@ def read_reference(dataset_root: str, sample_id: str, options: dict) -> dict:
 
 
 def render(reference: dict, output_dir: Path, run_id: str, config: Config | None = None) -> list[Path]:
-    """Validate inputs before writing a fresh, immutable set of query templates."""
+    """Validate inputs before creating or reusing matching query files."""
     if not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", run_id):
         raise ValueError("run-id must contain 1-64 letters, digits, underscores, or hyphens")
     vector = np.asarray(reference["embedding"], dtype=np.float64)
@@ -70,14 +70,18 @@ def render(reference: dict, output_dir: Path, run_id: str, config: Config | None
         rendered[path.name] = text
     if len(rendered) != 4:
         raise ValueError("Expected four analysis templates")
-    if output_dir.exists() and any(output_dir.iterdir()):
-        raise FileExistsError("Use a fresh output directory for each query run")
-    output_dir.mkdir(parents=True, exist_ok=True)
-    for name, text in rendered.items():
-        (output_dir / name).write_text(text)
-    # Keep the actual reference and source model for reproducibility, never credentials.
     manifest = {**reference, "embedding": vector.tolist(), "run_id": run_id}
-    (output_dir / "query.json").write_text(json.dumps(manifest, indent=2, allow_nan=False))
+    files = {**rendered, "query.json": json.dumps(manifest, indent=2, allow_nan=False)}
+    for name, content in files.items():
+        path = output_dir / name
+        if path.exists() and (not path.is_file() or path.read_text() != content):
+            raise ValueError(f"Existing query file differs: {path}; use a new run-id/output directory")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    for name, content in files.items():
+        path = output_dir / name
+        if not path.exists():
+            path.write_text(content)
+    # Additional review/report files in the run directory are preserved.
     return [output_dir / name for name in rendered]
 
 

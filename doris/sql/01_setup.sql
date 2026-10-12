@@ -3,7 +3,7 @@
 -- Run only after the export and index stages have completed.
 -- replication_num=1 is for a single-node demo; adjust for your cluster.
 -- This project uses one fixed DROID-100 source snapshot per catalog/database.
-CREATE CATALOG {{CATALOG}} PROPERTIES (
+CREATE CATALOG IF NOT EXISTS {{CATALOG}} PROPERTIES (
     "type" = "lance",
     "lance.catalog.type" = "filesystem",
     "warehouse" = "oss://REPLACE_BUCKET/robotics/droid100",
@@ -25,7 +25,7 @@ SHOW INDEX FROM {{SOURCE_FRAME_EMBEDDINGS}};
 
 CREATE DATABASE IF NOT EXISTS {{ANALYSIS_DATABASE}};
 
-CREATE TABLE {{ANALYSIS_GRASP_HITS}} (
+CREATE TABLE IF NOT EXISTS {{ANALYSIS_GRASP_HITS}} (
     run_id VARCHAR(64) NOT NULL,
     episode_index BIGINT NOT NULL,
     sample_id VARCHAR(256) NOT NULL,
@@ -38,7 +38,7 @@ UNIQUE KEY(run_id, episode_index)
 DISTRIBUTED BY HASH(episode_index) BUCKETS 8
 PROPERTIES ("replication_num"="1", "enable_unique_key_merge_on_write"="true");
 
-CREATE TABLE {{ANALYSIS_GRASP_REVIEW}} (
+CREATE TABLE IF NOT EXISTS {{ANALYSIS_GRASP_REVIEW}} (
     run_id VARCHAR(64) NOT NULL,
     sample_id VARCHAR(256) NOT NULL,
     episode_index BIGINT NOT NULL,
@@ -58,7 +58,7 @@ UNIQUE KEY(run_id, sample_id)
 DISTRIBUTED BY HASH(sample_id) BUCKETS 8
 PROPERTIES ("replication_num"="1", "enable_unique_key_merge_on_write"="true");
 
-CREATE TABLE {{ANALYSIS_EPISODE_POLICY}} (
+CREATE TABLE IF NOT EXISTS {{ANALYSIS_EPISODE_POLICY}} (
     episode_index BIGINT NOT NULL,
     scene_group VARCHAR(128) NOT NULL,
     split_assignment VARCHAR(16) NOT NULL,

@@ -363,8 +363,7 @@ class ExportStore:
             existing = run.to_table().to_pylist()
             if existing != [{"config_json": json_text(config)}]:
                 raise ValueError("Output belongs to a different configuration or revision; use a new prefix")
-            if not resume:
-                raise FileExistsError("Output already exists; use --resume to continue")
+            LOG.info("Matching export found; checking checkpoint for reuse or automatic resume")
         else:
             self.write("export_manifest", pa.Table.from_pylist(
                 [{"config_json": json_text(config)}], schema=run_schema), "create")
@@ -789,7 +788,7 @@ def parse_args():
     parser.add_argument("--embedding-batch-size", type=int, default=32)
     parser.add_argument("--timestamp-tolerance", type=float, default=0.04, help="Maximum video/state timestamp error in seconds")
     parser.add_argument("--device", default="auto", help="auto / cpu / cuda / cuda:0")
-    parser.add_argument("--resume", action="store_true", help="Resume from the last complete data checkpoint and preserve completed indexes")
+    parser.add_argument("--resume", action="store_true", help="Compatibility flag; matching exports automatically resume and reuse completed indexes")
     parser.add_argument("--index-only", action="store_true", help="Build indexes for a completed export without loading source data or models")
     parser.add_argument("--skip-indexes", action="store_true", help="Skip indexing now; run --index-only later")
     parser.add_argument("--index-type", choices=["IVF_PQ", "IVF_FLAT"], default="IVF_PQ")
@@ -813,6 +812,89 @@ def parse_args():
     return args
 
 
+def open_optional_dataset(uri: str, options: dict):
+    """Only absence is optional; authentication and transport failures propagate."""
+    try:
+        return lance.dataset(uri, storage_options=options)
+    except FileNotFoundError:
+        return None
+    except ValueError as exc:
+        if re.match(r"^Dataset at path .+ was not found: Not found:", str(exc)):
+            return None
+        raise
+
+
+def completed_export_matches(output: str, options: dict, args) -> bool:
+    """Reuse a verified complete export before contacting HF or loading a model."""
+    manifest = open_optional_dataset(lance_uri(output, "export_manifest"), options)
+    if manifest is None or args.source_root is not None:
+        return False
+    rows = manifest.to_table().to_pylist()
+    if len(rows) != 1:
+        raise ValueError("Invalid export manifest: expected exactly one configuration")
+    config_text = rows[0]["config_json"]
+    config = json.loads(config_text)
+    # Resolve mutable tags/branches through Source before deciding whether to reuse.
+    if not re.fullmatch(r"[0-9a-f]{40}", args.revision):
+        return False
+    expected = {"export_version": EXPORT_VERSION, "repo": REPO,
+                "source_revision": args.revision, "format": FORMAT_VERSION,
+                "start_episode": args.start_episode, "frame_stride": args.frame_stride,
+                "timestamp_tolerance": args.timestamp_tolerance,
+                "vision_model": VISION_MODEL, "vision_revision": VISION_REVISION,
+                "audio_model": AUDIO_MODEL, "audio_revision": AUDIO_REVISION}
+    conflicts = [key for key, value in expected.items() if config.get(key) != value]
+    mapping = Config.from_env().source_tables
+    if config.get("table_names", {k: k for k in mapping}) != mapping:
+        conflicts.append("table_names")
+    if conflicts:
+        raise ValueError("Existing export configuration differs in " + ", ".join(conflicts)
+                         + "; use matching settings or a new output prefix")
+    checkpoint = open_optional_dataset(lance_uri(output, "export_checkpoints"), options)
+    if checkpoint is None:
+        return False
+    records = checkpoint.to_table().to_pylist()
+    if not records or not records[-1]["complete"]:
+        LOG.info("Incomplete export found; continuing from its checkpoint")
+        return False
+    last = records[-1]
+    if last["fingerprint"] != digest(config_text.encode()):
+        raise ValueError("Checkpoint configuration fingerprint does not match")
+    def dataset(name):
+        return lance.dataset(lance_uri(output, name), storage_options=options)
+    for name, version in json.loads(last["versions_json"]).items():
+        current = dataset(name)
+        baseline = lance.dataset(lance_uri(output, name), version=version, storage_options=options)
+        verify_same_data(current, baseline)
+    metadata = dataset("metadata").to_table().to_pylist()
+    h = hashlib.sha256()
+    for row in sorted(metadata, key=lambda row: row["path"]):
+        h.update(row["path"].encode())
+        h.update(row["data"])
+    if h.hexdigest() != config["source_metadata_sha256"]:
+        raise ValueError("Stored source metadata does not match the export manifest")
+    files = {row["path"]: row["data"] for row in metadata}
+    episodes = [json.loads(line) for line in files["meta/episodes.jsonl"].splitlines() if line.strip()]
+    selected = sorted((e for e in episodes if e["episode_index"] >= args.start_episode),
+                      key=lambda e: e["episode_index"])
+    if args.max_episodes is not None:
+        selected = selected[:args.max_episodes]
+    if (not selected or len(selected) != config["selected_episodes"]
+            or selected[-1]["episode_index"] != config["last_episode"]):
+        raise ValueError("Existing export episode range differs; use matching settings or a new prefix")
+    if last["next_episode_offset"] != len(selected):
+        raise ValueError("Completed checkpoint has an inconsistent episode offset")
+    cameras = sum(f["dtype"] == "video" for f in json.loads(files["meta/info.json"])["features"].values())
+    expected_counts = {"episodes": len(selected), "frames": sum(e["length"] for e in selected),
+                       "media": len(selected) * cameras,
+                       "frame_embeddings": sum((e["length"] + args.frame_stride - 1) // args.frame_stride
+                                               for e in selected) * cameras}
+    if any(dataset(name).count_rows() != count for name, count in expected_counts.items()):
+        raise ValueError("Completed export row counts do not match the source metadata")
+    LOG.info("Verified complete export; reusing data without downloads or model inference")
+    return True
+
+
 def main():
     load_config()
     args = parse_args()
@@ -827,7 +909,7 @@ def main():
                               s3_endpoint=args.s3_endpoint, s3_region=args.s3_region)
     output = args.output if urlparse(args.output).scheme else str(Path(args.output).resolve())
     with local_lock(work):
-        if not args.index_only:
+        if not args.index_only and not completed_export_matches(output, options, args):
             source = Source(work, args.revision, args.source_root.resolve() if args.source_root else None)
             encoders = Encoders(args.device, work / "models")
             export(source, output, options, work, encoders, args.start_episode, args.max_episodes,

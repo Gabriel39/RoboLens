@@ -117,6 +117,80 @@ def run_sql(connection, text: str, *, sensitive_values=()) -> list[pd.DataFrame]
     return frames
 
 
+def ensure_doris_objects(connection, text: str, dataset_root: str, config: Config,
+                         sensitive_values=()) -> list[pd.DataFrame]:
+    """Create missing objects and validate existing objects without replacing data."""
+    def query(sql):
+        result = run_sql(connection, sql, sensitive_values=sensitive_values)
+        return result[0] if result else pd.DataFrame()
+    statements = [sqlparse.format(part, strip_comments=True).strip()
+                  for part in sqlparse.split(text)]
+    catalog_ddl = next(part for part in statements if part.startswith("CREATE CATALOG"))
+    catalog_rows = query("SHOW CATALOGS")
+    existing = set(catalog_rows["CatalogName"].astype(str))
+    if config.catalog not in existing:
+        query(catalog_ddl)
+        print(f"Catalog {config.catalog}: created")
+    else:
+        print(f"Catalog {config.catalog}: exists; validating")
+    properties = query(f"SHOW CATALOG `{config.catalog}`")
+    properties = dict(zip(properties["Key"], properties["Value"]))
+    if (properties.get("type", "").lower() != "lance"
+            or properties.get("warehouse", "").rstrip("/") != dataset_root.rstrip("/")
+            or properties.get("lance.catalog.type", "filesystem") != "filesystem"):
+        raise ValueError(f"Existing catalog {config.catalog} points to a different source; "
+                         "choose another DORIS_CATALOG or matching NOTEBOOK_DATASET_ROOT")
+    databases = query(f"SHOW DATABASES FROM `{config.catalog}`")
+    if config.database not in set(databases.iloc[:, 0].astype(str)):
+        raise ValueError(f"Lance database {config.database} is not available; check DORIS_DATABASE and the export path")
+    tables = query(f"SHOW TABLES FROM `{config.catalog}`.`{config.database}`")
+    missing = set(config.source_tables.values()) - set(tables.iloc[:, 0].astype(str))
+    if missing:
+        raise ValueError("Lance tables are not yet available: " + ", ".join(sorted(missing))
+                         + "; complete or resume the export before Doris setup")
+    # Confirm export readiness before creating any business tables.
+    checkpoint = query(f"SELECT complete FROM {config.source('export_checkpoints')} "
+                       "ORDER BY next_episode_offset DESC LIMIT 1")
+    indexes = query(f"SELECT complete FROM {config.source('export_index_status')}")
+    if checkpoint.empty or indexes.empty or not bool(checkpoint.iloc[0, 0]) or not bool(indexes.iloc[0, 0]):
+        raise ValueError("Lance data or indexes are incomplete; run the export again to finish them")
+    databases = query("SHOW DATABASES FROM internal")
+    if config.analysis_database not in set(databases.iloc[:, 0].astype(str)):
+        query(f"CREATE DATABASE IF NOT EXISTS `internal`.`{config.analysis_database}`")
+        print(f"Database {config.analysis_database}: created")
+    else:
+        print(f"Database {config.analysis_database}: reused")
+    tables = query(f"SHOW TABLES FROM `internal`.`{config.analysis_database}`")
+    existing = set(tables.iloc[:, 0].astype(str))
+    for name, table in config.analysis_tables.items():
+        qualified = config.analysis(name)
+        ddl = next(part for part in statements if part.startswith("CREATE TABLE") and qualified in part)
+        if table not in existing:
+            query(ddl)
+            print(f"Table {qualified}: created")
+        else:
+            print(f"Table {qualified}: exists; validating")
+        description = query(f"DESC {qualified}")
+        expected = re.findall(r"^\s+([a-z_]+)\s+([A-Z]+(?:\(\d+\))?)([^\n]*)", ddl, re.MULTILINE)
+        actual = {row["Field"]: row for row in description.to_dict("records")}
+        def normalized(value):
+            return re.sub(r"\s+", "", str(value)).lower().replace("integer", "int")
+        if set(actual) != {column for column, _, _ in expected}:
+            raise ValueError(f"Existing table {qualified} has different columns; choose another table name")
+        for column, dtype, attributes in expected:
+            row = actual[column]
+            if (normalized(row["Type"]) != normalized(dtype)
+                    or str(row["Null"]).upper() != ("NO" if "NOT NULL" in attributes else "YES")):
+                raise ValueError(f"Existing table {qualified} has an incompatible {column} column")
+        create = query(f"SHOW CREATE TABLE {qualified}")
+        expected_key = re.search(r"UNIQUE KEY\(([^)]+)\)", ddl).group(1)
+        actual_key = re.search(r"UNIQUE\s+KEY\s*\(([^)]+)\)", str(create.iloc[0, 1]), re.IGNORECASE)
+        if actual_key is None or normalized(actual_key.group(1).replace("`", "")) != normalized(expected_key):
+            raise ValueError(f"Existing table {qualified} has an incompatible key definition")
+    print("Doris objects are ready; existing data was preserved")
+    return [query(f"SHOW INDEX FROM {config.source('frame_embeddings')}")]
+
+
 def initialize_doris(connection, project: Path, dataset_root: str, config: Config | None = None) -> list[pd.DataFrame]:
     """Fill the trusted setup template in memory without displaying credentials."""
     from pipeline.export_droid import storage_options
@@ -162,7 +236,7 @@ def initialize_doris(connection, project: Path, dataset_root: str, config: Confi
         value for key, value in options.items()
         if any(part in key for part in ("secret", "token", "access_key"))
     ]
-    return run_sql(connection, text, sensitive_values=sensitive_values)
+    return ensure_doris_objects(connection, text, dataset_root, config, sensitive_values)
 
 
 def boolean(value: str) -> bool:

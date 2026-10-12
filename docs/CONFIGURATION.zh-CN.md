@@ -59,3 +59,13 @@ Notebook 的初始化函数会同时替换名称和存储连接参数。
 ## 错误诊断
 
 SQL 执行失败时，Notebook 会显示失败语句序号、SQL、原始异常类型、Doris 错误码及完整 traceback（包括异常链），并停止执行后续语句。此前成功的语句可能已提交。配置和数据库连接中的密码、访问密钥及 token 会替换为 `[REDACTED]`；不再用通用的“初始化失败”提示隐藏数据库错误。导出失败时显示进程退出码，完整子进程日志仍在单元格输出中。
+
+## 可重复运行
+
+- 导出前先检查 manifest、checkpoint、数据快照和配置。相同配置的完整导出直接复用，不下载源文件或加载模型；中断的导出自动从 checkpoint 继续，已完成的索引保持不变。`--resume` 继续兼容，但不再是重复运行的必需参数。
+- 初始化前检查 Catalog、数据库和表。缺失对象才创建，已有 Catalog 校验类型和 warehouse，已有业务表校验列、类型、可空性和 UNIQUE KEY。外部 Lance 数据库和表来自导出目录，不能用创建空表的方式代替缺失数据。
+- 重复生成相同查询文件、提取相同视频时直接复用；中断生成的查询目录只补齐缺失文件。内容冲突时保留原文件，提示更换输出路径或使用匹配配置。
+- `RUN_EXPORT=True`、`RUN_SETUP=True` 可以重复执行。关闭开关表示主动跳过该步骤，而不再是规避“已存在”错误的必要操作。
+- 配置不同、数据损坏、表结构不兼容、权限不足及网络错误仍会停止，并保留具体错误信息。
+
+Catalog 检查和创建使用 Doris 的 [SHOW CATALOG](https://doris.apache.org/docs/dev/sql-manual/sql-statements/catalog/SHOW-CATALOG/) 与 [CREATE CATALOG IF NOT EXISTS](https://doris.apache.org/docs/dev/sql-manual/sql-statements/catalog/CREATE-CATALOG) 接口。

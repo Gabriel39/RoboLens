@@ -42,7 +42,7 @@ state/action 是原始机器人记录，保留 7 维数值，不经过 embedding
 | `--episodes-per-commit` | 16 | 暂存/提交/失败重算的批次大小 |
 | `--device` | auto | 自动 CUDA/CPU，也可显式传 cpu/cuda/cuda:0 |
 | `--timestamp-tolerance` | 0.04 秒 | 画面与状态的时间误差上限 |
-| `--resume` | 关闭 | 恢复当前导出并继续索引阶段 |
+| `--resume` | 兼容参数 | 相同配置已自动续跑并复用完整数据与索引 |
 | `--index-only` | 关闭 | 仅为完整导出补建索引，不读取 HF 源或模型 |
 | `--skip-indexes` | 关闭 | 只导出数据，以后补索引 |
 | `--index-type` | IVF_PQ | 可改 IVF_FLAT；少于 256 行自动使用 IVF_FLAT |

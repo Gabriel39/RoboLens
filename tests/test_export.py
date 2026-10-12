@@ -145,7 +145,7 @@ def test_resume_recovers_partial_multitable_commit(source, tmp_path, monkeypatch
         run_export(source, tmp_path)
     assert fault["fired"]
     monkeypatch.setattr(app.ExportStore, "write", real_write)
-    counts = run_export(source, tmp_path, resume=True)
+    counts = run_export(source, tmp_path)
     assert counts["frames"] == 8
     assert counts["media"] == 6
     vectors = lance.dataset(tmp_path / "out/frame_embeddings.lance").to_table()
@@ -155,8 +155,7 @@ def test_resume_recovers_partial_multitable_commit(source, tmp_path, monkeypatch
 
 def test_reject_config_change_and_existing_output(source, tmp_path):
     run_export(source, tmp_path)
-    with pytest.raises(FileExistsError):
-        run_export(source, tmp_path)
+    assert run_export(source, tmp_path)["frames"] == 8
     with pytest.raises(ValueError, match="different configuration"):
         run_export(source, tmp_path, resume=True, frame_stride=2)
 
@@ -415,8 +414,14 @@ def test_query_render_uses_exported_vector_and_one_run_id(source, tmp_path):
     assert reference["camera"] in search
     manifest = json.loads((output / "query.json").read_text())
     assert manifest["embedding"] == reference["embedding"]
-    with pytest.raises(FileExistsError):
+    assert render(reference, output, "failure_001") == files
+    (output / "03_review_clips.sql").unlink()
+    render(reference, output, "failure_001")
+    assert (output / "03_review_clips.sql").exists()
+    (output / "02_vector_search.sql").write_text("user edited SQL")
+    with pytest.raises(ValueError, match="differs"):
         render(reference, output, "failure_001")
+    assert (output / "02_vector_search.sql").read_text() == "user edited SQL"
 
 
 def test_query_validation_rejects_invalid_inputs(tmp_path):
@@ -439,8 +444,11 @@ def test_extract_media_preserves_original_bytes(source, tmp_path):
     target = tmp_path / "review/video.mp4"
     extract(str(tmp_path / "out"), media_id, target, {})
     assert target.read_bytes() == (source.local_root / source.relative(0, source.cameras[0])).read_bytes()
-    with pytest.raises(FileExistsError):
+    extract(str(tmp_path / "out"), media_id, target, {})
+    target.write_bytes(b"different file")
+    with pytest.raises(ValueError, match="differs"):
         extract(str(tmp_path / "out"), media_id, target, {})
+    assert target.read_bytes() == b"different file"
 
 
 def test_source_code_and_comments_are_english():
@@ -549,3 +557,28 @@ def test_s3_protocol_export_index_resume_and_media(source, tmp_path, aws_env, mo
         assert any("/_indices/" in item["Key"] for item in client.list_objects_v2(Bucket="robolens-test")["Contents"])
     finally:
         server.stop()
+
+
+def test_complete_cli_reuses_data_without_source_or_model(source, tmp_path, monkeypatch):
+    source.revision = app.SOURCE_REVISION
+    run_export(source, tmp_path)
+    def fail(*args, **kwargs):
+        raise AssertionError("Completed exports must not download source files or load models")
+    monkeypatch.setattr(app, "Source", fail)
+    monkeypatch.setattr(app, "Encoders", fail)
+    monkeypatch.setattr(app, "load_config", lambda: None)
+    argv = ["export_droid.py", "--output", str(tmp_path / "out"),
+            "--work-dir", str(tmp_path / "work"), "--max-episodes", "2"]
+    monkeypatch.setattr(sys, "argv", argv)
+    for key in ["HF_HOME", "HF_HUB_DISABLE_TELEMETRY", "TMPDIR"]:
+        monkeypatch.setenv(key, str(tmp_path / "work") if key != "HF_HUB_DISABLE_TELEMETRY" else "1")
+    app.main()
+    index = lance.dataset(tmp_path / "out/frame_embeddings.lance").list_indices()[0]["uuid"]
+    app.main()
+    assert lance.dataset(tmp_path / "out/frame_embeddings.lance").list_indices()[0]["uuid"] == index
+    monkeypatch.setattr(sys, "argv", argv + ["--frame-stride", "2"])
+    with pytest.raises(ValueError, match="frame_stride"):
+        app.main()
+    monkeypatch.setattr(sys, "argv", argv[:-1] + ["1"])
+    with pytest.raises(ValueError, match="episode range"):
+        app.main()

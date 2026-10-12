@@ -61,7 +61,7 @@ Doris IP、SQL/HTTP 端口、用户名、密码、Catalog、数据库、业务�
 4. **停在标签导入之前**，填写 `work/notebook/labels` 下两份 CSV。字段规则见
    [Doris README](../doris/README.zh-CN.md)。episode_policy 需覆盖本次导出的所有 episode。
 5. 新建单元执行 `IMPORT_LABELS = True`，重跑标签导入单元及第 07–08 步，得到真实统计和候选。
-   不要重跑配置单元，否则会生成新的 run_id。不要重复运行首次建表单元。
+   不要重跑配置单元，否则会生成新的 run_id。建表单元支持重复执行，会校验并复用已有对象。
 6. SQL 结果以 DataFrame 和图表展示；检索、覆盖率、分布与候选 CSV 会保存到
    `work/notebook/queries/<run_id>/report/`。
 

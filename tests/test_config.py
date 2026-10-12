@@ -61,9 +61,11 @@ def test_setup_and_queries_use_the_same_names(tmp_path, monkeypatch):
     import numpy as np
     import pymysql.converters
     from doris.prepare_query import render
-    from notebooks.demo_support import initialize_doris
+    from notebooks.demo_support import initialize_doris, run_sql
     from test_notebook import RecordingConnection
     config = custom_config()
+    monkeypatch.setattr("notebooks.demo_support.ensure_doris_objects",
+                        lambda conn, sql, root, config, secrets: run_sql(conn, sql))
     monkeypatch.setenv("OSS_ENDPOINT", "https://oss-cn-hangzhou.aliyuncs.com")
     monkeypatch.setenv("OSS_ACCESS_KEY_ID", "test-key")
     monkeypatch.setenv("OSS_ACCESS_KEY_SECRET", "test-secret")
@@ -72,8 +74,8 @@ def test_setup_and_queries_use_the_same_names(tmp_path, monkeypatch):
     connection.escape = pymysql.converters.escape_item
     initialize_doris(connection, ROOT, "oss://test-bucket/data", config)
     ddl = "\n".join(connection.calls)
-    assert "CREATE CATALOG `robot_data`" in ddl
-    assert "CREATE TABLE `internal`.`robot_analysis`.`hits_v2`" in ddl
+    assert "CREATE CATALOG IF NOT EXISTS `robot_data`" in ddl
+    assert "CREATE TABLE IF NOT EXISTS `internal`.`robot_analysis`.`hits_v2`" in ddl
     assert "`robot_data`.`custom_db`.`vectors_v2`" in ddl
     reference = {"embedding": (np.ones(768) / np.sqrt(768)).tolist(),
                  "episode_index": 0, "camera": "observation.images.wrist_image_left"}

@@ -21,6 +21,10 @@ def extract(root: str, media_id: str, destination: Path, options: dict) -> None:
     payload = rows[0]["video_bytes"]
     if digest(payload) != rows[0]["sha256"]:
         raise ValueError("Video SHA256 verification failed")
+    if destination.exists():
+        if destination.is_file() and digest(destination.read_bytes()) == rows[0]["sha256"]:
+            return
+        raise ValueError("Existing media file differs from source; choose another output path")
     destination.parent.mkdir(parents=True, exist_ok=True)
     with destination.open("xb") as file:
         file.write(payload)
