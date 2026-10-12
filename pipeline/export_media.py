@@ -5,6 +5,8 @@ import re
 
 import lance
 
+from doris.config import load_config, lance_uri
+
 from pipeline.export_droid import add_storage_arguments, digest, storage_options
 
 
@@ -12,7 +14,7 @@ def extract(root: str, media_id: str, destination: Path, options: dict) -> None:
     """Validate the media key and SHA256 before writing the preserved original bytes."""
     if not re.fullmatch(r"[0-9]+:observation\.images\.(wrist_image_left|exterior_image_[12]_left)", media_id):
         raise ValueError("Invalid media_id")
-    ds = lance.dataset(root.rstrip("/") + "/media.lance", storage_options=options)
+    ds = lance.dataset(lance_uri(root, "media"), storage_options=options)
     rows = ds.to_table(filter=f"media_id = '{media_id}'", columns=["video_bytes", "sha256"]).to_pylist()
     if len(rows) != 1:
         raise ValueError(f"Expected one media row, found {len(rows)}")
@@ -25,8 +27,9 @@ def extract(root: str, media_id: str, destination: Path, options: dict) -> None:
 
 
 def main():
+    config = load_config()
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--dataset-root", required=True)
+    parser.add_argument("--dataset-root", default=config.dataset_root)
     parser.add_argument("--media-id", required=True)
     parser.add_argument("--output", type=Path, required=True)
     add_storage_arguments(parser)

@@ -13,18 +13,21 @@ S3 配置见 [存储指南](../docs/STORAGE.zh-CN.md)。下文 `oss://` 示例�
 和 `vector_search()` 的 Doris 构建。当前[官方 4.x 文档](https://doris.apache.org/docs/4.x/lakehouse/catalogs/lance-catalog/)
 标注 Lance Catalog 从 4.2 起支持，不能仅凭“4.1”版本号假定功能存在。
 
-```bash
-mkdir -p work/config
-cp doris/sql/01_setup.sql work/config/01_setup.sql
-```
+在项目根目录 `.env` 填写连接信息、存储地址、Catalog 和表名（见 `.env.example`）。安装 `requirements-notebook.txt` 后，在 Notebook 第 04 步执行初始化，或从项目根目录的 Python 会话执行：
 
-编辑副本中的 warehouse、endpoint、region 和 `REPLACE_*` 凭证；它们必须指向本次
-DROID-100 导出。SQL 不会展开 `.env`，需要手动填入。该副本位于 git 忽略的 `work/` 下。
-示例使用单副本配置，多 BE 环境按实际要求调整 `replication_num`。
+```python
+from pathlib import Path
+from getpass import getpass
+from doris.config import load_config
+from notebooks.demo_support import connect_doris, initialize_doris
 
-```bash
-mysql -h "$DORIS_HOST" -P "$DORIS_QUERY_PORT" -u "$DORIS_USER" -p \
-  < work/config/01_setup.sql
+config = load_config()
+password = config.password if config.password is not None else getpass("Doris password: ")
+connection = connect_doris(password, config)
+try:
+    initialize_doris(connection, Path.cwd(), config.dataset_root, config)
+finally:
+    connection.close()
 ```
 
 确认 `export_checkpoints.complete` 和 `export_index_status.complete` 均为 true。

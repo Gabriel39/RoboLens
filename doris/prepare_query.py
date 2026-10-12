@@ -15,6 +15,8 @@ import re
 import lance
 import numpy as np
 
+from doris.config import Config, load_config, lance_uri
+
 from pipeline.export_droid import Encoders, VISION_DIM, VISION_MODEL, VISION_REVISION, add_storage_arguments, storage_options
 
 CAMERAS = {
@@ -30,7 +32,7 @@ def read_reference(dataset_root: str, sample_id: str, options: dict) -> dict:
     """Read exactly one existing frame without recomputing its embedding."""
     if not re.fullmatch(SAMPLE_PATTERN, sample_id):
         raise ValueError("Invalid sample_id; use episode:camera:frame_index")
-    ds = lance.dataset(dataset_root.rstrip("/") + "/frame_embeddings.lance", storage_options=options)
+    ds = lance.dataset(lance_uri(dataset_root, "frame_embeddings"), storage_options=options)
     rows = ds.to_table(filter=f"sample_id = '{sample_id}'", columns=[
         "sample_id", "episode_index", "camera", "embedding", "model", "model_revision"]).to_pylist()
     if len(rows) != 1:
@@ -40,7 +42,7 @@ def read_reference(dataset_root: str, sample_id: str, options: dict) -> dict:
     return rows[0]
 
 
-def render(reference: dict, output_dir: Path, run_id: str) -> list[Path]:
+def render(reference: dict, output_dir: Path, run_id: str, config: Config | None = None) -> list[Path]:
     """Validate inputs before writing a fresh, immutable set of query templates."""
     if not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", run_id):
         raise ValueError("run-id must contain 1-64 letters, digits, underscores, or hyphens")
@@ -57,9 +59,10 @@ def render(reference: dict, output_dir: Path, run_id: str) -> list[Path]:
     tokens = {"{{QUERY_VECTOR_JSON}}": json.dumps(vector.tolist(), allow_nan=False),
               "{{REFERENCE_EPISODE}}": str(episode), "{{CAMERA}}": reference["camera"],
               "{{RUN_ID}}": run_id}
+    config = config or Config.from_env()
     rendered = {}
     for path in sorted((Path(__file__).parent / "sql").glob("0[2-5]_*.sql")):
-        text = path.read_text()
+        text = config.sql(path.read_text())
         for token, value in tokens.items():
             text = text.replace(token, value)
         if "{{" in text or "REPLACE_" in text:
@@ -79,11 +82,12 @@ def render(reference: dict, output_dir: Path, run_id: str) -> list[Path]:
 
 
 def main():
+    config = load_config()
     parser = argparse.ArgumentParser(description=__doc__)
     source = parser.add_mutually_exclusive_group(required=True)
     source.add_argument("--sample-id", help="An existing exported episode:camera:frame_index")
     source.add_argument("--image", type=Path, help="A new local RGB reference image")
-    parser.add_argument("--dataset-root", help="Export root required with --sample-id")
+    parser.add_argument("--dataset-root", default=config.dataset_root, help="Export root required with --sample-id")
     add_storage_arguments(parser)
     parser.add_argument("--camera", choices=CAMERAS, default="wrist", help="Camera view of --image")
     parser.add_argument("--device", default="auto")
@@ -109,7 +113,7 @@ def main():
         reference = {"episode_index": -1, "camera": CAMERAS[args.camera],
                      "embedding": vector.tolist(), "model": VISION_MODEL,
                      "model_revision": VISION_REVISION, "image": str(args.image.resolve())}
-    for path in render(reference, args.output_dir, args.run_id):
+    for path in render(reference, args.output_dir, args.run_id, config):
         print(path.resolve())
 
 

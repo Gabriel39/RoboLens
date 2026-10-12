@@ -11,6 +11,8 @@ import sys
 import pandas as pd
 import sqlparse
 
+from doris.config import Config
+
 
 def find_project(start: Path) -> Path:
     """Allow Jupyter to start from either the project root or notebooks directory."""
@@ -50,17 +52,18 @@ def run_export(project: Path, output: str, work: Path, max_episodes: int | None,
         process.stdout.close()
 
 
-def connect_doris(password: str):
+def connect_doris(password: str | None = None, config: Config | None = None):
     """Connect with a finite query timeout and without multi-statement execution."""
     import pymysql
-    options = dict(host=os.environ.get("DORIS_HOST", "127.0.0.1"),
-                   port=int(os.environ.get("DORIS_QUERY_PORT", "9030")),
-                   user=os.environ.get("DORIS_USER", "root"), password=password,
-                   charset="utf8mb4", autocommit=True, connect_timeout=10,
-                   read_timeout=600, write_timeout=120)
-    if os.environ.get("DORIS_SSL_CA"):
-        options.update(ssl_ca=os.environ["DORIS_SSL_CA"],
-                       ssl_verify_cert=True, ssl_verify_identity=True)
+    config = config or Config.from_env()
+    password = config.password if password is None else password
+    if password is None:
+        raise ValueError("Set DORIS_PASSWORD in .env or provide a password")
+    options = dict(host=config.host, port=config.query_port, user=config.user,
+                   password=password, charset="utf8mb4", autocommit=True,
+                   connect_timeout=10, read_timeout=600, write_timeout=120)
+    if config.ssl_ca:
+        options.update(ssl_ca=config.ssl_ca, ssl_verify_cert=True, ssl_verify_identity=True)
     return pymysql.connect(**options)
 
 
@@ -78,9 +81,10 @@ def run_sql(connection, text: str) -> list[pd.DataFrame]:
     return frames
 
 
-def initialize_doris(connection, project: Path, dataset_root: str) -> list[pd.DataFrame]:
+def initialize_doris(connection, project: Path, dataset_root: str, config: Config | None = None) -> list[pd.DataFrame]:
     """Fill the trusted setup template in memory without displaying credentials."""
     from pipeline.export_droid import storage_options
+    config = config or Config.from_env()
     options = storage_options(dataset_root, None, None)
     if dataset_root.startswith("s3://"):
         from urllib.parse import urlparse
@@ -114,6 +118,7 @@ def initialize_doris(connection, project: Path, dataset_root: str) -> list[pd.Da
         }
     else:
         raise ValueError("Live Doris setup requires an S3 or OSS dataset root")
+    text = config.sql(text)
     for token, value in replacements.items():
         # Use the driver's escaping rather than concatenating raw SQL literals.
         text = text.replace(token, connection.escape(value))
@@ -133,13 +138,14 @@ def boolean(value: str) -> bool:
 
 
 def load_annotations(connection, project: Path, review_path: Path, policy_path: Path,
-                     run_id: str, hits: pd.DataFrame, episode_ids: set[int]) -> dict:
+                     run_id: str, hits: pd.DataFrame, episode_ids: set[int], config: Config | None = None) -> dict:
     """Validate small review CSVs before parameterized Doris inserts.
 
     No labels are synthesized. Both CSVs are validated before either write starts.
     Writes are separate autocommit statements, not a cross-table transaction.
     Unique keys make rerunning unchanged records an upsert.
     """
+    config = config or Config.from_env()
     allowed_hits = {(str(row.sample_id), int(row.episode_index))
                     for row in hits.itertuples(index=False)}
     pending = {}
@@ -188,7 +194,7 @@ def load_annotations(connection, project: Path, review_path: Path, policy_path: 
     for name, (columns, rows) in pending.items():
         if not rows:
             continue
-        query = (f"INSERT INTO internal.droid100_analysis.{name} "
+        query = (f"INSERT INTO {config.analysis(name)} "
                  f"({', '.join(columns)}) VALUES ({', '.join(['%s'] * len(columns))})")
         with connection.cursor() as cursor:
             cursor.executemany(query, [tuple(row[c] for c in columns) for row in rows])

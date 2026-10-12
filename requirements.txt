@@ -10,3 +10,6 @@ Pillow>=10,<13
 # CLAP preprocessing dependencies; the audio model is loaded only if needed.
 scipy>=1.12,<2
 librosa>=0.11,<0.12
+
+# Shared project configuration for all CLI entry points.
+python-dotenv>=1,<2

@@ -5,11 +5,11 @@
 -- Unknown membership is excluded by the inner join, not treated as untrained data.
 -- The diagnostic query below should return no mixed-split scene groups.
 SELECT scene_group, COUNT(DISTINCT split_assignment) AS split_count
-FROM internal.droid100_analysis.episode_policy
+FROM {{ANALYSIS_EPISODE_POLICY}}
 GROUP BY scene_group HAVING COUNT(DISTINCT split_assignment) > 1;
 
 WITH allowed_groups AS (
-    SELECT scene_group FROM internal.droid100_analysis.episode_policy
+    SELECT scene_group FROM {{ANALYSIS_EPISODE_POLICY}}
     GROUP BY scene_group
     HAVING COUNT(DISTINCT split_assignment) = 1 AND MIN(split_assignment) = 'train'
 ), eligible AS (
@@ -18,11 +18,11 @@ WITH allowed_groups AS (
            r.clip_start_s, r.clip_end_s, p.scene_group,
            CASE WHEN r.outcome = 'success' THEN 'bc_positive'
                 ELSE 'failure_diagnosis_or_critic' END AS training_use
-    FROM internal.droid100_analysis.grasp_hits h
-    JOIN internal.droid100_analysis.grasp_review r
+    FROM {{ANALYSIS_GRASP_HITS}} h
+    JOIN {{ANALYSIS_GRASP_REVIEW}} r
       ON h.run_id = r.run_id AND h.sample_id = r.sample_id
-    JOIN internal.droid100_analysis.episode_policy p ON h.episode_index = p.episode_index
-    JOIN droid100.`default`.media m ON h.media_id = m.media_id
+    JOIN {{ANALYSIS_EPISODE_POLICY}} p ON h.episode_index = p.episode_index
+    JOIN {{SOURCE_MEDIA}} m ON h.media_id = m.media_id
     JOIN allowed_groups g ON p.scene_group = g.scene_group
     WHERE h.run_id = '{{RUN_ID}}'
       AND r.reviewed = TRUE AND r.is_target_grasp = TRUE AND r.quality_ok = TRUE

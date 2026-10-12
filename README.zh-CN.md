@@ -193,7 +193,7 @@ python -m pipeline.export_droid \
 
 按 [doris/README.md](doris/README.zh-CN.md) 的顺序执行：
 
-1. 配置 `01_setup_s3.sql`（S3）或 `01_setup.sql`（OSS）中的 bucket/凭证，建立 Lance Catalog 和分析表。
+1. 在项目根目录 `.env` 统一配置连接信息、存储地址、Catalog 和表名，按 [Doris 初始化步骤](doris/README.zh-CN.md) 建立 Catalog 和分析表。字段见 `.env.example` 和 [统一配置](docs/CONFIGURATION.zh-CN.md)。
 2. 从真实参考帧生成 SQL，工具自动填入 768 维查询向量。
 3. 执行 Vector Search，获取片段复核清单。
 4. 导入实际的人工复核标签与训练集登记，执行失败分布和选样 SQL。

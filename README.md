@@ -202,7 +202,7 @@ or source-root**: the source, state dimensions, and configuration differ. See th
 
 Follow the [Doris guide](doris/README.md):
 
-1. Configure the bucket and credentials in `01_setup_s3.sql` (S3) or `01_setup.sql` (OSS), then create the Lance Catalog and analysis tables.
+1. Configure connection settings, storage, catalog and table names in the project-root `.env` (see `.env.example`), then follow the [Doris initialization steps](doris/README.md) to create the catalog and analysis tables.
 2. Generate SQL from a real reference frame; the helper inserts the 768-dimensional query vector.
 3. Run Vector Search and obtain the clip review list.
 4. Import actual human review labels and training registry data, then run failure analysis and sample selection.

@@ -107,3 +107,7 @@ offline tests. With notebook and development dependencies installed, `python -m 
 all 34 tests. Live mode reuses the existing ingestion/query code but has not connected to your
 S3 / OSS/Doris environment. The preview must not be presented as a real business report. Source video
 and model weights are excluded from the package; see the [validation record](../docs/VALIDATION.md).
+
+## Shared configuration
+
+The project-root `.env` configures Doris host, SQL/HTTP ports, user/password, catalog, databases, table names and storage. See `.env.example`. Notebook and Python CLI use the same settings; file values take precedence over environment variables. Reload the configuration cell and reconnect after edits. SQL files in `doris/sql` are templates; execute them through notebook setup or render analysis SQL with `python -m doris.prepare_query`. Renaming settings does not migrate existing data.

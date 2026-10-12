@@ -14,18 +14,21 @@ You need Doris FE/BE nodes that can access the same S3 / OSS bucket, a MySQL cli
 supporting Lance Catalog and `vector_search()`. The [public 4.x documentation](https://doris.apache.org/docs/4.x/lakehouse/catalogs/lance-catalog/)
 currently marks Lance Catalog as supported from 4.2; a “4.1” version label alone does not establish support.
 
-```bash
-mkdir -p work/config
-cp doris/sql/01_setup.sql work/config/01_setup.sql
-```
+Configure connection settings, storage, catalog and table names in the project-root `.env` (see `.env.example`). Install `requirements-notebook.txt`, then initialize through notebook step 04 or run this in a Python session from the project root:
 
-Edit warehouse, endpoint, region, and the `REPLACE_*` credentials in the copy to point to this
-DROID-100 export. SQL does not expand `.env`; fill these values manually. The copy is under the
-git-ignored `work/` directory. The example uses one replica; adjust `replication_num` for your cluster.
+```python
+from pathlib import Path
+from getpass import getpass
+from doris.config import load_config
+from notebooks.demo_support import connect_doris, initialize_doris
 
-```bash
-mysql -h "$DORIS_HOST" -P "$DORIS_QUERY_PORT" -u "$DORIS_USER" -p \
-  < work/config/01_setup.sql
+config = load_config()
+password = config.password if config.password is not None else getpass("Doris password: ")
+connection = connect_doris(password, config)
+try:
+    initialize_doris(connection, Path.cwd(), config.dataset_root, config)
+finally:
+    connection.close()
 ```
 
 Check that both `export_checkpoints.complete` and `export_index_status.complete` are true.

@@ -30,6 +30,8 @@ import numpy as np
 import pyarrow as pa
 import pyarrow.parquet as pq
 
+from doris.config import Config, load_config, lance_uri
+
 LOG = logging.getLogger("droid_export")
 REPO = "lerobot/droid_100"
 # Pin dataset and model revisions so moving upstream branches cannot change a run.
@@ -400,7 +402,7 @@ class ExportStore:
                 old.restore()
 
     def uri(self, name: str) -> str:
-        return f"{self.output}/{name}.lance"
+        return lance_uri(self.output, name)
 
     def open(self, name: str):
         return lance.dataset(self.uri(name), storage_options=self.options)
@@ -606,6 +608,9 @@ def export(source: Source, output: str, options: dict, work: Path, encoders,
               "video_pooling": "l2_normalized_mean_of_l2_frame_vectors",
               "audio_sample_rate": 48000, "audio_window_seconds": 10,
               "source_columns": {f.name: field_name(f.name) for f in first.schema}}
+    mapping = Config.from_env().source_tables
+    if any(key != value for key, value in mapping.items()):
+        config["table_names"] = mapping
     store = ExportStore(output, options, config, table_schemas, resume)
     if store.complete:
         LOG.info("Data export is already complete; reusing existing results")
@@ -672,12 +677,16 @@ def build_indexes(output: str, options: dict, *, index_type: str = "IVF_PQ",
     root = output.rstrip("/")
 
     def open_table(name, version=None):
-        return lance.dataset(f"{root}/{name}.lance", version=version, storage_options=options)
+        return lance.dataset(lance_uri(root, name), version=version, storage_options=options)
 
     checkpoint = open_table("export_checkpoints").to_table().to_pylist()[-1]
     config_json = open_table("export_manifest").to_table()["config_json"][0].as_py()
     if not checkpoint["complete"] or checkpoint["fingerprint"] != digest(config_json.encode()):
         raise ValueError("Data export is incomplete or checkpoint does not match; finish exporting first")
+    mapping = Config.from_env().source_tables
+    recorded_mapping = json.loads(config_json).get("table_names", {k: k for k in mapping})
+    if recorded_mapping != mapping:
+        raise ValueError("Lance table mapping differs from the export manifest")
     # Validate completed snapshots without contacting Hugging Face in index-only mode.
     for name, version in json.loads(checkpoint["versions_json"]).items():
         verify_same_data(open_table(name), open_table(name, version))
@@ -736,7 +745,7 @@ def build_indexes(output: str, options: dict, *, index_type: str = "IVF_PQ",
                               ("indexes_json", pa.string()), ("complete", pa.bool_())])
     report = {"source_fingerprint": checkpoint["fingerprint"],
               "indexes_json": json_text(summary), "complete": True}
-    uri = f"{root}/export_index_status.lance"
+    uri = lance_uri(root, "export_index_status")
     try:
         existing = open_table("export_index_status")
     except FileNotFoundError:
@@ -805,6 +814,7 @@ def parse_args():
 
 
 def main():
+    load_config()
     args = parse_args()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     work = args.work_dir.resolve()

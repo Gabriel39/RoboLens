@@ -52,8 +52,8 @@ python -m pipeline.export_media \
 
 ## Doris 与 Jupyter
 
-复制 `doris/sql/01_setup_s3.sql` 到 `work/config/01_setup.sql`，填写 bucket、endpoint、region 和凭证。
-用它替代 OSS 建表模板；后续 SQL 完全相同。设置 `use_path_style=false` 时，AWS 显式 endpoint
+在项目根目录 `.env` 统一填写连接信息、存储地址、Catalog 和表名，按 [Doris 初始化步骤](../doris/README.zh-CN.md) 执行。
+初始化函数根据存储 URI 自动选择模板并替换配置；不要直接执行包含占位符的模板。设置 `use_path_style=false` 时，AWS 显式 endpoint
 必须包含 bucket，例如 `https://my-bucket.s3.us-east-1.amazonaws.com`。
 Python 可以使用 AWS 默认 endpoint，但 Doris 需要显式配置。
 参见 [官方 Lance Catalog 示例](https://doris.apache.org/docs/4.x/lakehouse/catalogs/lance-catalog/)。

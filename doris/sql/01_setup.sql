@@ -3,7 +3,7 @@
 -- Run only after the export and index stages have completed.
 -- replication_num=1 is for a single-node demo; adjust for your cluster.
 -- This project uses one fixed DROID-100 source snapshot per catalog/database.
-CREATE CATALOG droid100 PROPERTIES (
+CREATE CATALOG {{CATALOG}} PROPERTIES (
     "type" = "lance",
     "lance.catalog.type" = "filesystem",
     "warehouse" = "oss://REPLACE_BUCKET/robotics/droid100",
@@ -13,19 +13,19 @@ CREATE CATALOG droid100 PROPERTIES (
     "oss.access_key" = "REPLACE_ACCESS_KEY",
     "oss.secret_key" = "REPLACE_SECRET_KEY"
 );
-SHOW TABLES FROM droid100.`default`;
-DESC droid100.`default`.frame_embeddings;
+SHOW TABLES FROM {{SOURCE_DATABASE}};
+DESC {{SOURCE_FRAME_EMBEDDINGS}};
 
 SELECT next_episode_offset, complete
-FROM droid100.`default`.export_checkpoints
+FROM {{SOURCE_EXPORT_CHECKPOINTS}}
 ORDER BY next_episode_offset DESC LIMIT 1;
 SELECT complete, indexes_json
-FROM droid100.`default`.export_index_status;
-SHOW INDEX FROM droid100.`default`.frame_embeddings;
+FROM {{SOURCE_EXPORT_INDEX_STATUS}};
+SHOW INDEX FROM {{SOURCE_FRAME_EMBEDDINGS}};
 
-CREATE DATABASE IF NOT EXISTS internal.droid100_analysis;
+CREATE DATABASE IF NOT EXISTS {{ANALYSIS_DATABASE}};
 
-CREATE TABLE internal.droid100_analysis.grasp_hits (
+CREATE TABLE {{ANALYSIS_GRASP_HITS}} (
     run_id VARCHAR(64) NOT NULL,
     episode_index BIGINT NOT NULL,
     sample_id VARCHAR(256) NOT NULL,
@@ -38,7 +38,7 @@ UNIQUE KEY(run_id, episode_index)
 DISTRIBUTED BY HASH(episode_index) BUCKETS 8
 PROPERTIES ("replication_num"="1", "enable_unique_key_merge_on_write"="true");
 
-CREATE TABLE internal.droid100_analysis.grasp_review (
+CREATE TABLE {{ANALYSIS_GRASP_REVIEW}} (
     run_id VARCHAR(64) NOT NULL,
     sample_id VARCHAR(256) NOT NULL,
     episode_index BIGINT NOT NULL,
@@ -58,7 +58,7 @@ UNIQUE KEY(run_id, sample_id)
 DISTRIBUTED BY HASH(sample_id) BUCKETS 8
 PROPERTIES ("replication_num"="1", "enable_unique_key_merge_on_write"="true");
 
-CREATE TABLE internal.droid100_analysis.episode_policy (
+CREATE TABLE {{ANALYSIS_EPISODE_POLICY}} (
     episode_index BIGINT NOT NULL,
     scene_group VARCHAR(128) NOT NULL,
     split_assignment VARCHAR(16) NOT NULL,

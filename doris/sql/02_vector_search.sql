@@ -6,13 +6,13 @@
 -- Increase top_k if nearby frames consume too much of the candidate budget.
 -- nprobes/refine_factor are example query parameters, not universal optima.
 -- 1 - _distance is a display similarity only because metric is cosine.
-INSERT INTO internal.droid100_analysis.grasp_hits
+INSERT INTO {{ANALYSIS_GRASP_HITS}}
 SELECT * FROM (
     WITH candidates AS (
         SELECT episode_index, sample_id, media_id, frame_index,
                `timestamp` AS timestamp_s, _distance
         FROM vector_search(
-            "table" = "droid100.default.frame_embeddings",
+            "table" = "{{SOURCE_FRAME_EMBEDDINGS_NAME}}",
             "column" = "embedding",
             "query_vector" = "{{QUERY_VECTOR_JSON}}",
             "top_k" = "2000",
@@ -34,4 +34,4 @@ SELECT * FROM (
     ORDER BY _distance ASC, episode_index LIMIT 50
 ) candidate_rows;
 
-SHOW INDEX FROM droid100.`default`.frame_embeddings;
+SHOW INDEX FROM {{SOURCE_FRAME_EMBEDDINGS}};

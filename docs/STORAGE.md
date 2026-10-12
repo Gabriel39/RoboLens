@@ -55,8 +55,7 @@ settings in all three tools. Data and `_indices/` files stay inside the same S3 
 
 ## Doris and Jupyter
 
-Copy `doris/sql/01_setup_s3.sql` to `work/config/01_setup.sql` and replace the bucket, endpoint,
-region, and credentials. Run this instead of the OSS setup template. Subsequent SQL is identical.
+Configure connection settings, storage, catalog and table names in the project-root `.env`, then follow the [Doris initialization steps](../doris/README.md). The helper selects and renders the provider template; do not execute unresolved templates directly.
 With `use_path_style=false`, the explicit AWS endpoint must include the bucket, for example
 `https://my-bucket.s3.us-east-1.amazonaws.com`. Doris requires an endpoint even when the Python
 exporter can use the AWS default. See the [official Lance Catalog examples](https://doris.apache.org/docs/4.x/lakehouse/catalogs/lance-catalog/).

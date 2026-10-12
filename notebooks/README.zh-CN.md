@@ -35,6 +35,12 @@ python -m jupyterlab notebooks/droid100_end_to_end.ipynb
 在 JupyterLab 选择 `Python (DROID-100)` 内核。尚未安装项目时，先按根 README 创建虚拟环境。
 Notebook 可以从项目根目录或 notebooks 目录启动；不要只拷贝 ipynb，需保留项目代码、SQL 和 assets。
 
+## 统一配置
+
+Doris IP、SQL/HTTP 端口、用户名、密码、Catalog、数据库、业务表名、Lance 表名和存储地址统一放在项目根目录 `.env`。
+字段见 `.env.example`，使用说明见 [统一配置](../docs/CONFIGURATION.zh-CN.md)。
+修改后重跑配置单元，并重新连接 Doris；`.env` 的值优先于同名环境变量。
+
 ## 两种运行方式
 
 ### preview：直接讲解整体流程

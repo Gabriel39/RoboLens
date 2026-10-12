@@ -7,8 +7,8 @@ SELECT COUNT(*) AS retrieved_episodes,
        SUM(CASE WHEN r.reviewed = TRUE AND r.is_target_grasp = TRUE
                      AND r.quality_ok = TRUE AND r.outcome IN ('success','failure')
                 THEN 1 ELSE 0 END) AS eligible_known_outcomes
-FROM internal.droid100_analysis.grasp_hits h
-LEFT JOIN internal.droid100_analysis.grasp_review r
+FROM {{ANALYSIS_GRASP_HITS}} h
+LEFT JOIN {{ANALYSIS_GRASP_REVIEW}} r
   ON h.run_id = r.run_id AND h.sample_id = r.sample_id
 WHERE h.run_id = '{{RUN_ID}}';
 
@@ -17,8 +17,8 @@ SELECT r.object_type, r.scene_type,
        SUM(CASE WHEN r.outcome = 'failure' THEN 1 ELSE 0 END) AS failed_clips,
        ROUND(100.0 * SUM(CASE WHEN r.outcome = 'failure' THEN 1 ELSE 0 END)
              / NULLIF(COUNT(*), 0), 2) AS failure_pct
-FROM internal.droid100_analysis.grasp_hits h
-JOIN internal.droid100_analysis.grasp_review r
+FROM {{ANALYSIS_GRASP_HITS}} h
+JOIN {{ANALYSIS_GRASP_REVIEW}} r
   ON h.run_id = r.run_id AND h.sample_id = r.sample_id
 WHERE h.run_id = '{{RUN_ID}}'
   AND r.reviewed = TRUE AND r.is_target_grasp = TRUE AND r.quality_ok = TRUE
@@ -27,8 +27,8 @@ GROUP BY r.object_type, r.scene_type
 ORDER BY failed_clips DESC;
 
 SELECT r.failure_stage, r.failure_reason, COUNT(*) AS failed_clips
-FROM internal.droid100_analysis.grasp_hits h
-JOIN internal.droid100_analysis.grasp_review r
+FROM {{ANALYSIS_GRASP_HITS}} h
+JOIN {{ANALYSIS_GRASP_REVIEW}} r
   ON h.run_id = r.run_id AND h.sample_id = r.sample_id
 WHERE h.run_id = '{{RUN_ID}}'
   AND r.reviewed = TRUE AND r.is_target_grasp = TRUE AND r.quality_ok = TRUE

@@ -7,16 +7,16 @@ SELECT h.*, m.source_path, m.duration_s,
        GREATEST(0.0, h.timestamp_s - 2.0) AS review_start_s,
        LEAST(m.duration_s, h.timestamp_s + 3.0) AS review_end_s,
        f.task, f.observation_state, f.action, f.next_reward, f.next_done
-FROM internal.droid100_analysis.grasp_hits h
-JOIN droid100.`default`.media m ON h.media_id = m.media_id
-JOIN droid100.`default`.frames f
+FROM {{ANALYSIS_GRASP_HITS}} h
+JOIN {{SOURCE_MEDIA}} m ON h.media_id = m.media_id
+JOIN {{SOURCE_FRAMES}} f
   ON h.episode_index = f.episode_index AND h.frame_index = f.frame_index
 WHERE h.run_id = '{{RUN_ID}}'
 ORDER BY h.similarity DESC;
 
 SELECT h.episode_index, f.frame_index, f.`timestamp`, f.observation_state, f.action
-FROM internal.droid100_analysis.grasp_hits h
-JOIN droid100.`default`.frames f ON h.episode_index = f.episode_index
+FROM {{ANALYSIS_GRASP_HITS}} h
+JOIN {{SOURCE_FRAMES}} f ON h.episode_index = f.episode_index
 WHERE h.run_id = '{{RUN_ID}}'
   AND f.`timestamp` BETWEEN h.timestamp_s - 2.0 AND h.timestamp_s + 3.0
 ORDER BY h.episode_index, f.frame_index;

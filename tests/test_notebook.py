@@ -163,7 +163,7 @@ def test_s3_notebook_catalog_mapping(monkeypatch, endpoint, virtual, region, exp
     assert '"fs.s3.support" = "true"' in catalog
     assert '"use_path_style" = "' + str(virtual == "false").lower() + '"' in catalog
     assert "oss." not in catalog and "REPLACE_" not in catalog
-    assert "CREATE TABLE internal.droid100_analysis.grasp_hits" in "\n".join(connection.calls)
+    assert "CREATE TABLE `internal`.`droid100_analysis`.`grasp_hits`" in "\n".join(connection.calls)
 
 
 def test_s3_notebook_temporary_credentials_do_not_create_catalog(monkeypatch):
