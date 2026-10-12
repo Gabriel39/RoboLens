@@ -183,3 +183,65 @@ def test_storage_setup_templates_share_analysis_schema():
     oss = (ROOT / "doris/sql/01_setup.sql").read_text().split(marker, 1)[1]
     s3 = (ROOT / "doris/sql/01_setup_s3.sql").read_text().split(marker, 1)[1]
     assert oss == s3
+
+
+def test_sql_failure_reports_statement_code_and_full_exception_chain():
+    import traceback
+    from pymysql.err import OperationalError
+    class FailingConnection(RecordingConnection):
+        password = b"private-password"
+        def execute(self, query):
+            self.calls.append(query)
+            if len(self.calls) == 2:
+                try:
+                    raise ValueError("server context: private-password")
+                except ValueError as cause:
+                    raise OperationalError(1105, "errCode = 2, detailMessage = Catalog had already exist") from cause
+    connection = FailingConnection()
+    with pytest.raises(RuntimeError) as error:
+        run_sql(connection, "-- ignored;\nSELECT 1; CREATE CATALOG droid100; SELECT 3;")
+    report = str(error.value)
+    assert "statement #2" in report
+    assert "CREATE CATALOG droid100" in report
+    assert "OperationalError" in report and "1105" in report
+    assert "Catalog had already exist" in report
+    assert "ValueError" in report and "direct cause" in report
+    assert "private-password" not in "".join(traceback.format_exception(error.value))
+    assert "[REDACTED]" in report
+    assert len(connection.calls) == 2
+
+
+def test_setup_error_preserves_details_and_redacts_escaped_credentials(monkeypatch):
+    import traceback
+    from pymysql.converters import escape_item, escape_string
+    from pymysql.err import OperationalError
+    from notebooks.demo_support import initialize_doris
+    secret = "quote'\\slash\nprivate-secret"
+    monkeypatch.setenv("OSS_ENDPOINT", "https://oss-cn-hangzhou.aliyuncs.com")
+    monkeypatch.setenv("OSS_ACCESS_KEY_ID", "private-access-key")
+    monkeypatch.setenv("OSS_ACCESS_KEY_SECRET", secret)
+    monkeypatch.delenv("OSS_SECURITY_TOKEN", raising=False)
+    class FailingConnection(RecordingConnection):
+        escape = staticmethod(escape_item)
+        def execute(self, query):
+            raise OperationalError(1105, "Catalog had already exist; query=" + query)
+    with pytest.raises(RuntimeError) as error:
+        initialize_doris(FailingConnection(), ROOT, "oss://bucket/robotics/droid100")
+    report = "".join(traceback.format_exception(error.value))
+    assert "Catalog had already exist" in report
+    assert "1105" in report and "Failed SQL" in report
+    assert "CREATE CATALOG `droid100`" in report
+    assert "private-access-key" not in report
+    assert "private-secret" not in report
+    assert secret not in report and escape_string(secret) not in report
+    assert "[REDACTED]" in report
+
+
+def test_fetch_failure_preserves_original_error():
+    class FailingConnection(RecordingConnection):
+        def fetchall(self):
+            raise TimeoutError("Read timed out after 600 seconds")
+    with pytest.raises(RuntimeError, match="Read timed out after 600 seconds") as error:
+        run_sql(FailingConnection(), "SELECT 1")
+    assert "TimeoutError" in str(error.value)
+    assert "statement #1" in str(error.value)

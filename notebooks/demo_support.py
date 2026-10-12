@@ -4,9 +4,11 @@ from __future__ import annotations
 import csv
 import math
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
+import traceback
 
 import pandas as pd
 import sqlparse
@@ -38,8 +40,9 @@ def run_export(project: Path, output: str, work: Path, max_episodes: int | None,
     try:
         for line in process.stdout:
             print(line, end="", flush=True)
-        if process.wait():
-            raise RuntimeError("Export failed; review the log before continuing")
+        exit_code = process.wait()
+        if exit_code:
+            raise RuntimeError(f"Export exited with code {exit_code}; full subprocess output is shown above")
     except BaseException:
         process.terminate()
         try:
@@ -67,17 +70,50 @@ def connect_doris(password: str | None = None, config: Config | None = None):
     return pymysql.connect(**options)
 
 
-def run_sql(connection, text: str) -> list[pd.DataFrame]:
-    """Execute shared SQL sequentially and return only result-bearing statements."""
+def redact_diagnostics(text: str, connection, sensitive_values=()) -> str:
+    """Keep diagnostics readable while masking configured credentials."""
+    from pymysql.converters import escape_string
+    values = list(sensitive_values)
+    values += [value for key, value in os.environ.items()
+               if any(part in key for part in ("PASSWORD", "SECRET", "TOKEN", "ACCESS_KEY"))]
+    values.append(getattr(connection, "password", None))
+    variants = set()
+    for value in values:
+        if isinstance(value, bytes):
+            value = value.decode("utf-8", errors="replace")
+        if not isinstance(value, str) or not value:
+            continue
+        current = {value}
+        # SQL escaping followed by exception repr may escape the value twice.
+        for _ in range(3):
+            current |= {escape_string(v) for v in current} | {repr(v)[1:-1] for v in current}
+        variants.update(current)
+    if variants:
+        # One pass prevents a short secret from corrupting the redaction marker.
+        pattern = "|".join(re.escape(v) for v in sorted(variants, key=len, reverse=True))
+        text = re.sub(pattern, "[REDACTED]", text)
+    return text
+
+
+def run_sql(connection, text: str, *, sensitive_values=()) -> list[pd.DataFrame]:
+    """Execute sequentially; report the failing SQL and full sanitized traceback."""
     frames = []
+    statement_number = 0
     for statement in sqlparse.split(text):
         if not sqlparse.format(statement, strip_comments=True).strip().strip(";"):
             continue
-        with connection.cursor() as cursor:
-            cursor.execute(statement)
-            if cursor.description:
-                frames.append(pd.DataFrame(cursor.fetchall(),
-                                           columns=[item[0] for item in cursor.description]))
+        statement_number += 1
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(statement)
+                if cursor.description:
+                    frames.append(pd.DataFrame(cursor.fetchall(), columns=[item[0] for item in cursor.description]))
+        except Exception:
+            report = (f"Doris SQL statement #{statement_number} failed. "
+                      "Earlier statements may already be committed.\n"
+                      f"Failed SQL:\n{statement}\n\nOriginal traceback:\n{traceback.format_exc()}")
+            # Embed the complete sanitized chain instead of exposing the raw cause.
+            raise RuntimeError(redact_diagnostics(report, connection, sensitive_values)) from None
     return frames
 
 
@@ -122,11 +158,11 @@ def initialize_doris(connection, project: Path, dataset_root: str, config: Confi
     for token, value in replacements.items():
         # Use the driver's escaping rather than concatenating raw SQL literals.
         text = text.replace(token, connection.escape(value))
-    try:
-        return run_sql(connection, text)
-    except Exception:
-        # DDL errors may echo credentials. Keep sensitive SQL out of notebook output.
-        raise RuntimeError("Catalog/table setup failed; inspect Doris privately, then resume without setup") from None
+    sensitive_values = [config.password] + [
+        value for key, value in options.items()
+        if any(part in key for part in ("secret", "token", "access_key"))
+    ]
+    return run_sql(connection, text, sensitive_values=sensitive_values)
 
 
 def boolean(value: str) -> bool:

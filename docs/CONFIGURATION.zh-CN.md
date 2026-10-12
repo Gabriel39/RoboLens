@@ -55,3 +55,7 @@ Notebook 配置单元使用 `CONFIG = load_config(PROJECT / ".env")`；修改文
 Notebook 的初始化函数会同时替换名称和存储连接参数。
 `python -m doris.prepare_query ...` 会读取同一个 `.env`，输出可执行的检索及分析 SQL；这些查询文件不包含连接密码。
 对已有 Catalog 运行查询时，无需重复执行初始化。
+
+## 错误诊断
+
+SQL 执行失败时，Notebook 会显示失败语句序号、SQL、原始异常类型、Doris 错误码及完整 traceback（包括异常链），并停止执行后续语句。此前成功的语句可能已提交。配置和数据库连接中的密码、访问密钥及 token 会替换为 `[REDACTED]`；不再用通用的“初始化失败”提示隐藏数据库错误。导出失败时显示进程退出码，完整子进程日志仍在单元格输出中。
