@@ -3,6 +3,25 @@ from html import escape
 from IPython.display import HTML, display
 
 
+
+def table_html(frame, *, label="Data table"):
+    """Keep complete cell values inside a locally scrollable, accessible table."""
+    import pandas as pd
+    # Pandas may otherwise shorten long strings using display.max_colwidth.
+    with pd.option_context("display.max_colwidth", None):
+        html = frame.to_html(index=False, escape=True, border=0, classes="rl-table",
+                             max_rows=None, max_cols=None)
+    # Cell contents are already HTML-escaped. Wrapping bounds long identifiers,
+    # JSON, paths and arrays without losing their full text when copied.
+    import re
+    html = re.sub(r"<td>(.*?)</td>", r'<td><span class="rl-cell">\1</span></td>', html, flags=re.S)
+    return ('<div class="rl-table-scroll" role="region" tabindex="0" aria-label="' +
+            escape(label, quote=True) + '">' + html + '</div>')
+
+
+def show_table(frame, *, label="Data table"):
+    display(HTML(table_html(frame, label=label)))
+
 def show_details(title, *values, language='zh'):
     translations = {"Connection configuration": "连接配置", "Source scale": "源数据规模", "Export counts": "导出行数",
                     "Embedding schema": "向量表结构", "Sample rows": "示例数据行", "Index details": "索引详情",
@@ -13,7 +32,7 @@ def show_details(title, *values, language='zh'):
     parts = []
     for value in values:
         if hasattr(value, 'to_html'):
-            parts.append(value.to_html(index=False, escape=True))
+            parts.append(table_html(value, label=title))
         else:
             parts.append('<pre>' + escape(str(value)) + '</pre>')
     display(HTML('<details><summary>' + escape(title) + '</summary>' + ''.join(parts) + '</details>'))

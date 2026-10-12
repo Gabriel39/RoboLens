@@ -7847,9 +7847,20 @@ body.jp-Notebook {background:#fff!important;box-shadow:0 12px 60px #142c4308}
 .jp-RenderedHTMLCommon h3 {font-size:21px;color:var(--rl-ink)}
 .jp-RenderedHTMLCommon p {margin:8px 0 16px}
 .jp-RenderedHTMLCommon a {color:var(--rl-teal);text-decoration:none}
-.jp-RenderedHTMLCommon table {font-size:13px;border-collapse:collapse;width:100%}
-.jp-RenderedHTMLCommon th {background:#edf3f8;color:var(--rl-ink);text-align:left;padding:10px!important;border:none!important}
-.jp-RenderedHTMLCommon td {padding:8px 10px!important;border-bottom:1px solid #e9eef3!important}
+/* Tables own their horizontal scroll; never squeeze every column into the page. */
+.jp-RenderedHTMLCommon table {font-size:13px;line-height:1.55;table-layout:auto!important;border-collapse:separate;border-spacing:0;text-align:left}
+.jp-RenderedHTMLCommon table:not(.rl-table) {display:block;max-width:100%;width:100%;overflow-x:auto}
+.jp-RenderedHTMLCommon th {background:#edf3f8;color:var(--rl-ink);text-align:left!important;white-space:nowrap;word-break:normal;overflow-wrap:normal;padding:12px 16px!important;border:none!important;font-weight:650}
+.jp-RenderedHTMLCommon td {text-align:left;vertical-align:top;white-space:normal;overflow-wrap:anywhere;word-break:normal;min-width:6ch;max-width:32rem;padding:11px 16px!important;border-bottom:1px solid #e9eef3!important}
+.rl-table-scroll {display:block;box-sizing:border-box;width:100%;max-width:100%;min-width:0;overflow:auto;overscroll-behavior-x:contain;margin:10px 0 16px;border:1px solid var(--rl-line);border-radius:10px;background:white}
+.rl-table-scroll:focus-visible {outline:2px solid var(--rl-teal);outline-offset:2px}
+.jp-RenderedHTMLCommon .rl-table {display:table;width:max-content!important;min-width:100%;max-width:none!important;margin:0!important;table-layout:auto!important}
+.rl-table .rl-cell {display:block;max-width:30rem;min-width:6ch;white-space:pre-wrap;overflow-wrap:anywhere;word-break:normal;line-height:1.6}
+.rl-table tbody tr:nth-child(even) {background:#f7fafc}
+.rl-table tbody tr:hover {background:#edf6f5}
+.jp-RenderedHTMLCommon details {min-width:0;max-width:100%;box-sizing:border-box}
+@media(max-width:700px) {.rl-table .rl-cell {max-width:18rem}.jp-RenderedHTMLCommon th,.jp-RenderedHTMLCommon td {padding:9px 12px!important}}
+@media print {.rl-table-scroll {overflow:visible}.jp-RenderedHTMLCommon .rl-table {width:100%!important;min-width:0;table-layout:fixed!important}.rl-table .rl-cell {min-width:0;max-width:none}.jp-RenderedHTMLCommon .rl-table th {white-space:normal;overflow-wrap:anywhere}}
 .jp-RenderedHTMLCommon code {background:#edf3f8;border-radius:5px;padding:2px 5px;font-size:.85em}
 .jp-OutputArea-output svg,.jp-OutputArea-output img {max-width:100%;height:auto}
 .jp-OutputArea-output video {display:block;max-width:100%;margin:18px auto;border-radius:14px;background:#102538}
@@ -8000,7 +8011,7 @@ The following counts describe the <strong>source version</strong>, not a complet
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<details><summary>Source scale</summary><table border="1" class="dataframe">
+<details><summary>Source scale</summary><div aria-label="Source scale" class="rl-table-scroll" role="region" tabindex="0"><table class="dataframe rl-table">
 <thead>
 <tr style="text-align: right;">
 <th>Source item</th>
@@ -8009,31 +8020,31 @@ The following counts describe the <strong>source version</strong>, not a complet
 </thead>
 <tbody>
 <tr>
-<td>Episodes</td>
-<td>100</td>
+<td><span class="rl-cell">Episodes</span></td>
+<td><span class="rl-cell">100</span></td>
 </tr>
 <tr>
-<td>State/action steps</td>
-<td>32212</td>
+<td><span class="rl-cell">State/action steps</span></td>
+<td><span class="rl-cell">32212</span></td>
 </tr>
 <tr>
-<td>Task entries</td>
-<td>47</td>
+<td><span class="rl-cell">Task entries</span></td>
+<td><span class="rl-cell">47</span></td>
 </tr>
 <tr>
-<td>MP4 videos</td>
-<td>300</td>
+<td><span class="rl-cell">MP4 videos</span></td>
+<td><span class="rl-cell">300</span></td>
 </tr>
 <tr>
-<td>Frame vectors (stride=1)</td>
-<td>96636</td>
+<td><span class="rl-cell">Frame vectors (stride=1)</span></td>
+<td><span class="rl-cell">96636</span></td>
 </tr>
 <tr>
-<td>Frame vectors (stride=15)</td>
-<td>6591</td>
+<td><span class="rl-cell">Frame vectors (stride=15)</span></td>
+<td><span class="rl-cell">6591</span></td>
 </tr>
 </tbody>
-</table></details>
+</table></div></details>
 </div>
 </div>
 </div>
