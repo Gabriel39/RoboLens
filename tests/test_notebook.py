@@ -49,7 +49,7 @@ def test_notebook_and_all_diagrams_are_portable():
                 source = "".join(cell["source"])
                 assert source.isascii()
                 compile(source, "<notebook>", "exec")
-                code_cells.append(source.replace("assets/en/", "assets/"))
+                code_cells.append(source.replace("assets/en/", "assets/").replace('language="en"', 'language="zh"'))
                 if "diagram" in cell["metadata"].get("tags", []):
                     diagrams.append(source)
         assert len(diagrams) == 9

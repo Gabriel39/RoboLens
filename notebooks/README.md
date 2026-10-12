@@ -111,3 +111,11 @@ and model weights are excluded from the package; see the [validation record](../
 ## Shared configuration
 
 The project-root `.env` configures Doris host, SQL/HTTP ports, user/password, catalog, databases, table names and storage. See `.env.example`. Notebook and Python CLI use the same settings; file values take precedence over environment variables. Reload the configuration cell and reconnect after edits. SQL files in `doris/sql` are templates; execute them through notebook setup or render analysis SQL with `python -m doris.prepare_query`. Renaming settings does not migrate existing data.
+
+## Understand an image search
+
+Step 05 shows the actual `REFERENCE_SAMPLE` image, episode, camera, frame number, timestamp and source task before querying.
+After retrieval, it displays the reference alongside the six most similar hit images; the table retains all results and the SQL template is collapsed by default.
+Images are decoded at the exact frame ordinal from the original `media.lance` video, verified by hash and cached locally, then embedded in notebook outputs for HTML export.
+Task text is context only. Retrieval compares image vectors from the same camera and model revision, excludes the reference episode and keeps the closest frame per episode.
+Use an exported sample-id and new `RUN_ID` / `QUERY_DIR` when changing the reference. Preview mode does not read or fabricate images.

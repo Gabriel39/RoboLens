@@ -7824,7 +7824,9 @@ Configure your environment and switch to <strong>live</strong> to execute the ac
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Mode: preview | run_id: nb_65e4f1434b84
+<pre>Mode: preview | run_id: nb_f7f1a81ce804
+Doris: 127.0.0.1:9030 | user=root
+Source: `droid100`.`default`.`frame_embeddings` | root=oss://YOUR_BUCKET/robotics/droid100
 </pre>
 </div>
 </div>
@@ -7910,6 +7912,7 @@ Configure your environment and switch to <strong>live</strong> to execute the ac
 </table>
 <p>The configuration cell generates a new <code>RUN_ID</code> each time. After human review, rerun only label import and later cells to keep the same run_id.
 The Doris catalog warehouse must match DATASET_ROOT. The original first frame is only a connectivity example, not an asserted failure sample.</p>
+<p>Unified connection configuration: Doris host, ports, user/password, catalog, databases and table names are loaded from the project-root <code>.env</code>; see <code>.env.example</code>. Reload the configuration cell and reconnect after changes.</p>
 </div>
 </div>
 </div>
@@ -8134,10 +8137,16 @@ Business data stays on S3 / OSS; Doris internal tables store retrieval hits, rev
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="05-/-Vector-Search:-find-scenes-similar-to-the-reference-frame">05 / Vector Search: find scenes similar to the reference frame<a class="anchor-link" href="#05-/-Vector-Search:-find-scenes-similar-to-the-reference-frame">¶</a></h2><p>Read the actual query vector from an exported sample-id and reuse the project's SQL templates. Camera/model filters apply before retrieval.
-Retrieve up to 2,000 frames, then deduplicate by episode and keep up to 50. Both successes and failures remain eligible for comparison.
-The template is shown below; live mode inserts a real 768-dimensional vector and executes it.</p>
-<p>For a newly captured incident image, use <code>python -m doris.prepare_query --image ...</code> to generate a vector with the same model. See <a href="../doris/README.md">the Doris guide</a>.</p>
+<h2 id="05-/-Image-retrieval:-what-are-we-searching-for?">05 / Image retrieval: what are we searching for?<a class="anchor-link" href="#05-/-Image-retrieval:-what-are-we-searching-for?">¶</a></h2><p><strong>The input is one reference image; the outputs are visually similar frames from other episodes.</strong>
+<code>REFERENCE_SAMPLE</code> selects the image. The default <code>0:observation.images.wrist_image_left:0</code> is frame 0 of episode 0's wrist camera.
+Live mode shows the actual reference image, frame number, timestamp and source task before executing the query.</p>
+<p>Search exported sampled frames in episodes 0–99 with the same camera and SigLIP2 model revision, excluding the reference episode.
+Approximate cosine search retrieves up to 2,000 frames, keeps the closest frame per episode, and returns up to 50 episodes.
+Similarity is <code>1 - cosine_distance</code>: higher means closer. The first six hits appear alongside the reference for comparison.</p>
+<p>Source task text is context, not a search filter. Visual similarity may reflect objects, scenes or layout;
+it does not establish matching actions, grasp failure, its cause, or a success probability. Review videos in step 06 to judge outcomes.
+Frame 0 is only a demonstration reference. To change it, set <code>REFERENCE_SAMPLE</code> to an exported sample-id and use a new <code>RUN_ID</code> / <code>QUERY_DIR</code>.</p>
+<p>Preview mode only explains the workflow; it does not read or fabricate reference/hit images. For a new local image, generate a query with <code>python -m doris.prepare_query --image ...</code>; see the Doris README.</p>
 </div>
 </div>
 </div>
@@ -8162,118 +8171,44 @@ The template is shown below; live mode inserts a real 768-dimensional vector and
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<style>pre { line-height: 125%; }
-td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
-span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
-td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
-span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
-.output_html .hll { background-color: #ffffcc }
-.output_html { background: #f8f8f8; }
-.output_html .c { color: #3D7B7B; font-style: italic } /* Comment */
-.output_html .err { border: 1px solid #F00 } /* Error */
-.output_html .k { color: #008000; font-weight: bold } /* Keyword */
-.output_html .o { color: #666 } /* Operator */
-.output_html .ch { color: #3D7B7B; font-style: italic } /* Comment.Hashbang */
-.output_html .cm { color: #3D7B7B; font-style: italic } /* Comment.Multiline */
-.output_html .cp { color: #9C6500 } /* Comment.Preproc */
-.output_html .cpf { color: #3D7B7B; font-style: italic } /* Comment.PreprocFile */
-.output_html .c1 { color: #3D7B7B; font-style: italic } /* Comment.Single */
-.output_html .cs { color: #3D7B7B; font-style: italic } /* Comment.Special */
-.output_html .gd { color: #A00000 } /* Generic.Deleted */
-.output_html .ge { font-style: italic } /* Generic.Emph */
-.output_html .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
-.output_html .gr { color: #E40000 } /* Generic.Error */
-.output_html .gh { color: #000080; font-weight: bold } /* Generic.Heading */
-.output_html .gi { color: #008400 } /* Generic.Inserted */
-.output_html .go { color: #717171 } /* Generic.Output */
-.output_html .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
-.output_html .gs { font-weight: bold } /* Generic.Strong */
-.output_html .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
-.output_html .gt { color: #04D } /* Generic.Traceback */
-.output_html .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
-.output_html .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
-.output_html .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
-.output_html .kp { color: #008000 } /* Keyword.Pseudo */
-.output_html .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
-.output_html .kt { color: #B00040 } /* Keyword.Type */
-.output_html .m { color: #666 } /* Literal.Number */
-.output_html .s { color: #BA2121 } /* Literal.String */
-.output_html .na { color: #687822 } /* Name.Attribute */
-.output_html .nb { color: #008000 } /* Name.Builtin */
-.output_html .nc { color: #00F; font-weight: bold } /* Name.Class */
-.output_html .no { color: #800 } /* Name.Constant */
-.output_html .nd { color: #A2F } /* Name.Decorator */
-.output_html .ni { color: #717171; font-weight: bold } /* Name.Entity */
-.output_html .ne { color: #CB3F38; font-weight: bold } /* Name.Exception */
-.output_html .nf { color: #00F } /* Name.Function */
-.output_html .nl { color: #767600 } /* Name.Label */
-.output_html .nn { color: #00F; font-weight: bold } /* Name.Namespace */
-.output_html .nt { color: #008000; font-weight: bold } /* Name.Tag */
-.output_html .nv { color: #19177C } /* Name.Variable */
-.output_html .ow { color: #A2F; font-weight: bold } /* Operator.Word */
-.output_html .w { color: #BBB } /* Text.Whitespace */
-.output_html .mb { color: #666 } /* Literal.Number.Bin */
-.output_html .mf { color: #666 } /* Literal.Number.Float */
-.output_html .mh { color: #666 } /* Literal.Number.Hex */
-.output_html .mi { color: #666 } /* Literal.Number.Integer */
-.output_html .mo { color: #666 } /* Literal.Number.Oct */
-.output_html .sa { color: #BA2121 } /* Literal.String.Affix */
-.output_html .sb { color: #BA2121 } /* Literal.String.Backtick */
-.output_html .sc { color: #BA2121 } /* Literal.String.Char */
-.output_html .dl { color: #BA2121 } /* Literal.String.Delimiter */
-.output_html .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
-.output_html .s2 { color: #BA2121 } /* Literal.String.Double */
-.output_html .se { color: #AA5D1F; font-weight: bold } /* Literal.String.Escape */
-.output_html .sh { color: #BA2121 } /* Literal.String.Heredoc */
-.output_html .si { color: #A45A77; font-weight: bold } /* Literal.String.Interpol */
-.output_html .sx { color: #008000 } /* Literal.String.Other */
-.output_html .sr { color: #A45A77 } /* Literal.String.Regex */
-.output_html .s1 { color: #BA2121 } /* Literal.String.Single */
-.output_html .ss { color: #19177C } /* Literal.String.Symbol */
-.output_html .bp { color: #008000 } /* Name.Builtin.Pseudo */
-.output_html .fm { color: #00F } /* Name.Function.Magic */
-.output_html .vc { color: #19177C } /* Name.Variable.Class */
-.output_html .vg { color: #19177C } /* Name.Variable.Global */
-.output_html .vi { color: #19177C } /* Name.Variable.Instance */
-.output_html .vm { color: #19177C } /* Name.Variable.Magic */
-.output_html .il { color: #666 } /* Literal.Number.Integer.Long */</style><div class="highlight"><pre><span></span><span class="c1">-- Render this template with python -m doris.prepare_query.</span>
-<span class="c1">-- Vector Search runs in Lance and reuses the cosine index built by the pipeline.</span>
-<span class="c1">-- Use a new run ID for each query; this INSERT does not delete stale run results.</span>
-<span class="c1">-- Prefilter before candidate generation; do not prefilter to failure-only rows.</span>
-<span class="c1">-- Retrieve up to 2000 frames, then deduplicate to at most 50 other episodes.</span>
-<span class="c1">-- Increase top_k if nearby frames consume too much of the candidate budget.</span>
-<span class="c1">-- nprobes/refine_factor are example query parameters, not universal optima.</span>
-<span class="c1">-- 1 - _distance is a display similarity only because metric is cosine.</span>
-<span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">internal</span><span class="p">.</span><span class="n">droid100_analysis</span><span class="p">.</span><span class="n">grasp_hits</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="k">WITH</span><span class="w"> </span><span class="n">candidates</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
-<span class="w">        </span><span class="k">SELECT</span><span class="w"> </span><span class="n">episode_index</span><span class="p">,</span><span class="w"> </span><span class="n">sample_id</span><span class="p">,</span><span class="w"> </span><span class="n">media_id</span><span class="p">,</span><span class="w"> </span><span class="n">frame_index</span><span class="p">,</span>
-<span class="w">               </span><span class="o">`</span><span class="k">timestamp</span><span class="o">`</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">timestamp_s</span><span class="p">,</span><span class="w"> </span><span class="n">_distance</span>
-<span class="w">        </span><span class="k">FROM</span><span class="w"> </span><span class="n">vector_search</span><span class="p">(</span>
-<span class="w">            </span><span class="ss">"table"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">"droid100.default.frame_embeddings"</span><span class="p">,</span>
-<span class="w">            </span><span class="ss">"column"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">"embedding"</span><span class="p">,</span>
-<span class="w">            </span><span class="ss">"query_vector"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">"{{QUERY_VECTOR_JSON}}"</span><span class="p">,</span>
-<span class="w">            </span><span class="ss">"top_k"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">"2000"</span><span class="p">,</span>
-<span class="w">            </span><span class="ss">"metric"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">"cosine"</span><span class="p">,</span>
-<span class="w">            </span><span class="ss">"nprobes"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">"20"</span><span class="p">,</span>
-<span class="w">            </span><span class="ss">"refine_factor"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">"10"</span><span class="p">,</span>
-<span class="w">            </span><span class="ss">"filter"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">"camera = '{{CAMERA}}' AND model = 'google/siglip2-base-patch16-224' AND model_revision = '75de2d55ec2d0b4efc50b3e9ad70dba96a7b2fa2' AND episode_index &gt;= 0 AND episode_index &lt; 100 AND episode_index != {{REFERENCE_EPISODE}}"</span><span class="p">,</span>
-<span class="w">            </span><span class="ss">"use_index"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">"true"</span>
-<span class="w">        </span><span class="p">)</span>
-<span class="w">    </span><span class="p">),</span><span class="w"> </span><span class="n">ranked</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
-<span class="w">        </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">ROW_NUMBER</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span>
-<span class="w">            </span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">episode_index</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">_distance</span><span class="w"> </span><span class="k">ASC</span><span class="p">,</span><span class="w"> </span><span class="n">frame_index</span>
-<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">rn</span>
-<span class="w">        </span><span class="k">FROM</span><span class="w"> </span><span class="n">candidates</span>
-<span class="w">    </span><span class="p">)</span>
-<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="s1">'{{RUN_ID}}'</span><span class="p">,</span><span class="w"> </span><span class="n">episode_index</span><span class="p">,</span><span class="w"> </span><span class="n">sample_id</span><span class="p">,</span><span class="w"> </span><span class="n">media_id</span><span class="p">,</span>
-<span class="w">           </span><span class="n">frame_index</span><span class="p">,</span><span class="w"> </span><span class="n">timestamp_s</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">_distance</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">similarity</span>
-<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">ranked</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">rn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">    </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">_distance</span><span class="w"> </span><span class="k">ASC</span><span class="p">,</span><span class="w"> </span><span class="n">episode_index</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">50</span>
-<span class="p">)</span><span class="w"> </span><span class="n">candidate_rows</span><span class="p">;</span>
+<details><summary>Inspect the search SQL template</summary><pre>-- Render this template with python -m doris.prepare_query.
+-- Vector Search runs in Lance and reuses the cosine index built by the pipeline.
+-- Use a new run ID for each query; this INSERT does not delete stale run results.
+-- Prefilter before candidate generation; do not prefilter to failure-only rows.
+-- Retrieve up to 2000 frames, then deduplicate to at most 50 other episodes.
+-- Increase top_k if nearby frames consume too much of the candidate budget.
+-- nprobes/refine_factor are example query parameters, not universal optima.
+-- 1 - _distance is a display similarity only because metric is cosine.
+INSERT INTO `internal`.`droid100_analysis`.`grasp_hits`
+SELECT * FROM (
+    WITH candidates AS (
+        SELECT episode_index, sample_id, media_id, frame_index,
+               `timestamp` AS timestamp_s, _distance
+        FROM vector_search(
+            "table" = "`droid100`.`default`.`frame_embeddings`",
+            "column" = "embedding",
+            "query_vector" = "{{QUERY_VECTOR_JSON}}",
+            "top_k" = "2000",
+            "metric" = "cosine",
+            "nprobes" = "20",
+            "refine_factor" = "10",
+            "filter" = "camera = '{{CAMERA}}' AND model = 'google/siglip2-base-patch16-224' AND model_revision = '75de2d55ec2d0b4efc50b3e9ad70dba96a7b2fa2' AND episode_index &gt;= 0 AND episode_index &lt; 100 AND episode_index != {{REFERENCE_EPISODE}}",
+            "use_index" = "true"
+        )
+    ), ranked AS (
+        SELECT *, ROW_NUMBER() OVER (
+            PARTITION BY episode_index ORDER BY _distance ASC, frame_index
+        ) AS rn
+        FROM candidates
+    )
+    SELECT '{{RUN_ID}}', episode_index, sample_id, media_id,
+           frame_index, timestamp_s, 1 - _distance AS similarity
+    FROM ranked WHERE rn = 1
+    ORDER BY _distance ASC, episode_index LIMIT 50
+) candidate_rows;
 
-<span class="k">SHOW</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">droid100</span><span class="p">.</span><span class="o">`</span><span class="k">default</span><span class="o">`</span><span class="p">.</span><span class="n">frame_embeddings</span><span class="p">;</span>
-</pre></div>
+SHOW INDEX FROM `droid100`.`default`.`frame_embeddings`;
+</pre></details>
 </div>
 </div>
 </div>
