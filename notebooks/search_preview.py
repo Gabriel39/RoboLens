@@ -60,7 +60,7 @@ def frame_card(frame: dict, title: str, *, similarity=None, language="zh") -> st
     score = "" if similarity is None else f"<p>{labels[2]}: <strong>{float(similarity):.4f}</strong></p>"
     task = f'<p>{labels[1]}: {escape(str(frame.get("task") or "—"))}</p>'
     data = base64.b64encode(frame["png"]).decode("ascii")
-    return (f'<article style="border:1px solid #ccd6e0;border-radius:10px;padding:14px;min-width:0">'
+    return (f'<article class="rl-frame">'
             f'<h4 style="margin:0 0 10px">{escape(title)}</h4>'
             f'<img src="data:image/png;base64,{data}" alt="{escape(caption, quote=True)}" '
             f'style="width:100%;max-height:320px;object-fit:contain;background:#f1f5f9"/>'
@@ -95,7 +95,9 @@ def reference_html(frame: dict, config: Config, language="zh") -> str:
         )
     title = "查询参考图" if zh else "Query reference image"
     return (f'<div class="demo-note"><h3>{"这次在查什么？" if zh else "What does this search find?"}</h3>'
-            f'{description}<small>{escape(config.source("frame_embeddings", quoted=False))}</small></div>'
+            f'<p>{"找到其他 episode 中视觉相似的画面。" if zh else "Find visually similar frames in other episodes."}</p>'
+            f'<details><summary>{"检索范围与规则" if zh else "Scope and ranking"}</summary>'
+            f'{description}<small>{escape(config.source("frame_embeddings", quoted=False))}</small></details></div>'
             f'<div style="max-width:720px;margin:16px 0">{frame_card(frame, title, language=language)}</div>')
 
 
