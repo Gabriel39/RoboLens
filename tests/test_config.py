@@ -81,7 +81,7 @@ def test_setup_and_queries_use_the_same_names(tmp_path, monkeypatch):
                  "episode_index": 0, "camera": "observation.images.wrist_image_left"}
     files = render(reference, tmp_path / "queries", "config_test", config)
     sql = "\n".join(p.read_text() for p in files)
-    assert '"table" = "robot_data.custom_db.vectors_v2"' in sql
+    assert '"table" = "`robot_data`.`custom_db`.`vectors_v2`"' in sql
     for table in config.analysis_tables.values():
         assert f"`internal`.`robot_analysis`.`{table}`" in sql
     assert "droid100" not in sql and "{{" not in sql and config.password not in sql
@@ -117,3 +117,20 @@ def test_annotations_use_configured_tables(labels):
     load_annotations(connection, ROOT, *paths, "test_001", hits, {0}, custom_config())
     assert "`internal`.`robot_analysis`.`reviews_v2`" in connection.calls[0][0]
     assert "`internal`.`robot_analysis`.`policy_v2`" in connection.calls[1][0]
+
+
+@pytest.mark.parametrize("values, qualified", [
+    ({}, "`droid100`.`default`.`frame_embeddings`"),
+    ({"DORIS_CATALOG": "select", "DORIS_DATABASE": "default",
+      "LANCE_TABLE_FRAME_EMBEDDINGS": "table"}, "`select`.`default`.`table`"),
+])
+def test_vector_search_quotes_reserved_identifiers(tmp_path, values, qualified):
+    from doris.prepare_query import render
+    config = Config.from_env(values)
+    reference = {"embedding": [1.0] + [0.0] * 767,
+                 "episode_index": 0, "camera": "observation.images.wrist_image_left"}
+    files = render(reference, tmp_path, "quoted_names", config)
+    sql = next(path for path in files if path.name == "02_vector_search.sql").read_text()
+    # The TVF parses its string value as an SQL identifier expression too.
+    assert f'"table" = "{qualified}"' in sql
+    assert f"SHOW INDEX FROM {qualified};" in sql

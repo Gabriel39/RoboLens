@@ -12,7 +12,7 @@ SELECT * FROM (
         SELECT episode_index, sample_id, media_id, frame_index,
                `timestamp` AS timestamp_s, _distance
         FROM vector_search(
-            "table" = "{{SOURCE_FRAME_EMBEDDINGS_NAME}}",
+            "table" = "{{SOURCE_FRAME_EMBEDDINGS}}",
             "column" = "embedding",
             "query_vector" = "{{QUERY_VECTOR_JSON}}",
             "top_k" = "2000",
