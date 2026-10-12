@@ -1,0 +1,60 @@
+<!doctype html><html lang="{{LANG}}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'"><title>{{TITLE}}</title><style>
+*{box-sizing:border-box}body{margin:0;padding:24px;font:14px/1.6 -apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:#f3f7fb;color:#142c43}h2{font-size:25px;margin:8px 0}h3{font-size:16px;margin:0 0 14px}.badge{display:inline-block;padding:4px 10px;border-radius:20px;background:#fff0d8;color:#875908;font-size:11px;font-weight:700;letter-spacing:1px}.muted{color:#60758a;margin:4px 0 18px}.scene{background:#10283e;border-radius:16px;padding:18px;margin-bottom:20px;color:#fff}.scene p{margin:0 0 10px;color:#c9dbe9}.scene svg{width:100%;height:auto;display:block}.panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.panel{border:1px solid #dce5ed;border-radius:14px;padding:18px;background:white;min-width:0}label{display:block;font-size:12px;color:#60758a;margin:12px 0 5px}input,select,textarea,button{font:inherit}input[type=number],input[type=text],select{width:100%;padding:9px 11px;border:1px solid #cbd8e4;border-radius:8px;color:#142c43;background:#fff}input:focus,select:focus,textarea:focus{outline:2px solid #078b80;outline-offset:1px}.outcomes{display:flex;gap:6px;flex-wrap:wrap}.outcomes label{margin:0;cursor:pointer;display:flex;gap:5px;align-items:center;border:1px solid #dce5ed;padding:7px 9px;border-radius:8px}.outcomes label:has(input:checked){background:#e8f5f1;border-color:#078b80;color:#08766b}.check{display:flex;align-items:center;gap:8px;color:#142c43;font-size:13px}.times{display:grid;grid-template-columns:1fr 1fr;gap:10px}.summary{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}.result{background:#e8f3ef;border-left:3px solid #078b80;border-radius:8px;padding:13px 16px}.result strong{display:block;margin-bottom:4px}.result[data-allowed=false]{background:#fff4e5;border-color:#c18731}.actions{display:flex;gap:10px;align-items:center;margin-top:20px;flex-wrap:wrap}button{cursor:pointer;border:0;padding:10px 18px;border-radius:8px;background:#078b80;color:white;font-weight:600}button[type=reset]{background:#e4ebf2;color:#435d74}.error{color:#ab342b;min-height:24px;margin-top:10px}details{margin-top:12px;border:1px solid #dce5ed;border-radius:10px;padding:12px 16px;background:#fff}summary{cursor:pointer;color:#526c80;font-weight:600}textarea{display:block;resize:vertical;width:100%;min-height:120px;font:12px/1.6 ui-monospace,monospace;border:1px solid #dce5ed;border-radius:6px;padding:10px;white-space:pre;overflow:auto;background:#f8fafc}code{font-size:11px;overflow-wrap:anywhere}.footer{font-size:12px;color:#60758a;margin:14px 0 0}.wide{grid-column:1/-1}@media(max-width:720px){body{padding:14px}.panels{grid-template-columns:1fr}.summary{grid-template-columns:1fr}h2{font-size:21px}.scene{padding:10px}}
+</style></head><body>
+<span class="badge" data-i18n="badge"></span><h2 data-i18n="title"></h2><p class="muted" data-i18n="intro"></p>
+<div class="scene"><p id="scenario"></p><svg id="storyboard" viewBox="0 0 960 210" role="img" aria-label="{{STORY_LABEL}}"></svg></div>
+<form id="demo-form"><div class="panels">
+<section class="panel"><h3 data-i18n="outcomeTitle"></h3><div class="outcomes"><label><input type="radio" name="outcome" value="success"><span data-i18n="success"></span></label><label><input type="radio" name="outcome" value="failure" checked><span data-i18n="failure"></span></label><label><input type="radio" name="outcome" value="unknown"><span data-i18n="unknown"></span></label></div>
+<label for="object" data-i18n="object"></label><input type="text" id="object" value="block" readonly><label for="scene" data-i18n="scene"></label><input type="text" id="scene" value="tabletop" readonly>
+<label for="failure-stage" data-i18n="stage"></label><select id="failure-stage"><option value="lift" data-i18n="lift"></option><option value="contact" data-i18n="contact"></option><option value="transport" data-i18n="transport"></option></select>
+<label for="failure-reason" data-i18n="reason"></label><select id="failure-reason"><option value="slip" data-i18n="slip"></option><option value="missed_grasp" data-i18n="missed"></option><option value="collision" data-i18n="collision"></option></select></section>
+<section class="panel"><h3 data-i18n="clipTitle"></h3><p class="muted" data-i18n="clipHint"></p><div class="times"><div><label for="start" data-i18n="start"></label><input id="start" type="number" value="2" min="0" max="8" step="0.1" required></div><div><label for="end" data-i18n="end"></label><input id="end" type="number" value="4.5" min="0" max="8" step="0.1" required></div></div>
+<label class="check"><input id="reviewed" type="checkbox" checked><span data-i18n="reviewed"></span></label><label class="check"><input id="target" type="checkbox" checked><span data-i18n="target"></span></label><label class="check"><input id="quality" type="checkbox" checked><span data-i18n="quality"></span></label></section>
+<section class="panel"><h3 data-i18n="policyTitle"></h3><label for="group" data-i18n="group"></label><input type="text" id="group" value="demo_scene_A" readonly><label for="split" data-i18n="split"></label><select id="split"><option value="train" data-i18n="train"></option><option value="validation" data-i18n="validation"></option><option value="test" data-i18n="test"></option></select><label class="check"><input id="used" type="checkbox"><span data-i18n="used"></span></label><p class="muted" data-i18n="groupHint"></p></section>
+</div><div class="summary"><div class="result" id="stats"><strong data-i18n="stats"></strong><span></span></div><div class="result" id="training"><strong data-i18n="training"></strong><span></span></div></div>
+<div class="actions"><button type="button" id="preview-records" data-i18n="generate"></button><button type="reset" data-i18n="reset"></button><span class="muted" style="margin:0" data-i18n="localOnly"></span></div><div id="error" class="error" role="alert"></div>
+<details id="records"><summary data-i18n="records"></summary><p><code>grasp_review.csv</code></p><textarea id="review-csv" aria-label="grasp_review.csv" readonly spellcheck="false"></textarea><p><code>episode_policy.csv</code></p><textarea id="policy-csv" aria-label="episode_policy.csv" readonly spellcheck="false"></textarea><p class="footer" data-i18n="csvHint"></p></details></form>
+<p class="footer" data-i18n="footer"></p>
+<script>
+const L={{LABELS_JSON}};
+const el=id=>document.getElementById(id);
+document.querySelectorAll('[data-i18n]').forEach(n=>n.textContent=L[n.dataset.i18n]);
+const fixed={run_id:'DEMO_ONLY_DO_NOT_IMPORT',sample_id:'7:observation.images.wrist_image_left:42',episode_index:7,label_source:'demo_only'};
+const csv=record=>{const quote=v=>'"'+String(v).replaceAll('"','""')+'"';return Object.keys(record).join(',')+'\n'+Object.values(record).map(quote).join(',')+'\n'};
+const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+function draw(outcome){
+ const labels=[L.approach,L.inspect,outcome==='success'?L.placed:outcome==='failure'?L.failed:L.occluded];
+ el('scenario').textContent=L.scenario+' · '+L[outcome];
+ let markup='';
+ for(let i=0;i<3;i++){
+  const x=i*320, cubeY=i===0?117:i===1?74:outcome==='success'?119:outcome==='failure'?142:103;
+  const cubeX=i===2&&outcome==='success'?225:i===2&&outcome==='failure'?132:120;
+  markup+=`<g transform="translate(${x},0)"><rect x="5" y="5" width="305" height="192" rx="12" fill="#edf3f7"/><text x="21" y="32" fill="#536d81" font-size="13">0${i+1} · ${esc(labels[i])}</text><path d="M28 154 H281" stroke="#9cb2c3" stroke-width="4"/><path d="M205 115 v34 h58 v-34" fill="#cce5e1" stroke="#078b80" stroke-width="3"/><path d="M150 52 v25 m-25 0 h50 m-50 0 v25 m50-25 v25" fill="none" stroke="#1b3d57" stroke-width="7" stroke-linecap="round"/><rect x="${cubeX}" y="${cubeY}" width="29" height="27" rx="3" fill="#e0a343"/>${i===2&&outcome==='unknown'?'<rect x="76" y="71" width="116" height="75" rx="6" fill="#b9c7d0" opacity=".96"/>':''}<text x="21" y="181" fill="#60758a" font-size="11">${esc(L.illustration)}</text></g>`;
+ }
+ el('storyboard').innerHTML=markup;
+}
+function update(){
+ const outcome=document.querySelector('[name=outcome]:checked').value;
+ const start=Number(el('start').value),end=Number(el('end').value);
+ const valid=el('start').value!==''&&el('end').value!==''&&Number.isFinite(start)&&Number.isFinite(end)&&start>=0&&end>start&&end<=8;
+ const known=outcome!=='unknown',eligible=valid&&el('reviewed').checked&&el('target').checked&&el('quality').checked&&known;
+ const training=eligible&&valid&&el('split').value==='train'&&!el('used').checked;
+ el('failure-stage').disabled=el('failure-reason').disabled=outcome!=='failure';
+ el('error').textContent=valid?'':L.invalid;
+ el('stats').dataset.allowed=String(eligible);
+ el('stats').querySelector('span').textContent=eligible?L.statsYes:L.statsNo;
+ el('training').dataset.allowed=String(training);
+ el('training').querySelector('span').textContent=training?(outcome==='success'?L.bc:L.critic):L.trainNo;
+ draw(outcome);
+ if(!valid){el('review-csv').value=el('policy-csv').value='';return false;}
+ const review={run_id:fixed.run_id,sample_id:fixed.sample_id,episode_index:fixed.episode_index,reviewed:el('reviewed').checked,is_target_grasp:el('target').checked,quality_ok:el('quality').checked,object_type:'block',scene_type:'tabletop',outcome,failure_stage:outcome==='failure'?el('failure-stage').value:'',failure_reason:outcome==='failure'?el('failure-reason').value:'',clip_start_s:start,clip_end_s:end,label_source:fixed.label_source};
+ const policy={episode_index:fixed.episode_index,scene_group:'demo_scene_A',split_assignment:el('split').value,used_for_training:el('used').checked};
+ el('review-csv').value=csv(review);el('policy-csv').value=csv(policy);return true;
+}
+el('demo-form').addEventListener('input',update);
+el('demo-form').addEventListener('change',update);
+el('demo-form').addEventListener('submit',e=>e.preventDefault());
+el('preview-records').addEventListener('click',()=>{if(update())el('records').open=true;});
+el('demo-form').addEventListener('reset',()=>setTimeout(update,0));
+update();
+</script></body></html>

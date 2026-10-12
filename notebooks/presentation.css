@@ -57,4 +57,5 @@ body.jp-Notebook {background:#fff!important;box-shadow:0 12px 60px #142c4308}
 .rl-chapters a {font-size:13px;border:1px solid var(--rl-line);border-radius:9px;padding:8px 13px;color:var(--rl-muted);background:white}
 .rl-chapters b {font-size:11px;margin-right:4px;color:var(--rl-teal)}
 .rl-chapters a:hover {background:#eaf5f2;border-color:#86c8bc}
+@media(max-width:720px) {.rl-annotation-example {height:1650px!important}}
 </style>
