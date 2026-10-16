@@ -66,14 +66,29 @@ def example_document(language='zh'):
             .replace('{{LABELS_JSON}}', json.dumps(labels, ensure_ascii=False).replace('<', '\\u003c')))
 
 
+def annotation_example_frame(language='zh'):
+    """Use IPython's iframe display object while keeping the inline sandbox."""
+    from IPython.display import IFrame
+
+    document = example_document(language)
+    return IFrame(
+        src='about:blank', width='100%', height=1100,
+        extras=[
+            'class="rl-annotation-example"',
+            f'title="{escape(LABELS[language]["title"], quote=True)}"',
+            'sandbox="allow-scripts"',
+            f'srcdoc="{escape(document, quote=True)}"',
+            'style="width:100%;height:1100px;border:1px solid #dce5ed;'
+            'border-radius:18px;background:#f3f7fb"',
+            'loading="lazy"',
+        ],
+    )
+
+
 def annotation_example_html(language='zh'):
-    title = escape(LABELS[language]['title'], quote=True)
-    document = escape(example_document(language), quote=True)
-    return (f'<iframe class="rl-annotation-example" title="{title}" sandbox="allow-scripts" '
-            f'srcdoc="{document}" style="width:100%;height:1100px;border:1px solid #dce5ed;'
-            'border-radius:18px;background:#f3f7fb" loading="lazy"></iframe>')
+    return annotation_example_frame(language)._repr_html_()
 
 
 def show_annotation_example(language='zh'):
-    from IPython.display import HTML, display
-    display(HTML(annotation_example_html(language)))
+    from IPython.display import display
+    display(annotation_example_frame(language))
