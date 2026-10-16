@@ -1,0 +1,9 @@
+run_id,episode_index,sample_id,media_id,frame_index,timestamp_s,similarity
+DEMO_REVIEW_CASE,9001,9001:observation.images.wrist_image_left:42,9001:observation.images.wrist_image_left,42,2.8,0.96
+DEMO_REVIEW_CASE,9002,9002:observation.images.wrist_image_left:42,9002:observation.images.wrist_image_left,42,2.8,0.95
+DEMO_REVIEW_CASE,9003,9003:observation.images.wrist_image_left:42,9003:observation.images.wrist_image_left,42,2.8,0.94
+DEMO_REVIEW_CASE,9004,9004:observation.images.wrist_image_left:42,9004:observation.images.wrist_image_left,42,2.8,0.93
+DEMO_REVIEW_CASE,9005,9005:observation.images.wrist_image_left:42,9005:observation.images.wrist_image_left,42,2.8,0.92
+DEMO_REVIEW_CASE,9006,9006:observation.images.wrist_image_left:42,9006:observation.images.wrist_image_left,42,2.8,0.91
+DEMO_REVIEW_CASE,9007,9007:observation.images.wrist_image_left:42,9007:observation.images.wrist_image_left,42,2.8,0.9
+DEMO_REVIEW_CASE,9008,9008:observation.images.wrist_image_left:42,9008:observation.images.wrist_image_left,42,2.8,0.89

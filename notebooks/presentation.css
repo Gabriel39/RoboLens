@@ -58,4 +58,19 @@ body.jp-Notebook {background:#fff!important;box-shadow:0 12px 60px #142c4308}
 .rl-chapters b {font-size:11px;margin-right:4px;color:var(--rl-teal)}
 .rl-chapters a:hover {background:#eaf5f2;border-color:#86c8bc}
 @media(max-width:720px) {.rl-annotation-example {height:1650px!important}}
+/* Filled review case: compact, explicit examples across chapters 06--08. */
+.rl-case {border:1px solid #d9e5ed;border-radius:18px;background:#f7fafc;padding:24px;margin:12px 0 22px;color:#142c43}
+.rl-case-badge {display:inline-block;border-radius:20px;padding:4px 12px;background:#fff0d8;color:#875908;font-size:12px;font-weight:700}
+.rl-case h3 {margin:16px 0 10px!important;font-size:25px!important}
+.rl-case p {font-size:15px;line-height:1.75}
+.rl-case-focus {border-left:4px solid #078b80;background:#eaf5f1;border-radius:10px;padding:14px 18px;margin:18px 0}
+.rl-case-focus strong {font-size:17px}.rl-case-focus p {margin:5px 0!important}
+.rl-case-flow {display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}.rl-case-flow div {flex:1;min-width:180px;background:#edf2f7;border-radius:10px;padding:12px 16px;font-size:14px}
+.rl-case-bar {display:flex;overflow:hidden;border-radius:10px;margin:18px 0;background:#dce5ed;min-height:48px;color:white;font-weight:700;text-align:center}
+.rl-case-bar span {padding:10px;background:#078b80}.rl-case-bar span+span {background:#c47d20}
+.rl-case-note {font-size:12px!important;color:#60758a}.rl-case-download {display:inline-block;padding:9px 14px;margin:6px 12px 10px 0;border:1px solid #078b80;border-radius:8px;background:white;font-size:13px}
+@media(max-width:720px){.rl-case{padding:15px}.rl-case h3{font-size:21px!important}}
+
+.rl-case .rl-table td {text-align:left!important}
+.rl-case .rl-metrics {grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
 </style>

@@ -1,0 +1,9 @@
+media_id,episode_index,duration_s
+9001:observation.images.wrist_image_left,9001,8.0
+9002:observation.images.wrist_image_left,9002,8.0
+9003:observation.images.wrist_image_left,9003,8.0
+9004:observation.images.wrist_image_left,9004,8.0
+9005:observation.images.wrist_image_left,9005,8.0
+9006:observation.images.wrist_image_left,9006,8.0
+9007:observation.images.wrist_image_left,9007,8.0
+9008:observation.images.wrist_image_left,9008,8.0

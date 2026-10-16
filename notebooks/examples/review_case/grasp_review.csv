@@ -1,0 +1,9 @@
+run_id,sample_id,episode_index,reviewed,is_target_grasp,quality_ok,object_type,scene_type,outcome,failure_stage,failure_reason,clip_start_s,clip_end_s,label_source
+DEMO_REVIEW_CASE,9001:observation.images.wrist_image_left:42,9001,true,true,true,block,tabletop,success,,,2.0,4.5,synthetic_demo
+DEMO_REVIEW_CASE,9002:observation.images.wrist_image_left:42,9002,true,true,true,block,tabletop,failure,lift,slip,2.0,4.5,synthetic_demo
+DEMO_REVIEW_CASE,9003:observation.images.wrist_image_left:42,9003,true,true,true,block,tabletop,unknown,,,2.0,4.5,synthetic_demo
+DEMO_REVIEW_CASE,9004:observation.images.wrist_image_left:42,9004,true,true,true,block,tabletop,success,,,2.0,4.5,synthetic_demo
+DEMO_REVIEW_CASE,9005:observation.images.wrist_image_left:42,9005,true,true,true,block,tabletop,failure,contact,missed_grasp,2.0,4.5,synthetic_demo
+DEMO_REVIEW_CASE,9006:observation.images.wrist_image_left:42,9006,true,true,false,block,tabletop,success,,,2.0,4.5,synthetic_demo
+DEMO_REVIEW_CASE,9007:observation.images.wrist_image_left:42,9007,true,true,true,block,tabletop,success,,,2.0,4.5,synthetic_demo
+DEMO_REVIEW_CASE,9008:observation.images.wrist_image_left:42,9008,true,true,true,block,tabletop,failure,lift,slip,2.0,4.5,synthetic_demo

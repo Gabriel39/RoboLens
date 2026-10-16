@@ -1,0 +1,9 @@
+episode_index,scene_group,split_assignment,used_for_training
+9001,demo_scene_A,train,false
+9002,demo_scene_B,train,false
+9003,demo_scene_C,train,false
+9004,demo_scene_D,train,true
+9005,demo_scene_E,test,false
+9006,demo_scene_F,train,false
+9007,demo_scene_A,train,false
+9008,demo_scene_H,train,false

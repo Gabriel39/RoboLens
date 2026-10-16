@@ -7894,6 +7894,21 @@ body.jp-Notebook {background:#fff!important;box-shadow:0 12px 60px #142c4308}
 .rl-chapters b {font-size:11px;margin-right:4px;color:var(--rl-teal)}
 .rl-chapters a:hover {background:#eaf5f2;border-color:#86c8bc}
 @media(max-width:720px) {.rl-annotation-example {height:1650px!important}}
+/* Filled review case: compact, explicit examples across chapters 06--08. */
+.rl-case {border:1px solid #d9e5ed;border-radius:18px;background:#f7fafc;padding:24px;margin:12px 0 22px;color:#142c43}
+.rl-case-badge {display:inline-block;border-radius:20px;padding:4px 12px;background:#fff0d8;color:#875908;font-size:12px;font-weight:700}
+.rl-case h3 {margin:16px 0 10px!important;font-size:25px!important}
+.rl-case p {font-size:15px;line-height:1.75}
+.rl-case-focus {border-left:4px solid #078b80;background:#eaf5f1;border-radius:10px;padding:14px 18px;margin:18px 0}
+.rl-case-focus strong {font-size:17px}.rl-case-focus p {margin:5px 0!important}
+.rl-case-flow {display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}.rl-case-flow div {flex:1;min-width:180px;background:#edf2f7;border-radius:10px;padding:12px 16px;font-size:14px}
+.rl-case-bar {display:flex;overflow:hidden;border-radius:10px;margin:18px 0;background:#dce5ed;min-height:48px;color:white;font-weight:700;text-align:center}
+.rl-case-bar span {padding:10px;background:#078b80}.rl-case-bar span+span {background:#c47d20}
+.rl-case-note {font-size:12px!important;color:#60758a}.rl-case-download {display:inline-block;padding:9px 14px;margin:6px 12px 10px 0;border:1px solid #078b80;border-radius:8px;background:white;font-size:13px}
+@media(max-width:720px){.rl-case{padding:15px}.rl-case h3{font-size:21px!important}}
+
+.rl-case .rl-table td {text-align:left!important}
+.rl-case .rl-metrics {grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
 </style>
 </div>
 </div>
@@ -8274,67 +8289,229 @@ Do not automatically treat <code>next.reward</code> or <code>next.done</code> as
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<iframe allowfullscreen="" class="rl-annotation-example" frameborder="0" height="1100" loading="lazy" sandbox="allow-scripts" src="about:blank" srcdoc="&lt;!doctype html&gt;&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'&quot;&gt;&lt;title&gt;How do you annotate an attempt?&lt;/title&gt;&lt;style&gt;
-*{box-sizing:border-box}body{margin:0;padding:24px;font:14px/1.6 -apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:#f3f7fb;color:#142c43}h2{font-size:25px;margin:8px 0}h3{font-size:16px;margin:0 0 14px}.badge{display:inline-block;padding:4px 10px;border-radius:20px;background:#fff0d8;color:#875908;font-size:11px;font-weight:700;letter-spacing:1px}.muted{color:#60758a;margin:4px 0 18px}.scene{background:#10283e;border-radius:16px;padding:18px;margin-bottom:20px;color:#fff}.scene p{margin:0 0 10px;color:#c9dbe9}.scene svg{width:100%;height:auto;display:block}.panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.panel{border:1px solid #dce5ed;border-radius:14px;padding:18px;background:white;min-width:0}label{display:block;font-size:12px;color:#60758a;margin:12px 0 5px}input,select,textarea,button{font:inherit}input[type=number],input[type=text],select{width:100%;padding:9px 11px;border:1px solid #cbd8e4;border-radius:8px;color:#142c43;background:#fff}input:focus,select:focus,textarea:focus{outline:2px solid #078b80;outline-offset:1px}.outcomes{display:flex;gap:6px;flex-wrap:wrap}.outcomes label{margin:0;cursor:pointer;display:flex;gap:5px;align-items:center;border:1px solid #dce5ed;padding:7px 9px;border-radius:8px}.outcomes label:has(input:checked){background:#e8f5f1;border-color:#078b80;color:#08766b}.check{display:flex;align-items:center;gap:8px;color:#142c43;font-size:13px}.times{display:grid;grid-template-columns:1fr 1fr;gap:10px}.summary{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}.result{background:#e8f3ef;border-left:3px solid #078b80;border-radius:8px;padding:13px 16px}.result strong{display:block;margin-bottom:4px}.result[data-allowed=false]{background:#fff4e5;border-color:#c18731}.actions{display:flex;gap:10px;align-items:center;margin-top:20px;flex-wrap:wrap}button{cursor:pointer;border:0;padding:10px 18px;border-radius:8px;background:#078b80;color:white;font-weight:600}button[type=reset]{background:#e4ebf2;color:#435d74}.error{color:#ab342b;min-height:24px;margin-top:10px}details{margin-top:12px;border:1px solid #dce5ed;border-radius:10px;padding:12px 16px;background:#fff}summary{cursor:pointer;color:#526c80;font-weight:600}textarea{display:block;resize:vertical;width:100%;min-height:120px;font:12px/1.6 ui-monospace,monospace;border:1px solid #dce5ed;border-radius:6px;padding:10px;white-space:pre;overflow:auto;background:#f8fafc}code{font-size:11px;overflow-wrap:anywhere}.footer{font-size:12px;color:#60758a;margin:14px 0 0}.wide{grid-column:1/-1}@media(max-width:720px){body{padding:14px}.panels{grid-template-columns:1fr}.summary{grid-template-columns:1fr}h2{font-size:21px}.scene{padding:10px}}
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;span class=&quot;badge&quot; data-i18n=&quot;badge&quot;&gt;&lt;/span&gt;&lt;h2 data-i18n=&quot;title&quot;&gt;&lt;/h2&gt;&lt;p class=&quot;muted&quot; data-i18n=&quot;intro&quot;&gt;&lt;/p&gt;
-&lt;div class=&quot;scene&quot;&gt;&lt;p id=&quot;scenario&quot;&gt;&lt;/p&gt;&lt;svg id=&quot;storyboard&quot; viewBox=&quot;0 0 960 210&quot; role=&quot;img&quot; aria-label=&quot;Fictional task: put the block into the container&quot;&gt;&lt;/svg&gt;&lt;/div&gt;
-&lt;form id=&quot;demo-form&quot;&gt;&lt;div class=&quot;panels&quot;&gt;
-&lt;section class=&quot;panel&quot;&gt;&lt;h3 data-i18n=&quot;outcomeTitle&quot;&gt;&lt;/h3&gt;&lt;div class=&quot;outcomes&quot;&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;outcome&quot; value=&quot;success&quot;&gt;&lt;span data-i18n=&quot;success&quot;&gt;&lt;/span&gt;&lt;/label&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;outcome&quot; value=&quot;failure&quot; checked&gt;&lt;span data-i18n=&quot;failure&quot;&gt;&lt;/span&gt;&lt;/label&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;outcome&quot; value=&quot;unknown&quot;&gt;&lt;span data-i18n=&quot;unknown&quot;&gt;&lt;/span&gt;&lt;/label&gt;&lt;/div&gt;
-&lt;label for=&quot;object&quot; data-i18n=&quot;object&quot;&gt;&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;object&quot; value=&quot;block&quot; readonly&gt;&lt;label for=&quot;scene&quot; data-i18n=&quot;scene&quot;&gt;&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;scene&quot; value=&quot;tabletop&quot; readonly&gt;
-&lt;label for=&quot;failure-stage&quot; data-i18n=&quot;stage&quot;&gt;&lt;/label&gt;&lt;select id=&quot;failure-stage&quot;&gt;&lt;option value=&quot;lift&quot; data-i18n=&quot;lift&quot;&gt;&lt;/option&gt;&lt;option value=&quot;contact&quot; data-i18n=&quot;contact&quot;&gt;&lt;/option&gt;&lt;option value=&quot;transport&quot; data-i18n=&quot;transport&quot;&gt;&lt;/option&gt;&lt;/select&gt;
-&lt;label for=&quot;failure-reason&quot; data-i18n=&quot;reason&quot;&gt;&lt;/label&gt;&lt;select id=&quot;failure-reason&quot;&gt;&lt;option value=&quot;slip&quot; data-i18n=&quot;slip&quot;&gt;&lt;/option&gt;&lt;option value=&quot;missed_grasp&quot; data-i18n=&quot;missed&quot;&gt;&lt;/option&gt;&lt;option value=&quot;collision&quot; data-i18n=&quot;collision&quot;&gt;&lt;/option&gt;&lt;/select&gt;&lt;/section&gt;
-&lt;section class=&quot;panel&quot;&gt;&lt;h3 data-i18n=&quot;clipTitle&quot;&gt;&lt;/h3&gt;&lt;p class=&quot;muted&quot; data-i18n=&quot;clipHint&quot;&gt;&lt;/p&gt;&lt;div class=&quot;times&quot;&gt;&lt;div&gt;&lt;label for=&quot;start&quot; data-i18n=&quot;start&quot;&gt;&lt;/label&gt;&lt;input id=&quot;start&quot; type=&quot;number&quot; value=&quot;2&quot; min=&quot;0&quot; max=&quot;8&quot; step=&quot;0.1&quot; required&gt;&lt;/div&gt;&lt;div&gt;&lt;label for=&quot;end&quot; data-i18n=&quot;end&quot;&gt;&lt;/label&gt;&lt;input id=&quot;end&quot; type=&quot;number&quot; value=&quot;4.5&quot; min=&quot;0&quot; max=&quot;8&quot; step=&quot;0.1&quot; required&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;label class=&quot;check&quot;&gt;&lt;input id=&quot;reviewed&quot; type=&quot;checkbox&quot; checked&gt;&lt;span data-i18n=&quot;reviewed&quot;&gt;&lt;/span&gt;&lt;/label&gt;&lt;label class=&quot;check&quot;&gt;&lt;input id=&quot;target&quot; type=&quot;checkbox&quot; checked&gt;&lt;span data-i18n=&quot;target&quot;&gt;&lt;/span&gt;&lt;/label&gt;&lt;label class=&quot;check&quot;&gt;&lt;input id=&quot;quality&quot; type=&quot;checkbox&quot; checked&gt;&lt;span data-i18n=&quot;quality&quot;&gt;&lt;/span&gt;&lt;/label&gt;&lt;/section&gt;
-&lt;section class=&quot;panel&quot;&gt;&lt;h3 data-i18n=&quot;policyTitle&quot;&gt;&lt;/h3&gt;&lt;label for=&quot;group&quot; data-i18n=&quot;group&quot;&gt;&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;group&quot; value=&quot;demo_scene_A&quot; readonly&gt;&lt;label for=&quot;split&quot; data-i18n=&quot;split&quot;&gt;&lt;/label&gt;&lt;select id=&quot;split&quot;&gt;&lt;option value=&quot;train&quot; data-i18n=&quot;train&quot;&gt;&lt;/option&gt;&lt;option value=&quot;validation&quot; data-i18n=&quot;validation&quot;&gt;&lt;/option&gt;&lt;option value=&quot;test&quot; data-i18n=&quot;test&quot;&gt;&lt;/option&gt;&lt;/select&gt;&lt;label class=&quot;check&quot;&gt;&lt;input id=&quot;used&quot; type=&quot;checkbox&quot;&gt;&lt;span data-i18n=&quot;used&quot;&gt;&lt;/span&gt;&lt;/label&gt;&lt;p class=&quot;muted&quot; data-i18n=&quot;groupHint&quot;&gt;&lt;/p&gt;&lt;/section&gt;
-&lt;/div&gt;&lt;div class=&quot;summary&quot;&gt;&lt;div class=&quot;result&quot; id=&quot;stats&quot;&gt;&lt;strong data-i18n=&quot;stats&quot;&gt;&lt;/strong&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;result&quot; id=&quot;training&quot;&gt;&lt;strong data-i18n=&quot;training&quot;&gt;&lt;/strong&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;actions&quot;&gt;&lt;button type=&quot;button&quot; id=&quot;preview-records&quot; data-i18n=&quot;generate&quot;&gt;&lt;/button&gt;&lt;button type=&quot;reset&quot; data-i18n=&quot;reset&quot;&gt;&lt;/button&gt;&lt;span class=&quot;muted&quot; style=&quot;margin:0&quot; data-i18n=&quot;localOnly&quot;&gt;&lt;/span&gt;&lt;/div&gt;&lt;div id=&quot;error&quot; class=&quot;error&quot; role=&quot;alert&quot;&gt;&lt;/div&gt;
-&lt;details id=&quot;records&quot;&gt;&lt;summary data-i18n=&quot;records&quot;&gt;&lt;/summary&gt;&lt;p&gt;&lt;code&gt;grasp_review.csv&lt;/code&gt;&lt;/p&gt;&lt;textarea id=&quot;review-csv&quot; aria-label=&quot;grasp_review.csv&quot; readonly spellcheck=&quot;false&quot;&gt;&lt;/textarea&gt;&lt;p&gt;&lt;code&gt;episode_policy.csv&lt;/code&gt;&lt;/p&gt;&lt;textarea id=&quot;policy-csv&quot; aria-label=&quot;episode_policy.csv&quot; readonly spellcheck=&quot;false&quot;&gt;&lt;/textarea&gt;&lt;p class=&quot;footer&quot; data-i18n=&quot;csvHint&quot;&gt;&lt;/p&gt;&lt;/details&gt;&lt;/form&gt;
-&lt;p class=&quot;footer&quot; data-i18n=&quot;footer&quot;&gt;&lt;/p&gt;
-&lt;script&gt;
-const L={&quot;badge&quot;: &quot;INTERACTIVE EXAMPLE / FICTIONAL DATA&quot;, &quot;title&quot;: &quot;How do you annotate an attempt?&quot;, &quot;intro&quot;: &quot;Change the outcome and training policy to see how review affects analysis and selection. Images, IDs and judgments here are fictional.&quot;, &quot;outcomeTitle&quot;: &quot;01 / Review outcome&quot;, &quot;success&quot;: &quot;Success&quot;, &quot;failure&quot;: &quot;Failure&quot;, &quot;unknown&quot;: &quot;Unknown&quot;, &quot;object&quot;: &quot;Object type&quot;, &quot;scene&quot;: &quot;Scene type&quot;, &quot;stage&quot;: &quot;Failure stage&quot;, &quot;reason&quot;: &quot;Failure reason&quot;, &quot;lift&quot;: &quot;Lift&quot;, &quot;contact&quot;: &quot;Contact&quot;, &quot;transport&quot;: &quot;Transport&quot;, &quot;slip&quot;: &quot;Slip&quot;, &quot;missed&quot;: &quot;Missed grasp&quot;, &quot;collision&quot;: &quot;Collision&quot;, &quot;clipTitle&quot;: &quot;02 / Clip and quality&quot;, &quot;clipHint&quot;: &quot;Assume an 8-second video. Mark a complete attempt rather than only the retrieved frame.&quot;, &quot;start&quot;: &quot;Start / seconds&quot;, &quot;end&quot;: &quot;End / seconds&quot;, &quot;reviewed&quot;: &quot;Complete attempt reviewed&quot;, &quot;target&quot;: &quot;Matches the target grasp task&quot;, &quot;quality&quot;: &quot;Usable video and action data&quot;, &quot;policyTitle&quot;: &quot;03 / Training policy&quot;, &quot;group&quot;: &quot;Scene group&quot;, &quot;split&quot;: &quot;Dataset split&quot;, &quot;train&quot;: &quot;Train&quot;, &quot;validation&quot;: &quot;Validation&quot;, &quot;test&quot;: &quot;Test&quot;, &quot;used&quot;: &quot;Previously used for training&quot;, &quot;groupHint&quot;: &quot;This example assumes no mixed splits in the scene group. Real policy must cover every episode and check group membership.&quot;, &quot;stats&quot;: &quot;Effect on step 07&quot;, &quot;training&quot;: &quot;Effect on step 08&quot;, &quot;statsYes&quot;: &quot;Meets the statistical denominator criteria. This only illustrates rules; no real statistics change.&quot;, &quot;statsNo&quot;: &quot;Excluded from the denominator: check review, task, quality, known outcome and clip bounds.&quot;, &quot;bc&quot;: &quot;Success candidate / bc_positive. Scene deduplication and quotas still apply.&quot;, &quot;critic&quot;: &quot;Failure diagnosis / critic candidate, not a correct-action demonstration.&quot;, &quot;trainNo&quot;: &quot;Not currently eligible: check clip bounds, review, split and training history.&quot;, &quot;generate&quot;: &quot;Preview example records&quot;, &quot;reset&quot;: &quot;Reset example&quot;, &quot;localOnly&quot;: &quot;Page preview only / no saving or submission&quot;, &quot;records&quot;: &quot;Inspect both example CSV records&quot;, &quot;csvHint&quot;: &quot;DEMO_ONLY_DO_NOT_IMPORT marks demo records. Real labels must use the current run_id, sample_id and episode_index; policy must cover every exported episode.&quot;, &quot;footer&quot;: &quot;The storyboard is illustrative. It does not infer real video outcomes. This panel never changes label files, connects to Doris or affects real analysis and selection.&quot;, &quot;invalid&quot;: &quot;Use valid bounds: 0 \u003c= start \u003c end \u003c= 8 seconds. Invalid inputs do not produce records.&quot;, &quot;scenario&quot;: &quot;Fictional task: put the block into the container&quot;, &quot;approach&quot;: &quot;Approach&quot;, &quot;inspect&quot;: &quot;Review the attempt&quot;, &quot;placed&quot;: &quot;Placed in container&quot;, &quot;failed&quot;: &quot;Task incomplete&quot;, &quot;occluded&quot;: &quot;Outcome unclear&quot;, &quot;illustration&quot;: &quot;Illustration / not a real video frame&quot;};
-const el=id=&gt;document.getElementById(id);
-document.querySelectorAll('[data-i18n]').forEach(n=&gt;n.textContent=L[n.dataset.i18n]);
-const fixed={run_id:'DEMO_ONLY_DO_NOT_IMPORT',sample_id:'7:observation.images.wrist_image_left:42',episode_index:7,label_source:'demo_only'};
-const csv=record=&gt;{const quote=v=&gt;'&quot;'+String(v).replaceAll('&quot;','&quot;&quot;')+'&quot;';return Object.keys(record).join(',')+'\n'+Object.values(record).map(quote).join(',')+'\n'};
-const esc=s=&gt;String(s).replaceAll('&amp;','&amp;amp;').replaceAll('&lt;','&amp;lt;').replaceAll('&gt;','&amp;gt;').replaceAll('&quot;','&amp;quot;');
-function draw(outcome){
- const labels=[L.approach,L.inspect,outcome==='success'?L.placed:outcome==='failure'?L.failed:L.occluded];
- el('scenario').textContent=L.scenario+' · '+L[outcome];
- let markup='';
- for(let i=0;i&lt;3;i++){
-  const x=i*320, cubeY=i===0?117:i===1?74:outcome==='success'?119:outcome==='failure'?142:103;
-  const cubeX=i===2&amp;&amp;outcome==='success'?225:i===2&amp;&amp;outcome==='failure'?132:120;
-  markup+=`&lt;g transform=&quot;translate(${x},0)&quot;&gt;&lt;rect x=&quot;5&quot; y=&quot;5&quot; width=&quot;305&quot; height=&quot;192&quot; rx=&quot;12&quot; fill=&quot;#edf3f7&quot;/&gt;&lt;text x=&quot;21&quot; y=&quot;32&quot; fill=&quot;#536d81&quot; font-size=&quot;13&quot;&gt;0${i+1} · ${esc(labels[i])}&lt;/text&gt;&lt;path d=&quot;M28 154 H281&quot; stroke=&quot;#9cb2c3&quot; stroke-width=&quot;4&quot;/&gt;&lt;path d=&quot;M205 115 v34 h58 v-34&quot; fill=&quot;#cce5e1&quot; stroke=&quot;#078b80&quot; stroke-width=&quot;3&quot;/&gt;&lt;path d=&quot;M150 52 v25 m-25 0 h50 m-50 0 v25 m50-25 v25&quot; fill=&quot;none&quot; stroke=&quot;#1b3d57&quot; stroke-width=&quot;7&quot; stroke-linecap=&quot;round&quot;/&gt;&lt;rect x=&quot;${cubeX}&quot; y=&quot;${cubeY}&quot; width=&quot;29&quot; height=&quot;27&quot; rx=&quot;3&quot; fill=&quot;#e0a343&quot;/&gt;${i===2&amp;&amp;outcome==='unknown'?'&lt;rect x=&quot;76&quot; y=&quot;71&quot; width=&quot;116&quot; height=&quot;75&quot; rx=&quot;6&quot; fill=&quot;#b9c7d0&quot; opacity=&quot;.96&quot;/&gt;':''}&lt;text x=&quot;21&quot; y=&quot;181&quot; fill=&quot;#60758a&quot; font-size=&quot;11&quot;&gt;${esc(L.illustration)}&lt;/text&gt;&lt;/g&gt;`;
- }
- el('storyboard').innerHTML=markup;
-}
-function update(){
- const outcome=document.querySelector('[name=outcome]:checked').value;
- const start=Number(el('start').value),end=Number(el('end').value);
- const valid=el('start').value!==''&amp;&amp;el('end').value!==''&amp;&amp;Number.isFinite(start)&amp;&amp;Number.isFinite(end)&amp;&amp;start&gt;=0&amp;&amp;end&gt;start&amp;&amp;end&lt;=8;
- const known=outcome!=='unknown',eligible=valid&amp;&amp;el('reviewed').checked&amp;&amp;el('target').checked&amp;&amp;el('quality').checked&amp;&amp;known;
- const training=eligible&amp;&amp;valid&amp;&amp;el('split').value==='train'&amp;&amp;!el('used').checked;
- el('failure-stage').disabled=el('failure-reason').disabled=outcome!=='failure';
- el('error').textContent=valid?'':L.invalid;
- el('stats').dataset.allowed=String(eligible);
- el('stats').querySelector('span').textContent=eligible?L.statsYes:L.statsNo;
- el('training').dataset.allowed=String(training);
- el('training').querySelector('span').textContent=training?(outcome==='success'?L.bc:L.critic):L.trainNo;
- draw(outcome);
- if(!valid){el('review-csv').value=el('policy-csv').value='';return false;}
- const review={run_id:fixed.run_id,sample_id:fixed.sample_id,episode_index:fixed.episode_index,reviewed:el('reviewed').checked,is_target_grasp:el('target').checked,quality_ok:el('quality').checked,object_type:'block',scene_type:'tabletop',outcome,failure_stage:outcome==='failure'?el('failure-stage').value:'',failure_reason:outcome==='failure'?el('failure-reason').value:'',clip_start_s:start,clip_end_s:end,label_source:fixed.label_source};
- const policy={episode_index:fixed.episode_index,scene_group:'demo_scene_A',split_assignment:el('split').value,used_for_training:el('used').checked};
- el('review-csv').value=csv(review);el('policy-csv').value=csv(policy);return true;
-}
-el('demo-form').addEventListener('input',update);
-el('demo-form').addEventListener('change',update);
-el('demo-form').addEventListener('submit',e=&gt;e.preventDefault());
-el('preview-records').addEventListener('click',()=&gt;{if(update())el('records').open=true;});
-el('demo-form').addEventListener('reset',()=&gt;setTimeout(update,0));
-update();
-&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
-" style="width:100%;height:1100px;border:1px solid #dce5ed;border-radius:18px;background:#f3f7fb" title="How do you annotate an attempt?" width="100%"></iframe>
+<div class="rl-case"><span class="rl-case-badge">FILLED DEMO CASE / FICTIONAL DATA / READY TO PRESENT</span><h3>Eight grasp attempts, already annotated</h3><p>Task: place a tabletop block into a container. These constructed examples feed the analysis and selection shown in steps 07 and 08.</p><div class="rl-metrics"><div class="rl-metric"><strong>8</strong><span>Retrieved attempts</span></div><div class="rl-metric"><strong>8</strong><span>Filled reviews</span></div><div class="rl-metric"><strong>8</strong><span>Filled policies</span></div></div><div aria-label="Eight filled example reviews" class="rl-table-scroll" role="region" tabindex="0"><table class="dataframe rl-table">
+<thead>
+<tr style="text-align: right;">
+<th>Demo episode</th>
+<th>Outcome</th>
+<th>Review explanation</th>
+<th>Clip / seconds</th>
+<th>Split</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="rl-cell">9001</span></td>
+<td><span class="rl-cell">Success</span></td>
+<td><span class="rl-cell">Placed in container</span></td>
+<td><span class="rl-cell">2.0–4.5</span></td>
+<td><span class="rl-cell">train</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9002</span></td>
+<td><span class="rl-cell">Failure</span></td>
+<td><span class="rl-cell">Slipped during lift</span></td>
+<td><span class="rl-cell">2.0–4.5</span></td>
+<td><span class="rl-cell">train</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9003</span></td>
+<td><span class="rl-cell">Unknown</span></td>
+<td><span class="rl-cell">Outcome occluded</span></td>
+<td><span class="rl-cell">2.0–4.5</span></td>
+<td><span class="rl-cell">train</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9004</span></td>
+<td><span class="rl-cell">Success</span></td>
+<td><span class="rl-cell">Success, but already trained on</span></td>
+<td><span class="rl-cell">2.0–4.5</span></td>
+<td><span class="rl-cell">train</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9005</span></td>
+<td><span class="rl-cell">Failure</span></td>
+<td><span class="rl-cell">Missed grasp; held out for test</span></td>
+<td><span class="rl-cell">2.0–4.5</span></td>
+<td><span class="rl-cell">test</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9006</span></td>
+<td><span class="rl-cell">Success</span></td>
+<td><span class="rl-cell">Recorded success, but unusable quality</span></td>
+<td><span class="rl-cell">2.0–4.5</span></td>
+<td><span class="rl-cell">train</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9007</span></td>
+<td><span class="rl-cell">Success</span></td>
+<td><span class="rl-cell">Same scene/use as 9001</span></td>
+<td><span class="rl-cell">2.0–4.5</span></td>
+<td><span class="rl-cell">train</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9008</span></td>
+<td><span class="rl-cell">Failure</span></td>
+<td><span class="rl-cell">Slipped during lift in another scene</span></td>
+<td><span class="rl-cell">2.0–4.5</span></td>
+<td><span class="rl-cell">train</span></td>
+</tr>
+</tbody>
+</table></div><div class="rl-case-focus"><strong>Walk through episode 9002</strong><p>Assume an 8-second video. The reviewer watches 2.0–4.5 seconds and sees the block slip during lift: failure / lift / slip. Quality and task checks pass; the scene is in train and has not been used before.</p></div><details><summary>What does each field mean? Full record for 9002</summary><div aria-label="Demo field meanings" class="rl-table-scroll" role="region" tabindex="0"><table class="dataframe rl-table">
+<thead>
+<tr style="text-align: right;">
+<th>Field</th>
+<th>Value for 9002</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="rl-cell">run_id</span></td>
+<td><span class="rl-cell">DEMO_REVIEW_CASE</span></td>
+<td><span class="rl-cell">Search run ID; DEMO identifies this fictional case</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">sample_id</span></td>
+<td><span class="rl-cell">9002:observation.images.wrist_image_left:42</span></td>
+<td><span class="rl-cell">Hit image: episode 9002 + left wrist camera + frame 42</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">episode_index</span></td>
+<td><span class="rl-cell">9002</span></td>
+<td><span class="rl-cell">Episode identifier; 9002 is fictional</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">reviewed</span></td>
+<td><span class="rl-cell">True</span></td>
+<td><span class="rl-cell">true: reviewer is assumed to have watched the complete attempt</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">is_target_grasp</span></td>
+<td><span class="rl-cell">True</span></td>
+<td><span class="rl-cell">true: this is the target grasp task</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">quality_ok</span></td>
+<td><span class="rl-cell">True</span></td>
+<td><span class="rl-cell">true: video and action data are usable</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">object_type</span></td>
+<td><span class="rl-cell">block</span></td>
+<td><span class="rl-cell">block: the grasped object</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">scene_type</span></td>
+<td><span class="rl-cell">tabletop</span></td>
+<td><span class="rl-cell">tabletop: the environment</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">outcome</span></td>
+<td><span class="rl-cell">failure</span></td>
+<td><span class="rl-cell">failure: this complete attempt failed</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">failure_stage</span></td>
+<td><span class="rl-cell">lift</span></td>
+<td><span class="rl-cell">lift: failure occurred while lifting</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">failure_reason</span></td>
+<td><span class="rl-cell">slip</span></td>
+<td><span class="rl-cell">slip: the object slipped from the gripper</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">clip_start_s</span></td>
+<td><span class="rl-cell">2.0</span></td>
+<td><span class="rl-cell">Attempt starts 2.0 seconds into the video</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">clip_end_s</span></td>
+<td><span class="rl-cell">4.5</span></td>
+<td><span class="rl-cell">Attempt ends at 4.5 seconds; a 2.5-second clip, not just one frame</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">label_source</span></td>
+<td><span class="rl-cell">synthetic_demo</span></td>
+<td><span class="rl-cell">synthetic_demo: constructed example, not a real human review</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">scene_group</span></td>
+<td><span class="rl-cell">demo_scene_B</span></td>
+<td><span class="rl-cell">Scene/session group for deduplication and split isolation</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">split_assignment</span></td>
+<td><span class="rl-cell">train</span></td>
+<td><span class="rl-cell">train: eligible split; test/validation must be held out</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">used_for_training</span></td>
+<td><span class="rl-cell">False</span></td>
+<td><span class="rl-cell">false: not previously used for training</span></td>
+</tr>
+</tbody>
+</table></div></details><details><summary>Filled CSV files (optional download; no editing needed)</summary><p>grasp_review records the attempt outcome; episode_policy records its training policy. Both contain eight filled rows.</p><a class="rl-case-download" download="demo_grasp_review.csv" href="data:text/csv;base64,cnVuX2lkLHNhbXBsZV9pZCxlcGlzb2RlX2luZGV4LHJldmlld2VkLGlzX3RhcmdldF9ncmFzcCxxdWFsaXR5X29rLG9iamVjdF90eXBlLHNjZW5lX3R5cGUsb3V0Y29tZSxmYWlsdXJlX3N0YWdlLGZhaWx1cmVfcmVhc29uLGNsaXBfc3RhcnRfcyxjbGlwX2VuZF9zLGxhYmVsX3NvdXJjZQpERU1PX1JFVklFV19DQVNFLDkwMDE6b2JzZXJ2YXRpb24uaW1hZ2VzLndyaXN0X2ltYWdlX2xlZnQ6NDIsOTAwMSx0cnVlLHRydWUsdHJ1ZSxibG9jayx0YWJsZXRvcCxzdWNjZXNzLCwsMi4wLDQuNSxzeW50aGV0aWNfZGVtbwpERU1PX1JFVklFV19DQVNFLDkwMDI6b2JzZXJ2YXRpb24uaW1hZ2VzLndyaXN0X2ltYWdlX2xlZnQ6NDIsOTAwMix0cnVlLHRydWUsdHJ1ZSxibG9jayx0YWJsZXRvcCxmYWlsdXJlLGxpZnQsc2xpcCwyLjAsNC41LHN5bnRoZXRpY19kZW1vCkRFTU9fUkVWSUVXX0NBU0UsOTAwMzpvYnNlcnZhdGlvbi5pbWFnZXMud3Jpc3RfaW1hZ2VfbGVmdDo0Miw5MDAzLHRydWUsdHJ1ZSx0cnVlLGJsb2NrLHRhYmxldG9wLHVua25vd24sLCwyLjAsNC41LHN5bnRoZXRpY19kZW1vCkRFTU9fUkVWSUVXX0NBU0UsOTAwNDpvYnNlcnZhdGlvbi5pbWFnZXMud3Jpc3RfaW1hZ2VfbGVmdDo0Miw5MDA0LHRydWUsdHJ1ZSx0cnVlLGJsb2NrLHRhYmxldG9wLHN1Y2Nlc3MsLCwyLjAsNC41LHN5bnRoZXRpY19kZW1vCkRFTU9fUkVWSUVXX0NBU0UsOTAwNTpvYnNlcnZhdGlvbi5pbWFnZXMud3Jpc3RfaW1hZ2VfbGVmdDo0Miw5MDA1LHRydWUsdHJ1ZSx0cnVlLGJsb2NrLHRhYmxldG9wLGZhaWx1cmUsY29udGFjdCxtaXNzZWRfZ3Jhc3AsMi4wLDQuNSxzeW50aGV0aWNfZGVtbwpERU1PX1JFVklFV19DQVNFLDkwMDY6b2JzZXJ2YXRpb24uaW1hZ2VzLndyaXN0X2ltYWdlX2xlZnQ6NDIsOTAwNix0cnVlLHRydWUsZmFsc2UsYmxvY2ssdGFibGV0b3Asc3VjY2VzcywsLDIuMCw0LjUsc3ludGhldGljX2RlbW8KREVNT19SRVZJRVdfQ0FTRSw5MDA3Om9ic2VydmF0aW9uLmltYWdlcy53cmlzdF9pbWFnZV9sZWZ0OjQyLDkwMDcsdHJ1ZSx0cnVlLHRydWUsYmxvY2ssdGFibGV0b3Asc3VjY2VzcywsLDIuMCw0LjUsc3ludGhldGljX2RlbW8KREVNT19SRVZJRVdfQ0FTRSw5MDA4Om9ic2VydmF0aW9uLmltYWdlcy53cmlzdF9pbWFnZV9sZWZ0OjQyLDkwMDgsdHJ1ZSx0cnVlLHRydWUsYmxvY2ssdGFibGV0b3AsZmFpbHVyZSxsaWZ0LHNsaXAsMi4wLDQuNSxzeW50aGV0aWNfZGVtbwo=">Download filled grasp_review.csv</a><a class="rl-case-download" download="demo_episode_policy.csv" href="data:text/csv;base64,ZXBpc29kZV9pbmRleCxzY2VuZV9ncm91cCxzcGxpdF9hc3NpZ25tZW50LHVzZWRfZm9yX3RyYWluaW5nCjkwMDEsZGVtb19zY2VuZV9BLHRyYWluLGZhbHNlCjkwMDIsZGVtb19zY2VuZV9CLHRyYWluLGZhbHNlCjkwMDMsZGVtb19zY2VuZV9DLHRyYWluLGZhbHNlCjkwMDQsZGVtb19zY2VuZV9ELHRyYWluLHRydWUKOTAwNSxkZW1vX3NjZW5lX0UsdGVzdCxmYWxzZQo5MDA2LGRlbW9fc2NlbmVfRix0cmFpbixmYWxzZQo5MDA3LGRlbW9fc2NlbmVfQSx0cmFpbixmYWxzZQo5MDA4LGRlbW9fc2NlbmVfSCx0cmFpbixmYWxzZQo=">Download filled episode_policy.csv</a><div aria-label="episode_policy.csv" class="rl-table-scroll" role="region" tabindex="0"><table class="dataframe rl-table">
+<thead>
+<tr style="text-align: right;">
+<th>episode_index</th>
+<th>scene_group</th>
+<th>split_assignment</th>
+<th>used_for_training</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="rl-cell">9001</span></td>
+<td><span class="rl-cell">demo_scene_A</span></td>
+<td><span class="rl-cell">train</span></td>
+<td><span class="rl-cell">False</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9002</span></td>
+<td><span class="rl-cell">demo_scene_B</span></td>
+<td><span class="rl-cell">train</span></td>
+<td><span class="rl-cell">False</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9003</span></td>
+<td><span class="rl-cell">demo_scene_C</span></td>
+<td><span class="rl-cell">train</span></td>
+<td><span class="rl-cell">False</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9004</span></td>
+<td><span class="rl-cell">demo_scene_D</span></td>
+<td><span class="rl-cell">train</span></td>
+<td><span class="rl-cell">True</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9005</span></td>
+<td><span class="rl-cell">demo_scene_E</span></td>
+<td><span class="rl-cell">test</span></td>
+<td><span class="rl-cell">False</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9006</span></td>
+<td><span class="rl-cell">demo_scene_F</span></td>
+<td><span class="rl-cell">train</span></td>
+<td><span class="rl-cell">False</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9007</span></td>
+<td><span class="rl-cell">demo_scene_A</span></td>
+<td><span class="rl-cell">train</span></td>
+<td><span class="rl-cell">False</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9008</span></td>
+<td><span class="rl-cell">demo_scene_H</span></td>
+<td><span class="rl-cell">train</span></td>
+<td><span class="rl-cell">False</span></td>
+</tr>
+</tbody>
+</table></div></details><p class="rl-case-note">IDs 9001–9008, labels and scores are fictional. Existing analysis/selection SQL runs on isolated in-memory data. Nothing is written to Doris or substituted for live search results.</p></div>
 </div>
 </div>
 </div>
@@ -8348,13 +8525,14 @@ update();
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <details>
-<summary>Enter review labels</summary>
-<p>Fill <code>work/notebook/labels/grasp_review.csv</code> and <code>episode_policy.csv</code>; the next cell copies empty templates on its first run.
-The review's run_id, sample_id, and episode_index must match the current search. Outcome is success, failure, or unknown.
-episode_policy must cover <strong>every exported episode</strong>, including validation/test data. See <a href="../doris/README.md">field rules</a>.
-Without labels, retrieval can still be demonstrated, but no valid failure rate can be calculated.</p>
-<p>After labeling, set only <code>IMPORT_LABELS</code> to True and continue from this cell. Do not rerun the configuration cell that generates a new RUN_ID.
-You can run <code>IMPORT_LABELS = True</code> in a new cell to preserve the current search.</p>
+<summary>Optional: import real reviews (not needed for this demo)</summary>
+<p>All eight example reviews and policies are already filled. Steps 07 and 08 show their analysis and selection; no CSV editing or import is required.
+The fictional records use a separate <code>DEMO_REVIEW_CASE</code> run and are never written to live Doris tables.</p>
+<p>The next cell is only for separately prepared real labels: <code>work/notebook/labels/grasp_review.csv</code> stores reviews;
+<code>episode_policy.csv</code> stores scene groups, splits and training history. Reviews must match the current <code>RUN_ID</code> and hits;
+policy must cover every actually exported episode. Empty live files do not affect the example.</p>
+<p>To import real labels, set <code>IMPORT_LABELS = True</code> separately and run the next cell without regenerating <code>RUN_ID</code>.
+See <code>doris/README.md</code> for field rules.</p>
 </details>
 </div>
 </div>
@@ -8391,6 +8569,39 @@ These results describe the retrieved cohort, not the robot's deployment-wide fai
 </div>
 </div>
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noInput" id="cell-id=filled-case-analysis">
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<div class="rl-case"><span class="rl-case-badge">FILLED DEMO CASE / FICTIONAL DATA / READY TO PRESENT</span><h3>8 records → 6 eligible → 3 failures</h3><div class="rl-metrics"><div class="rl-metric"><strong>8/8</strong><span>Reviewed / retrieved</span></div><div class="rl-metric"><strong>6</strong><span>Eligible denominator</span></div><div class="rl-metric"><strong>3/6</strong><span>Failures / eligible</span></div><div class="rl-metric"><strong>50%</strong><span>Demo failure rate</span></div></div><div class="rl-case-flow"><div>9003: unknown → excluded</div><div>9006: poor quality → excluded</div><div>Remaining six → included</div></div><div aria-label="Eligible: 3 successes, 3 failures" class="rl-case-bar" role="img"><span style="flex:3">Success 3</span><span style="flex:3">Failure 3</span></div><p>50% = 3 failures / 6 eligible attempts, not 3 / 8. Already-trained 9004 and test-split 9005 still count in this review cohort; training eligibility is checked separately.</p><div aria-label="Failure reasons" class="rl-table-scroll" role="region" tabindex="0"><table class="dataframe rl-table">
+<thead>
+<tr style="text-align: right;">
+<th>Failure stage</th>
+<th>Reason</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="rl-cell">lift</span></td>
+<td><span class="rl-cell">slip</span></td>
+<td><span class="rl-cell">2</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">contact</span></td>
+<td><span class="rl-cell">missed_grasp</span></td>
+<td><span class="rl-cell">1</span></td>
+</tr>
+</tbody>
+</table></div><p class="rl-case-note">Two lift/slip failures (9002, 9008), one contact/missed_grasp failure (9005). This fictional cohort does not measure deployment performance.</p><p class="rl-case-note">IDs 9001–9008, labels and scores are fictional. Existing analysis/selection SQL runs on isolated in-memory data. Nothing is written to Doris or substituted for live search results.</p></div>
+</div>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs jp-mod-noInput" id="cell-id=droid100-028">
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=droid100-029">
@@ -8419,6 +8630,121 @@ Success clips are behavior-cloning positives; failures are diagnosis or critic c
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedSVG jp-OutputArea-output" data-mime-type="image/svg+xml" tabindex="0">
 <img alt="Match each candidate to its training use" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTIwIiBoZWlnaHQ9IjQxMCIgdmlld0JveD0iMCAwIDExMjAgNDEwIiByb2xlPSJpbWciIGFyaWEtbGFiZWxsZWRieT0idGl0bGUgZGVzYyI+PHRpdGxlIGlkPSJ0aXRsZSI+TWF0Y2ggZWFjaCBjYW5kaWRhdGUgdG8gaXRzIHRyYWluaW5nIHVzZTwvdGl0bGU+PGRlc2MgaWQ9ImRlc2MiPlNBTVBMRSBTRUxFQ1RJT04uIEV4Y2x1ZGUgdHJhaW5lZCBhbmQgaGVsZC1vdXQgZGF0YS4gU3VjY2VzczogaW1pdGF0aW9uLiBGYWlsdXJlOiBkaWFnbm9zaXMgLyBjcml0aWMuPC9kZXNjPjxnIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgQ0pLIFNDLE1pY3Jvc29mdCBZYUhlaSxQaW5nRmFuZyBTQyxBcmlhbCxzYW5zLXNlcmlmIj48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTEyMCIgaGVpZ2h0PSI0MTAiIHJ4PSIyNCIgZmlsbD0iI2YxZjVmOSIgc3Ryb2tlPSJub25lIi8+PHRleHQgeD0iMzAiIHk9IjMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjA3NThhIiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPlNBTVBMRSBTRUxFQ1RJT048L3RleHQ+PGNpcmNsZSBjeD0iNDQiIGN5PSI2OSIgcj0iMTQiIGZpbGw9IiNlOWVmZmEiIHN0cm9rZT0ibm9uZSIvPjx0ZXh0IHg9IjQ0IiB5PSI3NCIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzM3NmNmMCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MDE8L3RleHQ+PHRleHQgeD0iNzAiIHk9Ijc2IiBmb250LXNpemU9IjIxIiBmaWxsPSIjMTQyYzQzIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPkZpbHRlcjwvdGV4dD48dGV4dCB4PSI3MCIgeT0iMTA0IiBmb250LXNpemU9IjE0IiBmaWxsPSIjNjA3NThhIiBmb250LXdlaWdodD0iNDAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPmVsaWdpYmlsaXR5PC90ZXh0PjxjaXJjbGUgY3g9IjQxNCIgY3k9IjY5IiByPSIxNCIgZmlsbD0iI2U5ZWZmYSIgc3Ryb2tlPSJub25lIi8+PHRleHQgeD0iNDE0IiB5PSI3NCIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzM3NmNmMCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MDI8L3RleHQ+PHRleHQgeD0iNDQwIiB5PSI3NiIgZm9udC1zaXplPSIyMSIgZmlsbD0iIzE0MmM0MyIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9InN0YXJ0Ij5EZWR1cGxpY2F0ZTwvdGV4dD48dGV4dCB4PSI0NDAiIHk9IjEwNCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzYwNzU4YSIgZm9udC13ZWlnaHQ9IjQwMCIgdGV4dC1hbmNob3I9InN0YXJ0Ij5zY2VuZSBncm91cHM8L3RleHQ+PGNpcmNsZSBjeD0iNzg0IiBjeT0iNjkiIHI9IjE0IiBmaWxsPSIjZTllZmZhIiBzdHJva2U9Im5vbmUiLz48dGV4dCB4PSI3ODQiIHk9Ijc0IiBmb250LXNpemU9IjEyIiBmaWxsPSIjMzc2Y2YwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4wMzwvdGV4dD48dGV4dCB4PSI4MTAiIHk9Ijc2IiBmb250LXNpemU9IjIxIiBmaWxsPSIjMTQyYzQzIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPkFzc2lnbiB1c2U8L3RleHQ+PHRleHQgeD0iODEwIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM2MDc1OGEiIGZvbnQtd2VpZ2h0PSI0MDAiIHRleHQtYW5jaG9yPSJzdGFydCI+dHJhaW5pbmcgcHVycG9zZTwvdGV4dD48cmVjdCB4PSI0NyIgeT0iMTQ5IiB3aWR0aD0iMjU1IiBoZWlnaHQ9IjM2IiByeD0iMTAiIGZpbGw9IiNmZmYiIHN0cm9rZT0ibm9uZSIvPjxjaXJjbGUgY3g9IjY4IiBjeT0iMTY3IiByPSI4IiBmaWxsPSIjMDc4YjgwIiBzdHJva2U9Im5vbmUiLz48dGV4dCB4PSI4NiIgeT0iMTczIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMTQyYzQzIiBmb250LXdlaWdodD0iNTAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPmtub3duIGhpc3Rvcnk8L3RleHQ+PHJlY3QgeD0iNDciIHk9IjE5OCIgd2lkdGg9IjI1NSIgaGVpZ2h0PSIzNiIgcng9IjEwIiBmaWxsPSIjZmZmIiBzdHJva2U9Im5vbmUiLz48Y2lyY2xlIGN4PSI2OCIgY3k9IjIxNiIgcj0iOCIgZmlsbD0iIzA3OGI4MCIgc3Ryb2tlPSJub25lIi8+PHRleHQgeD0iODYiIHk9IjIyMiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzE0MmM0MyIgZm9udC13ZWlnaHQ9IjUwMCIgdGV4dC1hbmNob3I9InN0YXJ0Ij50cmFpbiBzcGxpdDwvdGV4dD48cmVjdCB4PSI0NyIgeT0iMjQ3IiB3aWR0aD0iMjU1IiBoZWlnaHQ9IjM2IiByeD0iMTAiIGZpbGw9IiNmZmYiIHN0cm9rZT0ibm9uZSIvPjxjaXJjbGUgY3g9IjY4IiBjeT0iMjY1IiByPSI4IiBmaWxsPSIjMDc4YjgwIiBzdHJva2U9Im5vbmUiLz48dGV4dCB4PSI4NiIgeT0iMjcxIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMTQyYzQzIiBmb250LXdlaWdodD0iNTAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPnVzYWJsZSBjbGlwPC90ZXh0PjxyZWN0IHg9IjQ1OSIgeT0iMTU4IiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEyOCIgcng9IjEwIiBmaWxsPSIjZmZmIiBzdHJva2U9IiNjNmQ0ZTEiLz48cmVjdCB4PSI0NzMiIHk9IjE3NSIgd2lkdGg9IjMxIiBoZWlnaHQ9IjgiIHJ4PSI0IiBmaWxsPSIjMzc2Y2YwIiBzdHJva2U9Im5vbmUiLz48cmVjdCB4PSI0NzMiIHk9IjIwMCIgd2lkdGg9IjcwIiBoZWlnaHQ9IjUiIHJ4PSIyIiBmaWxsPSIjY2ZkYWU0IiBzdHJva2U9Im5vbmUiLz48cmVjdCB4PSI0NzMiIHk9IjIxNiIgd2lkdGg9IjU1IiBoZWlnaHQ9IjUiIHJ4PSIyIiBmaWxsPSIjY2ZkYWU0IiBzdHJva2U9Im5vbmUiLz48cmVjdCB4PSI0NzMiIHk9IjIzMiIgd2lkdGg9IjY1IiBoZWlnaHQ9IjUiIHJ4PSIyIiBmaWxsPSIjY2ZkYWU0IiBzdHJva2U9Im5vbmUiLz48cmVjdCB4PSI0NzMiIHk9IjI0OCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjUiIHJ4PSIyIiBmaWxsPSIjY2ZkYWU0IiBzdHJva2U9Im5vbmUiLz48cmVjdCB4PSI0ODciIHk9IjE0OCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMjgiIHJ4PSIxMCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYzZkNGUxIi8+PHJlY3QgeD0iNTAxIiB5PSIxNjUiIHdpZHRoPSIzMSIgaGVpZ2h0PSI4IiByeD0iNCIgZmlsbD0iIzM3NmNmMCIgc3Ryb2tlPSJub25lIi8+PHJlY3QgeD0iNTAxIiB5PSIxOTAiIHdpZHRoPSI3MCIgaGVpZ2h0PSI1IiByeD0iMiIgZmlsbD0iI2NmZGFlNCIgc3Ryb2tlPSJub25lIi8+PHJlY3QgeD0iNTAxIiB5PSIyMDYiIHdpZHRoPSI1NSIgaGVpZ2h0PSI1IiByeD0iMiIgZmlsbD0iI2NmZGFlNCIgc3Ryb2tlPSJub25lIi8+PHJlY3QgeD0iNTAxIiB5PSIyMjIiIHdpZHRoPSI2NSIgaGVpZ2h0PSI1IiByeD0iMiIgZmlsbD0iI2NmZGFlNCIgc3Ryb2tlPSJub25lIi8+PHJlY3QgeD0iNTAxIiB5PSIyMzgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI1IiByeD0iMiIgZmlsbD0iI2NmZGFlNCIgc3Ryb2tlPSJub25lIi8+PHJlY3QgeD0iNTE1IiB5PSIxMzgiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTI4IiByeD0iMTAiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2M2ZDRlMSIvPjxyZWN0IHg9IjUyOSIgeT0iMTU1IiB3aWR0aD0iMzEiIGhlaWdodD0iOCIgcng9IjQiIGZpbGw9IiMwNzhiODAiIHN0cm9rZT0ibm9uZSIvPjxyZWN0IHg9IjUyOSIgeT0iMTgwIiB3aWR0aD0iNzAiIGhlaWdodD0iNSIgcng9IjIiIGZpbGw9IiNjZmRhZTQiIHN0cm9rZT0ibm9uZSIvPjxyZWN0IHg9IjUyOSIgeT0iMTk2IiB3aWR0aD0iNTUiIGhlaWdodD0iNSIgcng9IjIiIGZpbGw9IiNjZmRhZTQiIHN0cm9rZT0ibm9uZSIvPjxyZWN0IHg9IjUyOSIgeT0iMjEyIiB3aWR0aD0iNjUiIGhlaWdodD0iNSIgcng9IjIiIGZpbGw9IiNjZmRhZTQiIHN0cm9rZT0ibm9uZSIvPjxyZWN0IHg9IjUyOSIgeT0iMjI4IiB3aWR0aD0iNDgiIGhlaWdodD0iNSIgcng9IjIiIGZpbGw9IiNjZmRhZTQiIHN0cm9rZT0ibm9uZSIvPjxyZWN0IHg9Ijc5NiIgeT0iMTQyIiB3aWR0aD0iMjY5IiBoZWlnaHQ9Ijc0IiByeD0iMTMiIGZpbGw9IiNmZmYiIHN0cm9rZT0ibm9uZSIvPjxyZWN0IHg9Ijc5NiIgeT0iMTQyIiB3aWR0aD0iNSIgaGVpZ2h0PSI3NCIgcng9IjIiIGZpbGw9IiMwNzhiODAiIHN0cm9rZT0ibm9uZSIvPjx0ZXh0IHg9IjgxNyIgeT0iMTY4IiBmb250LXNpemU9IjEyIiBmaWxsPSIjMDc4YjgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPlNVQ0NFU1M8L3RleHQ+PHRleHQgeD0iODE3IiB5PSIxOTQiIGZvbnQtc2l6ZT0iMTkiIGZpbGw9IiMxNDJjNDMiIGZvbnQtd2VpZ2h0PSI2MDAiIHRleHQtYW5jaG9yPSJzdGFydCI+SW1pdGF0aW9uIC8gQkM8L3RleHQ+PHJlY3QgeD0iNzk2IiB5PSIyMjkiIHdpZHRoPSIyNjkiIGhlaWdodD0iNzQiIHJ4PSIxMyIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSJub25lIi8+PHJlY3QgeD0iNzk2IiB5PSIyMjkiIHdpZHRoPSI1IiBoZWlnaHQ9Ijc0IiByeD0iMiIgZmlsbD0iI2Q4OTUzNiIgc3Ryb2tlPSJub25lIi8+PHRleHQgeD0iODE3IiB5PSIyNTUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNkODk1MzYiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJzdGFydCI+RkFJTFVSRTwvdGV4dD48dGV4dCB4PSI4MTciIHk9IjI4MSIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzE0MmM0MyIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9InN0YXJ0Ij5EaWFnbm9zaXMgLyBjcml0aWM8L3RleHQ+PHBhdGggZD0iTTMyNywyMTkgTDQwMywyMTkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzkzYTZiNSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtZGFzaGFycmF5PSIiLz48cGF0aCBkPSJNMzk1LDIxNCBMNDAzLDIxOSBMMzk1LDIyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOTNhNmI1IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNNjg2LDIxOSBMNzY5LDIxOSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOTNhNmI1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IiIvPjxwYXRoIGQ9Ik03NjEsMjE0IEw3NjksMjE5IEw3NjEsMjI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM5M2E2YjUiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0zMCwzNDggTDEwOTAsMzQ4IiBmaWxsPSJub25lIiBzdHJva2U9IiNkNWUxZWIiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWRhc2hhcnJheT0iIi8+PHRleHQgeD0iMzAiIHk9IjM4MCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzYwNzU4YSIgZm9udC13ZWlnaHQ9IjQwMCIgdGV4dC1hbmNob3I9InN0YXJ0Ij5FeGNsdWRlIHRyYWluZWQgYW5kIGhlbGQtb3V0IGRhdGEuIFN1Y2Nlc3M6IGltaXRhdGlvbi4gRmFpbHVyZTogZGlhZ25vc2lzIC8gY3JpdGljLjwvdGV4dD48L2c+PC9zdmc+"/>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noInput" id="cell-id=filled-case-training">
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<div class="rl-case"><span class="rl-case-badge">FILLED DEMO CASE / FICTIONAL DATA / READY TO PRESENT</span><h3>Three candidates, with different purposes</h3><div class="rl-metrics"><div class="rl-metric"><strong>1</strong><span>Success demonstration</span></div><div class="rl-metric"><strong>2</strong><span>Failure diagnosis candidates</span></div></div><div aria-label="Disposition of all eight cases" class="rl-table-scroll" role="region" tabindex="0"><table class="dataframe rl-table">
+<thead>
+<tr style="text-align: right;">
+<th>Demo episode</th>
+<th>Decision and reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="rl-cell">9001</span></td>
+<td><span class="rl-cell">Keep: successful-action demonstration</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9002</span></td>
+<td><span class="rl-cell">Keep: failure diagnosis / critic candidate</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9003</span></td>
+<td><span class="rl-cell">Excluded: outcome is unknown</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9004</span></td>
+<td><span class="rl-cell">Excluded: already used for training</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9005</span></td>
+<td><span class="rl-cell">Excluded: held-out test split</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9006</span></td>
+<td><span class="rl-cell">Excluded: unusable video/action quality</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9007</span></td>
+<td><span class="rl-cell">Deduplicated: same scene/use as 9001; keep its higher-scoring match</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9008</span></td>
+<td><span class="rl-cell">Keep: failure diagnosis / critic candidate</span></td>
+</tr>
+</tbody>
+</table></div><div class="rl-case-focus"><strong>The three selected clips</strong><p>9001 → bc_positive; 9002 and 9008 → failure_diagnosis_or_critic. Each clip spans 2.0–4.5 seconds. Failed actions are not correct-action targets; no model training is started.</p></div><details><summary>Inspect complete training candidate records</summary><div aria-label="Demo training candidates" class="rl-table-scroll" role="region" tabindex="0"><table class="dataframe rl-table">
+<thead>
+<tr style="text-align: right;">
+<th>episode_index</th>
+<th>sample_id</th>
+<th>media_id</th>
+<th>object_type</th>
+<th>scene_type</th>
+<th>training_use</th>
+<th>failure_stage</th>
+<th>failure_reason</th>
+<th>scene_group</th>
+<th>clip_start_s</th>
+<th>clip_end_s</th>
+<th>similarity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="rl-cell">9001</span></td>
+<td><span class="rl-cell">9001:observation.images.wrist_image_left:42</span></td>
+<td><span class="rl-cell">9001:observation.images.wrist_image_left</span></td>
+<td><span class="rl-cell">block</span></td>
+<td><span class="rl-cell">tabletop</span></td>
+<td><span class="rl-cell">bc_positive</span></td>
+<td><span class="rl-cell"></span></td>
+<td><span class="rl-cell"></span></td>
+<td><span class="rl-cell">demo_scene_A</span></td>
+<td><span class="rl-cell">2.0</span></td>
+<td><span class="rl-cell">4.5</span></td>
+<td><span class="rl-cell">0.96</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9002</span></td>
+<td><span class="rl-cell">9002:observation.images.wrist_image_left:42</span></td>
+<td><span class="rl-cell">9002:observation.images.wrist_image_left</span></td>
+<td><span class="rl-cell">block</span></td>
+<td><span class="rl-cell">tabletop</span></td>
+<td><span class="rl-cell">failure_diagnosis_or_critic</span></td>
+<td><span class="rl-cell">lift</span></td>
+<td><span class="rl-cell">slip</span></td>
+<td><span class="rl-cell">demo_scene_B</span></td>
+<td><span class="rl-cell">2.0</span></td>
+<td><span class="rl-cell">4.5</span></td>
+<td><span class="rl-cell">0.95</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9008</span></td>
+<td><span class="rl-cell">9008:observation.images.wrist_image_left:42</span></td>
+<td><span class="rl-cell">9008:observation.images.wrist_image_left</span></td>
+<td><span class="rl-cell">block</span></td>
+<td><span class="rl-cell">tabletop</span></td>
+<td><span class="rl-cell">failure_diagnosis_or_critic</span></td>
+<td><span class="rl-cell">lift</span></td>
+<td><span class="rl-cell">slip</span></td>
+<td><span class="rl-cell">demo_scene_H</span></td>
+<td><span class="rl-cell">2.0</span></td>
+<td><span class="rl-cell">4.5</span></td>
+<td><span class="rl-cell">0.89</span></td>
+</tr>
+</tbody>
+</table></div></details><p class="rl-case-note">IDs 9001–9008, labels and scores are fictional. Existing analysis/selection SQL runs on isolated in-memory data. Nothing is written to Doris or substituted for live search results.</p></div>
 </div>
 </div>
 </div>

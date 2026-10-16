@@ -7894,6 +7894,21 @@ body.jp-Notebook {background:#fff!important;box-shadow:0 12px 60px #142c4308}
 .rl-chapters b {font-size:11px;margin-right:4px;color:var(--rl-teal)}
 .rl-chapters a:hover {background:#eaf5f2;border-color:#86c8bc}
 @media(max-width:720px) {.rl-annotation-example {height:1650px!important}}
+/* Filled review case: compact, explicit examples across chapters 06--08. */
+.rl-case {border:1px solid #d9e5ed;border-radius:18px;background:#f7fafc;padding:24px;margin:12px 0 22px;color:#142c43}
+.rl-case-badge {display:inline-block;border-radius:20px;padding:4px 12px;background:#fff0d8;color:#875908;font-size:12px;font-weight:700}
+.rl-case h3 {margin:16px 0 10px!important;font-size:25px!important}
+.rl-case p {font-size:15px;line-height:1.75}
+.rl-case-focus {border-left:4px solid #078b80;background:#eaf5f1;border-radius:10px;padding:14px 18px;margin:18px 0}
+.rl-case-focus strong {font-size:17px}.rl-case-focus p {margin:5px 0!important}
+.rl-case-flow {display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}.rl-case-flow div {flex:1;min-width:180px;background:#edf2f7;border-radius:10px;padding:12px 16px;font-size:14px}
+.rl-case-bar {display:flex;overflow:hidden;border-radius:10px;margin:18px 0;background:#dce5ed;min-height:48px;color:white;font-weight:700;text-align:center}
+.rl-case-bar span {padding:10px;background:#078b80}.rl-case-bar span+span {background:#c47d20}
+.rl-case-note {font-size:12px!important;color:#60758a}.rl-case-download {display:inline-block;padding:9px 14px;margin:6px 12px 10px 0;border:1px solid #078b80;border-radius:8px;background:white;font-size:13px}
+@media(max-width:720px){.rl-case{padding:15px}.rl-case h3{font-size:21px!important}}
+
+.rl-case .rl-table td {text-align:left!important}
+.rl-case .rl-metrics {grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
 </style>
 </div>
 </div>
@@ -8274,67 +8289,229 @@ SHOW INDEX FROM `droid100`.`default`.`frame_embeddings`;
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<iframe allowfullscreen="" class="rl-annotation-example" frameborder="0" height="1100" loading="lazy" sandbox="allow-scripts" src="about:blank" srcdoc="&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'&quot;&gt;&lt;title&gt;看完一次尝试，如何填写标注？&lt;/title&gt;&lt;style&gt;
-*{box-sizing:border-box}body{margin:0;padding:24px;font:14px/1.6 -apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:#f3f7fb;color:#142c43}h2{font-size:25px;margin:8px 0}h3{font-size:16px;margin:0 0 14px}.badge{display:inline-block;padding:4px 10px;border-radius:20px;background:#fff0d8;color:#875908;font-size:11px;font-weight:700;letter-spacing:1px}.muted{color:#60758a;margin:4px 0 18px}.scene{background:#10283e;border-radius:16px;padding:18px;margin-bottom:20px;color:#fff}.scene p{margin:0 0 10px;color:#c9dbe9}.scene svg{width:100%;height:auto;display:block}.panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.panel{border:1px solid #dce5ed;border-radius:14px;padding:18px;background:white;min-width:0}label{display:block;font-size:12px;color:#60758a;margin:12px 0 5px}input,select,textarea,button{font:inherit}input[type=number],input[type=text],select{width:100%;padding:9px 11px;border:1px solid #cbd8e4;border-radius:8px;color:#142c43;background:#fff}input:focus,select:focus,textarea:focus{outline:2px solid #078b80;outline-offset:1px}.outcomes{display:flex;gap:6px;flex-wrap:wrap}.outcomes label{margin:0;cursor:pointer;display:flex;gap:5px;align-items:center;border:1px solid #dce5ed;padding:7px 9px;border-radius:8px}.outcomes label:has(input:checked){background:#e8f5f1;border-color:#078b80;color:#08766b}.check{display:flex;align-items:center;gap:8px;color:#142c43;font-size:13px}.times{display:grid;grid-template-columns:1fr 1fr;gap:10px}.summary{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}.result{background:#e8f3ef;border-left:3px solid #078b80;border-radius:8px;padding:13px 16px}.result strong{display:block;margin-bottom:4px}.result[data-allowed=false]{background:#fff4e5;border-color:#c18731}.actions{display:flex;gap:10px;align-items:center;margin-top:20px;flex-wrap:wrap}button{cursor:pointer;border:0;padding:10px 18px;border-radius:8px;background:#078b80;color:white;font-weight:600}button[type=reset]{background:#e4ebf2;color:#435d74}.error{color:#ab342b;min-height:24px;margin-top:10px}details{margin-top:12px;border:1px solid #dce5ed;border-radius:10px;padding:12px 16px;background:#fff}summary{cursor:pointer;color:#526c80;font-weight:600}textarea{display:block;resize:vertical;width:100%;min-height:120px;font:12px/1.6 ui-monospace,monospace;border:1px solid #dce5ed;border-radius:6px;padding:10px;white-space:pre;overflow:auto;background:#f8fafc}code{font-size:11px;overflow-wrap:anywhere}.footer{font-size:12px;color:#60758a;margin:14px 0 0}.wide{grid-column:1/-1}@media(max-width:720px){body{padding:14px}.panels{grid-template-columns:1fr}.summary{grid-template-columns:1fr}h2{font-size:21px}.scene{padding:10px}}
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;span class=&quot;badge&quot; data-i18n=&quot;badge&quot;&gt;&lt;/span&gt;&lt;h2 data-i18n=&quot;title&quot;&gt;&lt;/h2&gt;&lt;p class=&quot;muted&quot; data-i18n=&quot;intro&quot;&gt;&lt;/p&gt;
-&lt;div class=&quot;scene&quot;&gt;&lt;p id=&quot;scenario&quot;&gt;&lt;/p&gt;&lt;svg id=&quot;storyboard&quot; viewBox=&quot;0 0 960 210&quot; role=&quot;img&quot; aria-label=&quot;虚构任务：把方块放入容器&quot;&gt;&lt;/svg&gt;&lt;/div&gt;
-&lt;form id=&quot;demo-form&quot;&gt;&lt;div class=&quot;panels&quot;&gt;
-&lt;section class=&quot;panel&quot;&gt;&lt;h3 data-i18n=&quot;outcomeTitle&quot;&gt;&lt;/h3&gt;&lt;div class=&quot;outcomes&quot;&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;outcome&quot; value=&quot;success&quot;&gt;&lt;span data-i18n=&quot;success&quot;&gt;&lt;/span&gt;&lt;/label&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;outcome&quot; value=&quot;failure&quot; checked&gt;&lt;span data-i18n=&quot;failure&quot;&gt;&lt;/span&gt;&lt;/label&gt;&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;outcome&quot; value=&quot;unknown&quot;&gt;&lt;span data-i18n=&quot;unknown&quot;&gt;&lt;/span&gt;&lt;/label&gt;&lt;/div&gt;
-&lt;label for=&quot;object&quot; data-i18n=&quot;object&quot;&gt;&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;object&quot; value=&quot;block&quot; readonly&gt;&lt;label for=&quot;scene&quot; data-i18n=&quot;scene&quot;&gt;&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;scene&quot; value=&quot;tabletop&quot; readonly&gt;
-&lt;label for=&quot;failure-stage&quot; data-i18n=&quot;stage&quot;&gt;&lt;/label&gt;&lt;select id=&quot;failure-stage&quot;&gt;&lt;option value=&quot;lift&quot; data-i18n=&quot;lift&quot;&gt;&lt;/option&gt;&lt;option value=&quot;contact&quot; data-i18n=&quot;contact&quot;&gt;&lt;/option&gt;&lt;option value=&quot;transport&quot; data-i18n=&quot;transport&quot;&gt;&lt;/option&gt;&lt;/select&gt;
-&lt;label for=&quot;failure-reason&quot; data-i18n=&quot;reason&quot;&gt;&lt;/label&gt;&lt;select id=&quot;failure-reason&quot;&gt;&lt;option value=&quot;slip&quot; data-i18n=&quot;slip&quot;&gt;&lt;/option&gt;&lt;option value=&quot;missed_grasp&quot; data-i18n=&quot;missed&quot;&gt;&lt;/option&gt;&lt;option value=&quot;collision&quot; data-i18n=&quot;collision&quot;&gt;&lt;/option&gt;&lt;/select&gt;&lt;/section&gt;
-&lt;section class=&quot;panel&quot;&gt;&lt;h3 data-i18n=&quot;clipTitle&quot;&gt;&lt;/h3&gt;&lt;p class=&quot;muted&quot; data-i18n=&quot;clipHint&quot;&gt;&lt;/p&gt;&lt;div class=&quot;times&quot;&gt;&lt;div&gt;&lt;label for=&quot;start&quot; data-i18n=&quot;start&quot;&gt;&lt;/label&gt;&lt;input id=&quot;start&quot; type=&quot;number&quot; value=&quot;2&quot; min=&quot;0&quot; max=&quot;8&quot; step=&quot;0.1&quot; required&gt;&lt;/div&gt;&lt;div&gt;&lt;label for=&quot;end&quot; data-i18n=&quot;end&quot;&gt;&lt;/label&gt;&lt;input id=&quot;end&quot; type=&quot;number&quot; value=&quot;4.5&quot; min=&quot;0&quot; max=&quot;8&quot; step=&quot;0.1&quot; required&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;label class=&quot;check&quot;&gt;&lt;input id=&quot;reviewed&quot; type=&quot;checkbox&quot; checked&gt;&lt;span data-i18n=&quot;reviewed&quot;&gt;&lt;/span&gt;&lt;/label&gt;&lt;label class=&quot;check&quot;&gt;&lt;input id=&quot;target&quot; type=&quot;checkbox&quot; checked&gt;&lt;span data-i18n=&quot;target&quot;&gt;&lt;/span&gt;&lt;/label&gt;&lt;label class=&quot;check&quot;&gt;&lt;input id=&quot;quality&quot; type=&quot;checkbox&quot; checked&gt;&lt;span data-i18n=&quot;quality&quot;&gt;&lt;/span&gt;&lt;/label&gt;&lt;/section&gt;
-&lt;section class=&quot;panel&quot;&gt;&lt;h3 data-i18n=&quot;policyTitle&quot;&gt;&lt;/h3&gt;&lt;label for=&quot;group&quot; data-i18n=&quot;group&quot;&gt;&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;group&quot; value=&quot;demo_scene_A&quot; readonly&gt;&lt;label for=&quot;split&quot; data-i18n=&quot;split&quot;&gt;&lt;/label&gt;&lt;select id=&quot;split&quot;&gt;&lt;option value=&quot;train&quot; data-i18n=&quot;train&quot;&gt;&lt;/option&gt;&lt;option value=&quot;validation&quot; data-i18n=&quot;validation&quot;&gt;&lt;/option&gt;&lt;option value=&quot;test&quot; data-i18n=&quot;test&quot;&gt;&lt;/option&gt;&lt;/select&gt;&lt;label class=&quot;check&quot;&gt;&lt;input id=&quot;used&quot; type=&quot;checkbox&quot;&gt;&lt;span data-i18n=&quot;used&quot;&gt;&lt;/span&gt;&lt;/label&gt;&lt;p class=&quot;muted&quot; data-i18n=&quot;groupHint&quot;&gt;&lt;/p&gt;&lt;/section&gt;
-&lt;/div&gt;&lt;div class=&quot;summary&quot;&gt;&lt;div class=&quot;result&quot; id=&quot;stats&quot;&gt;&lt;strong data-i18n=&quot;stats&quot;&gt;&lt;/strong&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;result&quot; id=&quot;training&quot;&gt;&lt;strong data-i18n=&quot;training&quot;&gt;&lt;/strong&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;actions&quot;&gt;&lt;button type=&quot;button&quot; id=&quot;preview-records&quot; data-i18n=&quot;generate&quot;&gt;&lt;/button&gt;&lt;button type=&quot;reset&quot; data-i18n=&quot;reset&quot;&gt;&lt;/button&gt;&lt;span class=&quot;muted&quot; style=&quot;margin:0&quot; data-i18n=&quot;localOnly&quot;&gt;&lt;/span&gt;&lt;/div&gt;&lt;div id=&quot;error&quot; class=&quot;error&quot; role=&quot;alert&quot;&gt;&lt;/div&gt;
-&lt;details id=&quot;records&quot;&gt;&lt;summary data-i18n=&quot;records&quot;&gt;&lt;/summary&gt;&lt;p&gt;&lt;code&gt;grasp_review.csv&lt;/code&gt;&lt;/p&gt;&lt;textarea id=&quot;review-csv&quot; aria-label=&quot;grasp_review.csv&quot; readonly spellcheck=&quot;false&quot;&gt;&lt;/textarea&gt;&lt;p&gt;&lt;code&gt;episode_policy.csv&lt;/code&gt;&lt;/p&gt;&lt;textarea id=&quot;policy-csv&quot; aria-label=&quot;episode_policy.csv&quot; readonly spellcheck=&quot;false&quot;&gt;&lt;/textarea&gt;&lt;p class=&quot;footer&quot; data-i18n=&quot;csvHint&quot;&gt;&lt;/p&gt;&lt;/details&gt;&lt;/form&gt;
-&lt;p class=&quot;footer&quot; data-i18n=&quot;footer&quot;&gt;&lt;/p&gt;
-&lt;script&gt;
-const L={&quot;badge&quot;: &quot;交互示例 · 虚构数据&quot;, &quot;title&quot;: &quot;看完一次尝试，如何填写标注？&quot;, &quot;intro&quot;: &quot;试着切换结果和训练登记，看它们怎样影响统计与选样。这里的画面、编号和判断都是演示样例。&quot;, &quot;outcomeTitle&quot;: &quot;01 / 复核结果&quot;, &quot;success&quot;: &quot;成功&quot;, &quot;failure&quot;: &quot;失败&quot;, &quot;unknown&quot;: &quot;未知&quot;, &quot;object&quot;: &quot;物体类型&quot;, &quot;scene&quot;: &quot;场景类型&quot;, &quot;stage&quot;: &quot;失败阶段&quot;, &quot;reason&quot;: &quot;失败原因&quot;, &quot;lift&quot;: &quot;抬起 · lift&quot;, &quot;contact&quot;: &quot;接触 · contact&quot;, &quot;transport&quot;: &quot;搬运 · transport&quot;, &quot;slip&quot;: &quot;滑落 · slip&quot;, &quot;missed&quot;: &quot;未抓住 · missed_grasp&quot;, &quot;collision&quot;: &quot;碰撞 · collision&quot;, &quot;clipTitle&quot;: &quot;02 / 片段与质量&quot;, &quot;clipHint&quot;: &quot;假设视频共 8 秒。填写完整尝试的起止时间，而不是只标命中帧。&quot;, &quot;start&quot;: &quot;开始 / 秒&quot;, &quot;end&quot;: &quot;结束 / 秒&quot;, &quot;reviewed&quot;: &quot;已回看完整尝试&quot;, &quot;target&quot;: &quot;属于目标抓取任务&quot;, &quot;quality&quot;: &quot;画面和动作质量可用&quot;, &quot;policyTitle&quot;: &quot;03 / 训练登记&quot;, &quot;group&quot;: &quot;场景组&quot;, &quot;split&quot;: &quot;数据集划分&quot;, &quot;train&quot;: &quot;训练集 · train&quot;, &quot;validation&quot;: &quot;验证集 · validation&quot;, &quot;test&quot;: &quot;测试集 · test&quot;, &quot;used&quot;: &quot;此前已经用于训练&quot;, &quot;groupHint&quot;: &quot;本例假设同一场景组没有跨集合。真实登记必须覆盖全部 episode，并检查同组划分。&quot;, &quot;stats&quot;: &quot;对第 07 节的影响&quot;, &quot;training&quot;: &quot;对第 08 节的影响&quot;, &quot;statsYes&quot;: &quot;符合有效统计样本的条件。此处只演示规则，不计入真实统计。&quot;, &quot;statsNo&quot;: &quot;不进入有效统计分母：检查复核、任务、质量、成败及时间。&quot;, &quot;bc&quot;: &quot;成功正例候选 · bc_positive。后续还需场景去重和配额筛选。&quot;, &quot;critic&quot;: &quot;失败诊断 / critic 候选。不会把失败动作当成正确动作示范。&quot;, &quot;trainNo&quot;: &quot;暂不进入训练候选：检查片段有效性、复核结果、数据集划分和训练历史。&quot;, &quot;generate&quot;: &quot;预览示例记录&quot;, &quot;reset&quot;: &quot;恢复示例&quot;, &quot;localOnly&quot;: &quot;仅更新本页面，不保存或提交&quot;, &quot;records&quot;: &quot;展开两份示例 CSV&quot;, &quot;csvHint&quot;: &quot;DEMO_ONLY_DO_NOT_IMPORT 表示演示记录。真实标注必须使用当前检索的 run_id、sample_id 和 episode_index；policy 文件还需覆盖全部已导出集。&quot;, &quot;footer&quot;: &quot;画面是流程示意，没有自动推断真实视频的成败。本面板不修改标签文件、不连接 Doris，也不影响第 07–08 节的真实结果。&quot;, &quot;invalid&quot;: &quot;请填写有效时间：0 ≤ 开始 \u003c 结束 ≤ 8 秒。无效时不会生成记录。&quot;, &quot;scenario&quot;: &quot;虚构任务：把方块放入容器&quot;, &quot;approach&quot;: &quot;接近目标&quot;, &quot;inspect&quot;: &quot;回看动作过程&quot;, &quot;placed&quot;: &quot;放入容器&quot;, &quot;failed&quot;: &quot;任务未完成&quot;, &quot;occluded&quot;: &quot;结果无法确认&quot;, &quot;illustration&quot;: &quot;流程示意 · 非真实视频帧&quot;};
-const el=id=&gt;document.getElementById(id);
-document.querySelectorAll('[data-i18n]').forEach(n=&gt;n.textContent=L[n.dataset.i18n]);
-const fixed={run_id:'DEMO_ONLY_DO_NOT_IMPORT',sample_id:'7:observation.images.wrist_image_left:42',episode_index:7,label_source:'demo_only'};
-const csv=record=&gt;{const quote=v=&gt;'&quot;'+String(v).replaceAll('&quot;','&quot;&quot;')+'&quot;';return Object.keys(record).join(',')+'\n'+Object.values(record).map(quote).join(',')+'\n'};
-const esc=s=&gt;String(s).replaceAll('&amp;','&amp;amp;').replaceAll('&lt;','&amp;lt;').replaceAll('&gt;','&amp;gt;').replaceAll('&quot;','&amp;quot;');
-function draw(outcome){
- const labels=[L.approach,L.inspect,outcome==='success'?L.placed:outcome==='failure'?L.failed:L.occluded];
- el('scenario').textContent=L.scenario+' · '+L[outcome];
- let markup='';
- for(let i=0;i&lt;3;i++){
-  const x=i*320, cubeY=i===0?117:i===1?74:outcome==='success'?119:outcome==='failure'?142:103;
-  const cubeX=i===2&amp;&amp;outcome==='success'?225:i===2&amp;&amp;outcome==='failure'?132:120;
-  markup+=`&lt;g transform=&quot;translate(${x},0)&quot;&gt;&lt;rect x=&quot;5&quot; y=&quot;5&quot; width=&quot;305&quot; height=&quot;192&quot; rx=&quot;12&quot; fill=&quot;#edf3f7&quot;/&gt;&lt;text x=&quot;21&quot; y=&quot;32&quot; fill=&quot;#536d81&quot; font-size=&quot;13&quot;&gt;0${i+1} · ${esc(labels[i])}&lt;/text&gt;&lt;path d=&quot;M28 154 H281&quot; stroke=&quot;#9cb2c3&quot; stroke-width=&quot;4&quot;/&gt;&lt;path d=&quot;M205 115 v34 h58 v-34&quot; fill=&quot;#cce5e1&quot; stroke=&quot;#078b80&quot; stroke-width=&quot;3&quot;/&gt;&lt;path d=&quot;M150 52 v25 m-25 0 h50 m-50 0 v25 m50-25 v25&quot; fill=&quot;none&quot; stroke=&quot;#1b3d57&quot; stroke-width=&quot;7&quot; stroke-linecap=&quot;round&quot;/&gt;&lt;rect x=&quot;${cubeX}&quot; y=&quot;${cubeY}&quot; width=&quot;29&quot; height=&quot;27&quot; rx=&quot;3&quot; fill=&quot;#e0a343&quot;/&gt;${i===2&amp;&amp;outcome==='unknown'?'&lt;rect x=&quot;76&quot; y=&quot;71&quot; width=&quot;116&quot; height=&quot;75&quot; rx=&quot;6&quot; fill=&quot;#b9c7d0&quot; opacity=&quot;.96&quot;/&gt;':''}&lt;text x=&quot;21&quot; y=&quot;181&quot; fill=&quot;#60758a&quot; font-size=&quot;11&quot;&gt;${esc(L.illustration)}&lt;/text&gt;&lt;/g&gt;`;
- }
- el('storyboard').innerHTML=markup;
-}
-function update(){
- const outcome=document.querySelector('[name=outcome]:checked').value;
- const start=Number(el('start').value),end=Number(el('end').value);
- const valid=el('start').value!==''&amp;&amp;el('end').value!==''&amp;&amp;Number.isFinite(start)&amp;&amp;Number.isFinite(end)&amp;&amp;start&gt;=0&amp;&amp;end&gt;start&amp;&amp;end&lt;=8;
- const known=outcome!=='unknown',eligible=valid&amp;&amp;el('reviewed').checked&amp;&amp;el('target').checked&amp;&amp;el('quality').checked&amp;&amp;known;
- const training=eligible&amp;&amp;valid&amp;&amp;el('split').value==='train'&amp;&amp;!el('used').checked;
- el('failure-stage').disabled=el('failure-reason').disabled=outcome!=='failure';
- el('error').textContent=valid?'':L.invalid;
- el('stats').dataset.allowed=String(eligible);
- el('stats').querySelector('span').textContent=eligible?L.statsYes:L.statsNo;
- el('training').dataset.allowed=String(training);
- el('training').querySelector('span').textContent=training?(outcome==='success'?L.bc:L.critic):L.trainNo;
- draw(outcome);
- if(!valid){el('review-csv').value=el('policy-csv').value='';return false;}
- const review={run_id:fixed.run_id,sample_id:fixed.sample_id,episode_index:fixed.episode_index,reviewed:el('reviewed').checked,is_target_grasp:el('target').checked,quality_ok:el('quality').checked,object_type:'block',scene_type:'tabletop',outcome,failure_stage:outcome==='failure'?el('failure-stage').value:'',failure_reason:outcome==='failure'?el('failure-reason').value:'',clip_start_s:start,clip_end_s:end,label_source:fixed.label_source};
- const policy={episode_index:fixed.episode_index,scene_group:'demo_scene_A',split_assignment:el('split').value,used_for_training:el('used').checked};
- el('review-csv').value=csv(review);el('policy-csv').value=csv(policy);return true;
-}
-el('demo-form').addEventListener('input',update);
-el('demo-form').addEventListener('change',update);
-el('demo-form').addEventListener('submit',e=&gt;e.preventDefault());
-el('preview-records').addEventListener('click',()=&gt;{if(update())el('records').open=true;});
-el('demo-form').addEventListener('reset',()=&gt;setTimeout(update,0));
-update();
-&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
-" style="width:100%;height:1100px;border:1px solid #dce5ed;border-radius:18px;background:#f3f7fb" title="看完一次尝试，如何填写标注？" width="100%"></iframe>
+<div class="rl-case"><span class="rl-case-badge">已填好的演示案例 · 虚构数据 · 无需填写或导入</span><h3>8 次抓取尝试，标注已经填好</h3><p>统一任务：把桌面上的方块放入容器。以下结果是为讲解构造的案例，接着在第 07、08 节自动计算统计和选样。</p><div class="rl-metrics"><div class="rl-metric"><strong>8</strong><span>检索命中</span></div><div class="rl-metric"><strong>8</strong><span>已填写复核</span></div><div class="rl-metric"><strong>8</strong><span>已登记策略</span></div></div><div aria-label="8 条已填好的演示标注" class="rl-table-scroll" role="region" tabindex="0"><table class="dataframe rl-table">
+<thead>
+<tr style="text-align: right;">
+<th>演示 episode</th>
+<th>结果</th>
+<th>人工判断说明</th>
+<th>片段 / 秒</th>
+<th>数据集</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="rl-cell">9001</span></td>
+<td><span class="rl-cell">成功</span></td>
+<td><span class="rl-cell">已放入容器</span></td>
+<td><span class="rl-cell">2.0–4.5</span></td>
+<td><span class="rl-cell">train</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9002</span></td>
+<td><span class="rl-cell">失败</span></td>
+<td><span class="rl-cell">抬起时滑落</span></td>
+<td><span class="rl-cell">2.0–4.5</span></td>
+<td><span class="rl-cell">train</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9003</span></td>
+<td><span class="rl-cell">未知</span></td>
+<td><span class="rl-cell">结果被遮挡</span></td>
+<td><span class="rl-cell">2.0–4.5</span></td>
+<td><span class="rl-cell">train</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9004</span></td>
+<td><span class="rl-cell">成功</span></td>
+<td><span class="rl-cell">成功，但此前已用于训练</span></td>
+<td><span class="rl-cell">2.0–4.5</span></td>
+<td><span class="rl-cell">train</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9005</span></td>
+<td><span class="rl-cell">失败</span></td>
+<td><span class="rl-cell">接触时未抓住；保留作测试</span></td>
+<td><span class="rl-cell">2.0–4.5</span></td>
+<td><span class="rl-cell">test</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9006</span></td>
+<td><span class="rl-cell">成功</span></td>
+<td><span class="rl-cell">记录为成功，但画面/动作质量不合格</span></td>
+<td><span class="rl-cell">2.0–4.5</span></td>
+<td><span class="rl-cell">train</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9007</span></td>
+<td><span class="rl-cell">成功</span></td>
+<td><span class="rl-cell">与 9001 同场景、同用途的重复候选</span></td>
+<td><span class="rl-cell">2.0–4.5</span></td>
+<td><span class="rl-cell">train</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9008</span></td>
+<td><span class="rl-cell">失败</span></td>
+<td><span class="rl-cell">另一个场景中抬起滑落</span></td>
+<td><span class="rl-cell">2.0–4.5</span></td>
+<td><span class="rl-cell">train</span></td>
+</tr>
+</tbody>
+</table></div><div class="rl-case-focus"><strong>拿 9002 这一条讲解</strong><p>假设视频共 8 秒。标注者回看第 2.0–4.5 秒，确认方块在抬起时滑落，因此填写 failure / lift / slip。画面可用、属于目标任务，且该场景在训练集、此前没用于训练。</p></div><details><summary>每个字段是什么意思？查看 9002 的完整记录</summary><div aria-label="演示字段解释" class="rl-table-scroll" role="region" tabindex="0"><table class="dataframe rl-table">
+<thead>
+<tr style="text-align: right;">
+<th>字段</th>
+<th>9002 的值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="rl-cell">run_id</span></td>
+<td><span class="rl-cell">DEMO_REVIEW_CASE</span></td>
+<td><span class="rl-cell">本次检索批次编号；DEMO 表示独立的虚构案例</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">sample_id</span></td>
+<td><span class="rl-cell">9002:observation.images.wrist_image_left:42</span></td>
+<td><span class="rl-cell">命中图片的标识：episode 9002 + 腕部左相机 + 第 42 帧</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">episode_index</span></td>
+<td><span class="rl-cell">9002</span></td>
+<td><span class="rl-cell">这次机器人操作记录的编号；9002 不是实际数据集编号</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">reviewed</span></td>
+<td><span class="rl-cell">True</span></td>
+<td><span class="rl-cell">true：假设标注者已经回看完整尝试</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">is_target_grasp</span></td>
+<td><span class="rl-cell">True</span></td>
+<td><span class="rl-cell">true：确实属于要分析的抓取任务</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">quality_ok</span></td>
+<td><span class="rl-cell">True</span></td>
+<td><span class="rl-cell">true：画面与动作数据质量可用</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">object_type</span></td>
+<td><span class="rl-cell">block</span></td>
+<td><span class="rl-cell">block：抓取物体是方块</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">scene_type</span></td>
+<td><span class="rl-cell">tabletop</span></td>
+<td><span class="rl-cell">tabletop：操作发生在桌面场景</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">outcome</span></td>
+<td><span class="rl-cell">failure</span></td>
+<td><span class="rl-cell">failure：这一次完整尝试失败</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">failure_stage</span></td>
+<td><span class="rl-cell">lift</span></td>
+<td><span class="rl-cell">lift：失败发生在抬起阶段</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">failure_reason</span></td>
+<td><span class="rl-cell">slip</span></td>
+<td><span class="rl-cell">slip：物体从夹爪滑落</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">clip_start_s</span></td>
+<td><span class="rl-cell">2.0</span></td>
+<td><span class="rl-cell">从视频开始算，第 2.0 秒开始这次尝试</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">clip_end_s</span></td>
+<td><span class="rl-cell">4.5</span></td>
+<td><span class="rl-cell">第 4.5 秒结束；片段长 2.5 秒，不只是一张命中帧</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">label_source</span></td>
+<td><span class="rl-cell">synthetic_demo</span></td>
+<td><span class="rl-cell">synthetic_demo：人工构造的演示标签，不是真实复核结论</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">scene_group</span></td>
+<td><span class="rl-cell">demo_scene_B</span></td>
+<td><span class="rl-cell">同一场景/会话分组，用于去重与防止训练测试泄漏</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">split_assignment</span></td>
+<td><span class="rl-cell">train</span></td>
+<td><span class="rl-cell">train：允许进入训练候选；test/validation 不允许</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">used_for_training</span></td>
+<td><span class="rl-cell">False</span></td>
+<td><span class="rl-cell">false：此前没有用于训练</span></td>
+</tr>
+</tbody>
+</table></div></details><details><summary>已填好的两份 CSV（可选下载，无需编辑）</summary><p>grasp_review 保存“这次尝试怎么样”；episode_policy 保存“这段数据能否用于训练”。两个文件均已填好 8 行。</p><a class="rl-case-download" download="demo_grasp_review.csv" href="data:text/csv;base64,cnVuX2lkLHNhbXBsZV9pZCxlcGlzb2RlX2luZGV4LHJldmlld2VkLGlzX3RhcmdldF9ncmFzcCxxdWFsaXR5X29rLG9iamVjdF90eXBlLHNjZW5lX3R5cGUsb3V0Y29tZSxmYWlsdXJlX3N0YWdlLGZhaWx1cmVfcmVhc29uLGNsaXBfc3RhcnRfcyxjbGlwX2VuZF9zLGxhYmVsX3NvdXJjZQpERU1PX1JFVklFV19DQVNFLDkwMDE6b2JzZXJ2YXRpb24uaW1hZ2VzLndyaXN0X2ltYWdlX2xlZnQ6NDIsOTAwMSx0cnVlLHRydWUsdHJ1ZSxibG9jayx0YWJsZXRvcCxzdWNjZXNzLCwsMi4wLDQuNSxzeW50aGV0aWNfZGVtbwpERU1PX1JFVklFV19DQVNFLDkwMDI6b2JzZXJ2YXRpb24uaW1hZ2VzLndyaXN0X2ltYWdlX2xlZnQ6NDIsOTAwMix0cnVlLHRydWUsdHJ1ZSxibG9jayx0YWJsZXRvcCxmYWlsdXJlLGxpZnQsc2xpcCwyLjAsNC41LHN5bnRoZXRpY19kZW1vCkRFTU9fUkVWSUVXX0NBU0UsOTAwMzpvYnNlcnZhdGlvbi5pbWFnZXMud3Jpc3RfaW1hZ2VfbGVmdDo0Miw5MDAzLHRydWUsdHJ1ZSx0cnVlLGJsb2NrLHRhYmxldG9wLHVua25vd24sLCwyLjAsNC41LHN5bnRoZXRpY19kZW1vCkRFTU9fUkVWSUVXX0NBU0UsOTAwNDpvYnNlcnZhdGlvbi5pbWFnZXMud3Jpc3RfaW1hZ2VfbGVmdDo0Miw5MDA0LHRydWUsdHJ1ZSx0cnVlLGJsb2NrLHRhYmxldG9wLHN1Y2Nlc3MsLCwyLjAsNC41LHN5bnRoZXRpY19kZW1vCkRFTU9fUkVWSUVXX0NBU0UsOTAwNTpvYnNlcnZhdGlvbi5pbWFnZXMud3Jpc3RfaW1hZ2VfbGVmdDo0Miw5MDA1LHRydWUsdHJ1ZSx0cnVlLGJsb2NrLHRhYmxldG9wLGZhaWx1cmUsY29udGFjdCxtaXNzZWRfZ3Jhc3AsMi4wLDQuNSxzeW50aGV0aWNfZGVtbwpERU1PX1JFVklFV19DQVNFLDkwMDY6b2JzZXJ2YXRpb24uaW1hZ2VzLndyaXN0X2ltYWdlX2xlZnQ6NDIsOTAwNix0cnVlLHRydWUsZmFsc2UsYmxvY2ssdGFibGV0b3Asc3VjY2VzcywsLDIuMCw0LjUsc3ludGhldGljX2RlbW8KREVNT19SRVZJRVdfQ0FTRSw5MDA3Om9ic2VydmF0aW9uLmltYWdlcy53cmlzdF9pbWFnZV9sZWZ0OjQyLDkwMDcsdHJ1ZSx0cnVlLHRydWUsYmxvY2ssdGFibGV0b3Asc3VjY2VzcywsLDIuMCw0LjUsc3ludGhldGljX2RlbW8KREVNT19SRVZJRVdfQ0FTRSw5MDA4Om9ic2VydmF0aW9uLmltYWdlcy53cmlzdF9pbWFnZV9sZWZ0OjQyLDkwMDgsdHJ1ZSx0cnVlLHRydWUsYmxvY2ssdGFibGV0b3AsZmFpbHVyZSxsaWZ0LHNsaXAsMi4wLDQuNSxzeW50aGV0aWNfZGVtbwo=">下载已填好的 grasp_review.csv</a><a class="rl-case-download" download="demo_episode_policy.csv" href="data:text/csv;base64,ZXBpc29kZV9pbmRleCxzY2VuZV9ncm91cCxzcGxpdF9hc3NpZ25tZW50LHVzZWRfZm9yX3RyYWluaW5nCjkwMDEsZGVtb19zY2VuZV9BLHRyYWluLGZhbHNlCjkwMDIsZGVtb19zY2VuZV9CLHRyYWluLGZhbHNlCjkwMDMsZGVtb19zY2VuZV9DLHRyYWluLGZhbHNlCjkwMDQsZGVtb19zY2VuZV9ELHRyYWluLHRydWUKOTAwNSxkZW1vX3NjZW5lX0UsdGVzdCxmYWxzZQo5MDA2LGRlbW9fc2NlbmVfRix0cmFpbixmYWxzZQo5MDA3LGRlbW9fc2NlbmVfQSx0cmFpbixmYWxzZQo5MDA4LGRlbW9fc2NlbmVfSCx0cmFpbixmYWxzZQo=">下载已填好的 episode_policy.csv</a><div aria-label="episode_policy.csv" class="rl-table-scroll" role="region" tabindex="0"><table class="dataframe rl-table">
+<thead>
+<tr style="text-align: right;">
+<th>episode_index</th>
+<th>scene_group</th>
+<th>split_assignment</th>
+<th>used_for_training</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="rl-cell">9001</span></td>
+<td><span class="rl-cell">demo_scene_A</span></td>
+<td><span class="rl-cell">train</span></td>
+<td><span class="rl-cell">False</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9002</span></td>
+<td><span class="rl-cell">demo_scene_B</span></td>
+<td><span class="rl-cell">train</span></td>
+<td><span class="rl-cell">False</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9003</span></td>
+<td><span class="rl-cell">demo_scene_C</span></td>
+<td><span class="rl-cell">train</span></td>
+<td><span class="rl-cell">False</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9004</span></td>
+<td><span class="rl-cell">demo_scene_D</span></td>
+<td><span class="rl-cell">train</span></td>
+<td><span class="rl-cell">True</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9005</span></td>
+<td><span class="rl-cell">demo_scene_E</span></td>
+<td><span class="rl-cell">test</span></td>
+<td><span class="rl-cell">False</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9006</span></td>
+<td><span class="rl-cell">demo_scene_F</span></td>
+<td><span class="rl-cell">train</span></td>
+<td><span class="rl-cell">False</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9007</span></td>
+<td><span class="rl-cell">demo_scene_A</span></td>
+<td><span class="rl-cell">train</span></td>
+<td><span class="rl-cell">False</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9008</span></td>
+<td><span class="rl-cell">demo_scene_H</span></td>
+<td><span class="rl-cell">train</span></td>
+<td><span class="rl-cell">False</span></td>
+</tr>
+</tbody>
+</table></div></details><p class="rl-case-note">编号 9001–9008、标注、相似度均为虚构示例。使用项目现有统计与选样 SQL 在独立内存数据上计算；未写入 Doris，也不替代真实检索结果。</p></div>
 </div>
 </div>
 </div>
@@ -8348,13 +8525,14 @@ update();
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <details>
-<summary>填写复核标签</summary>
-<p>填写 <code>work/notebook/labels/grasp_review.csv</code> 和 <code>episode_policy.csv</code>（首次运行下面单元会复制空模板）。
-<code>grasp_review</code> 的 run_id、sample_id、episode_index 必须对应本次检索；outcome 只能是
-success / failure / unknown。<code>episode_policy</code> 应覆盖<strong>所有已导出的 episode</strong>，包括验证/测试集。
-字段规则见 <code>doris/README.zh-CN.md</code>。没有标签时仍可演示检索，但不能计算有效失败比例。</p>
-<p>填写完后将配置中的 <code>IMPORT_LABELS</code> 单独设为 True，再从本单元继续执行；不要重跑生成新 RUN_ID 的配置单元。
-也可以直接执行一个新单元 <code>IMPORT_LABELS = True</code>，保持当前检索不变。</p>
+<summary>可选：接入真实人工标注（演示无需操作）</summary>
+<p>上方案例的 8 条标注和训练登记已经填好，第 07、08 节直接展示对应的统计与选样，无需填写或导入 CSV。
+这些虚构记录使用独立的 <code>DEMO_REVIEW_CASE</code> 批次，不会写入真实 Doris 表。</p>
+<p>下面的单元仅用于你另行准备的真实标签：<code>work/notebook/labels/grasp_review.csv</code> 保存复核结果，
+<code>episode_policy.csv</code> 保存场景分组、数据集划分和训练历史。标签必须关联当前 <code>RUN_ID</code> 和检索结果；
+策略文件须覆盖实际导出的所有 episode。真实文件为空时，跳过导入，不影响上方演示案例。</p>
+<p>需要导入真实标签时，单独设置 <code>IMPORT_LABELS = True</code>，再运行下面单元；不要重新生成 <code>RUN_ID</code>。
+完整字段规则见 <code>doris/README.zh-CN.md</code>。</p>
 </details>
 </div>
 </div>
@@ -8391,6 +8569,39 @@ success / failure / unknown。<code>episode_policy</code> 应覆盖<strong>所�
 </div>
 </div>
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noInput" id="cell-id=filled-case-analysis">
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<div class="rl-case"><span class="rl-case-badge">已填好的演示案例 · 虚构数据 · 无需填写或导入</span><h3>8 条记录 → 6 条有效 → 3 条失败</h3><div class="rl-metrics"><div class="rl-metric"><strong>8/8</strong><span>已复核 / 命中</span></div><div class="rl-metric"><strong>6</strong><span>有效统计分母</span></div><div class="rl-metric"><strong>3/6</strong><span>失败 / 有效</span></div><div class="rl-metric"><strong>50%</strong><span>本案例失败率</span></div></div><div class="rl-case-flow"><div>9003：未知 → 排除</div><div>9006：质量差 → 排除</div><div>其余 6 条 → 进入统计</div></div><div aria-label="有效样本：3 次成功，3 次失败" class="rl-case-bar" role="img"><span style="flex:3">成功 3</span><span style="flex:3">失败 3</span></div><p>50% = 3 次失败 ÷ 6 次有效尝试，不是 3 ÷ 8。9004 虽已用于训练、9005 虽属于测试集，仍可进入这次复核统计；训练筛选在下一节单独处理。</p><div aria-label="失败原因分布" class="rl-table-scroll" role="region" tabindex="0"><table class="dataframe rl-table">
+<thead>
+<tr style="text-align: right;">
+<th>失败阶段</th>
+<th>原因</th>
+<th>次数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="rl-cell">lift</span></td>
+<td><span class="rl-cell">slip</span></td>
+<td><span class="rl-cell">2</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">contact</span></td>
+<td><span class="rl-cell">missed_grasp</span></td>
+<td><span class="rl-cell">1</span></td>
+</tr>
+</tbody>
+</table></div><p class="rl-case-note">两次抬起滑落（9002、9008），一次接触时未抓住（9005）。这是演示样本群的统计，不代表机器人真实线上失败率。</p><p class="rl-case-note">编号 9001–9008、标注、相似度均为虚构示例。使用项目现有统计与选样 SQL 在独立内存数据上计算；未写入 Doris，也不替代真实检索结果。</p></div>
+</div>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs jp-mod-noInput" id="cell-id=droid100-028">
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=droid100-029">
@@ -8419,6 +8630,121 @@ success / failure / unknown。<code>episode_policy</code> 应覆盖<strong>所�
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedSVG jp-OutputArea-output" data-mime-type="image/svg+xml" tabindex="0">
 <img alt="把候选样本分配到合适用途" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTIwIiBoZWlnaHQ9IjQxMCIgdmlld0JveD0iMCAwIDExMjAgNDEwIiByb2xlPSJpbWciIGFyaWEtbGFiZWxsZWRieT0idGl0bGUgZGVzYyI+PHRpdGxlIGlkPSJ0aXRsZSI+5oqK5YCZ6YCJ5qC35pys5YiG6YWN5Yiw5ZCI6YCC55So6YCUPC90aXRsZT48ZGVzYyBpZD0iZGVzYyI+6K6t57uD6YCJ5qC35rWB56iLLiDmjpLpmaTlt7Lorq3nu4PkuI7pnZ7orq3nu4Ppm4bvvJvmiJDlip/nlKjkuo7mqKHku7/lrabkuaDvvIzlpLHotKXnlKjkuo7or4rmlq3miJYgY3JpdGlj44CCPC9kZXNjPjxnIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgQ0pLIFNDLE1pY3Jvc29mdCBZYUhlaSxQaW5nRmFuZyBTQyxBcmlhbCxzYW5zLXNlcmlmIj48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTEyMCIgaGVpZ2h0PSI0MTAiIHJ4PSIyNCIgZmlsbD0iI2YxZjVmOSIgc3Ryb2tlPSJub25lIi8+PHRleHQgeD0iMzAiIHk9IjMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjA3NThhIiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuiuree7g+mAieagt+a1geeoizwvdGV4dD48Y2lyY2xlIGN4PSI0NCIgY3k9IjY5IiByPSIxNCIgZmlsbD0iI2U5ZWZmYSIgc3Ryb2tlPSJub25lIi8+PHRleHQgeD0iNDQiIHk9Ijc0IiBmb250LXNpemU9IjEyIiBmaWxsPSIjMzc2Y2YwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4wMTwvdGV4dD48dGV4dCB4PSI3MCIgeT0iNzYiIGZvbnQtc2l6ZT0iMjEiIGZpbGw9IiMxNDJjNDMiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJzdGFydCI+6L+H5rukPC90ZXh0Pjx0ZXh0IHg9IjcwIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM2MDc1OGEiIGZvbnQtd2VpZ2h0PSI0MDAiIHRleHQtYW5jaG9yPSJzdGFydCI+ZWxpZ2liaWxpdHk8L3RleHQ+PGNpcmNsZSBjeD0iNDE0IiBjeT0iNjkiIHI9IjE0IiBmaWxsPSIjZTllZmZhIiBzdHJva2U9Im5vbmUiLz48dGV4dCB4PSI0MTQiIHk9Ijc0IiBmb250LXNpemU9IjEyIiBmaWxsPSIjMzc2Y2YwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4wMjwvdGV4dD48dGV4dCB4PSI0NDAiIHk9Ijc2IiBmb250LXNpemU9IjIxIiBmaWxsPSIjMTQyYzQzIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuWOu+mHjTwvdGV4dD48dGV4dCB4PSI0NDAiIHk9IjEwNCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzYwNzU4YSIgZm9udC13ZWlnaHQ9IjQwMCIgdGV4dC1hbmNob3I9InN0YXJ0Ij5zY2VuZSBncm91cHM8L3RleHQ+PGNpcmNsZSBjeD0iNzg0IiBjeT0iNjkiIHI9IjE0IiBmaWxsPSIjZTllZmZhIiBzdHJva2U9Im5vbmUiLz48dGV4dCB4PSI3ODQiIHk9Ijc0IiBmb250LXNpemU9IjEyIiBmaWxsPSIjMzc2Y2YwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4wMzwvdGV4dD48dGV4dCB4PSI4MTAiIHk9Ijc2IiBmb250LXNpemU9IjIxIiBmaWxsPSIjMTQyYzQzIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuWIhumFjeeUqOmAlDwvdGV4dD48dGV4dCB4PSI4MTAiIHk9IjEwNCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzYwNzU4YSIgZm9udC13ZWlnaHQ9IjQwMCIgdGV4dC1hbmNob3I9InN0YXJ0Ij50cmFpbmluZyBwdXJwb3NlPC90ZXh0PjxyZWN0IHg9IjQ3IiB5PSIxNDkiIHdpZHRoPSIyNTUiIGhlaWdodD0iMzYiIHJ4PSIxMCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSJub25lIi8+PGNpcmNsZSBjeD0iNjgiIGN5PSIxNjciIHI9IjgiIGZpbGw9IiMwNzhiODAiIHN0cm9rZT0ibm9uZSIvPjx0ZXh0IHg9Ijg2IiB5PSIxNzMiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMxNDJjNDMiIGZvbnQtd2VpZ2h0PSI1MDAiIHRleHQtYW5jaG9yPSJzdGFydCI+a25vd24gaGlzdG9yeTwvdGV4dD48cmVjdCB4PSI0NyIgeT0iMTk4IiB3aWR0aD0iMjU1IiBoZWlnaHQ9IjM2IiByeD0iMTAiIGZpbGw9IiNmZmYiIHN0cm9rZT0ibm9uZSIvPjxjaXJjbGUgY3g9IjY4IiBjeT0iMjE2IiByPSI4IiBmaWxsPSIjMDc4YjgwIiBzdHJva2U9Im5vbmUiLz48dGV4dCB4PSI4NiIgeT0iMjIyIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMTQyYzQzIiBmb250LXdlaWdodD0iNTAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPnRyYWluIHNwbGl0PC90ZXh0PjxyZWN0IHg9IjQ3IiB5PSIyNDciIHdpZHRoPSIyNTUiIGhlaWdodD0iMzYiIHJ4PSIxMCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSJub25lIi8+PGNpcmNsZSBjeD0iNjgiIGN5PSIyNjUiIHI9IjgiIGZpbGw9IiMwNzhiODAiIHN0cm9rZT0ibm9uZSIvPjx0ZXh0IHg9Ijg2IiB5PSIyNzEiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMxNDJjNDMiIGZvbnQtd2VpZ2h0PSI1MDAiIHRleHQtYW5jaG9yPSJzdGFydCI+dXNhYmxlIGNsaXA8L3RleHQ+PHJlY3QgeD0iNDU5IiB5PSIxNTgiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTI4IiByeD0iMTAiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2M2ZDRlMSIvPjxyZWN0IHg9IjQ3MyIgeT0iMTc1IiB3aWR0aD0iMzEiIGhlaWdodD0iOCIgcng9IjQiIGZpbGw9IiMzNzZjZjAiIHN0cm9rZT0ibm9uZSIvPjxyZWN0IHg9IjQ3MyIgeT0iMjAwIiB3aWR0aD0iNzAiIGhlaWdodD0iNSIgcng9IjIiIGZpbGw9IiNjZmRhZTQiIHN0cm9rZT0ibm9uZSIvPjxyZWN0IHg9IjQ3MyIgeT0iMjE2IiB3aWR0aD0iNTUiIGhlaWdodD0iNSIgcng9IjIiIGZpbGw9IiNjZmRhZTQiIHN0cm9rZT0ibm9uZSIvPjxyZWN0IHg9IjQ3MyIgeT0iMjMyIiB3aWR0aD0iNjUiIGhlaWdodD0iNSIgcng9IjIiIGZpbGw9IiNjZmRhZTQiIHN0cm9rZT0ibm9uZSIvPjxyZWN0IHg9IjQ3MyIgeT0iMjQ4IiB3aWR0aD0iNDgiIGhlaWdodD0iNSIgcng9IjIiIGZpbGw9IiNjZmRhZTQiIHN0cm9rZT0ibm9uZSIvPjxyZWN0IHg9IjQ4NyIgeT0iMTQ4IiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEyOCIgcng9IjEwIiBmaWxsPSIjZmZmIiBzdHJva2U9IiNjNmQ0ZTEiLz48cmVjdCB4PSI1MDEiIHk9IjE2NSIgd2lkdGg9IjMxIiBoZWlnaHQ9IjgiIHJ4PSI0IiBmaWxsPSIjMzc2Y2YwIiBzdHJva2U9Im5vbmUiLz48cmVjdCB4PSI1MDEiIHk9IjE5MCIgd2lkdGg9IjcwIiBoZWlnaHQ9IjUiIHJ4PSIyIiBmaWxsPSIjY2ZkYWU0IiBzdHJva2U9Im5vbmUiLz48cmVjdCB4PSI1MDEiIHk9IjIwNiIgd2lkdGg9IjU1IiBoZWlnaHQ9IjUiIHJ4PSIyIiBmaWxsPSIjY2ZkYWU0IiBzdHJva2U9Im5vbmUiLz48cmVjdCB4PSI1MDEiIHk9IjIyMiIgd2lkdGg9IjY1IiBoZWlnaHQ9IjUiIHJ4PSIyIiBmaWxsPSIjY2ZkYWU0IiBzdHJva2U9Im5vbmUiLz48cmVjdCB4PSI1MDEiIHk9IjIzOCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjUiIHJ4PSIyIiBmaWxsPSIjY2ZkYWU0IiBzdHJva2U9Im5vbmUiLz48cmVjdCB4PSI1MTUiIHk9IjEzOCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMjgiIHJ4PSIxMCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYzZkNGUxIi8+PHJlY3QgeD0iNTI5IiB5PSIxNTUiIHdpZHRoPSIzMSIgaGVpZ2h0PSI4IiByeD0iNCIgZmlsbD0iIzA3OGI4MCIgc3Ryb2tlPSJub25lIi8+PHJlY3QgeD0iNTI5IiB5PSIxODAiIHdpZHRoPSI3MCIgaGVpZ2h0PSI1IiByeD0iMiIgZmlsbD0iI2NmZGFlNCIgc3Ryb2tlPSJub25lIi8+PHJlY3QgeD0iNTI5IiB5PSIxOTYiIHdpZHRoPSI1NSIgaGVpZ2h0PSI1IiByeD0iMiIgZmlsbD0iI2NmZGFlNCIgc3Ryb2tlPSJub25lIi8+PHJlY3QgeD0iNTI5IiB5PSIyMTIiIHdpZHRoPSI2NSIgaGVpZ2h0PSI1IiByeD0iMiIgZmlsbD0iI2NmZGFlNCIgc3Ryb2tlPSJub25lIi8+PHJlY3QgeD0iNTI5IiB5PSIyMjgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI1IiByeD0iMiIgZmlsbD0iI2NmZGFlNCIgc3Ryb2tlPSJub25lIi8+PHJlY3QgeD0iNzk2IiB5PSIxNDIiIHdpZHRoPSIyNjkiIGhlaWdodD0iNzQiIHJ4PSIxMyIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSJub25lIi8+PHJlY3QgeD0iNzk2IiB5PSIxNDIiIHdpZHRoPSI1IiBoZWlnaHQ9Ijc0IiByeD0iMiIgZmlsbD0iIzA3OGI4MCIgc3Ryb2tlPSJub25lIi8+PHRleHQgeD0iODE3IiB5PSIxNjgiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMwNzhiODAiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJzdGFydCI+U1VDQ0VTUzwvdGV4dD48dGV4dCB4PSI4MTciIHk9IjE5NCIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzE0MmM0MyIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9InN0YXJ0Ij5JbWl0YXRpb24gLyBCQzwvdGV4dD48cmVjdCB4PSI3OTYiIHk9IjIyOSIgd2lkdGg9IjI2OSIgaGVpZ2h0PSI3NCIgcng9IjEzIiBmaWxsPSIjZmZmIiBzdHJva2U9Im5vbmUiLz48cmVjdCB4PSI3OTYiIHk9IjIyOSIgd2lkdGg9IjUiIGhlaWdodD0iNzQiIHJ4PSIyIiBmaWxsPSIjZDg5NTM2IiBzdHJva2U9Im5vbmUiLz48dGV4dCB4PSI4MTciIHk9IjI1NSIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2Q4OTUzNiIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9InN0YXJ0Ij5GQUlMVVJFPC90ZXh0Pjx0ZXh0IHg9IjgxNyIgeT0iMjgxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMTQyYzQzIiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPkRpYWdub3NpcyAvIGNyaXRpYzwvdGV4dD48cGF0aCBkPSJNMzI3LDIxOSBMNDAzLDIxOSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOTNhNmI1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IiIvPjxwYXRoIGQ9Ik0zOTUsMjE0IEw0MDMsMjE5IEwzOTUsMjI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM5M2E2YjUiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik02ODYsMjE5IEw3NjksMjE5IiBmaWxsPSJub25lIiBzdHJva2U9IiM5M2E2YjUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iIi8+PHBhdGggZD0iTTc2MSwyMTQgTDc2OSwyMTkgTDc2MSwyMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzkzYTZiNSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTMwLDM0OCBMMTA5MCwzNDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q1ZTFlYiIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2UtZGFzaGFycmF5PSIiLz48dGV4dCB4PSIzMCIgeT0iMzgwIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNjA3NThhIiBmb250LXdlaWdodD0iNDAwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuaOkumZpOW3suiuree7g+S4jumdnuiuree7g+mbhu+8m+aIkOWKn+eUqOS6juaooeS7v+WtpuS5oO+8jOWksei0peeUqOS6juiviuaWreaIliBjcml0aWPjgII8L3RleHQ+PC9nPjwvc3ZnPg=="/>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noInput" id="cell-id=filled-case-training">
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<div class="rl-case"><span class="rl-case-badge">已填好的演示案例 · 虚构数据 · 无需填写或导入</span><h3>最终保留 3 条，各有不同用途</h3><div class="rl-metrics"><div class="rl-metric"><strong>1</strong><span>成功动作正例</span></div><div class="rl-metric"><strong>2</strong><span>失败诊断候选</span></div></div><div aria-label="8 条案例的去向" class="rl-table-scroll" role="region" tabindex="0"><table class="dataframe rl-table">
+<thead>
+<tr style="text-align: right;">
+<th>演示 episode</th>
+<th>筛选结论与原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="rl-cell">9001</span></td>
+<td><span class="rl-cell">保留：成功动作示范</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9002</span></td>
+<td><span class="rl-cell">保留：失败诊断 / critic 候选</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9003</span></td>
+<td><span class="rl-cell">排除：结果未知，不能判为成功或失败</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9004</span></td>
+<td><span class="rl-cell">排除：此前已经用于训练</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9005</span></td>
+<td><span class="rl-cell">排除：属于测试集，不能用于训练</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9006</span></td>
+<td><span class="rl-cell">排除：画面/动作质量不合格</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9007</span></td>
+<td><span class="rl-cell">去重：与 9001 同场景组、同用途，保留相似度更高的 9001</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9008</span></td>
+<td><span class="rl-cell">保留：失败诊断 / critic 候选</span></td>
+</tr>
+</tbody>
+</table></div><div class="rl-case-focus"><strong>选出的 3 条片段</strong><p>9001 → 成功示范（bc_positive）；9002、9008 → 失败诊断 / critic 候选。每条截取 2.0–4.5 秒。失败动作不能直接当成正确动作去模仿；这里也没有实际启动模型训练。</p></div><details><summary>查看完整训练候选记录</summary><div aria-label="Demo training candidates" class="rl-table-scroll" role="region" tabindex="0"><table class="dataframe rl-table">
+<thead>
+<tr style="text-align: right;">
+<th>episode_index</th>
+<th>sample_id</th>
+<th>media_id</th>
+<th>object_type</th>
+<th>scene_type</th>
+<th>training_use</th>
+<th>failure_stage</th>
+<th>failure_reason</th>
+<th>scene_group</th>
+<th>clip_start_s</th>
+<th>clip_end_s</th>
+<th>similarity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="rl-cell">9001</span></td>
+<td><span class="rl-cell">9001:observation.images.wrist_image_left:42</span></td>
+<td><span class="rl-cell">9001:observation.images.wrist_image_left</span></td>
+<td><span class="rl-cell">block</span></td>
+<td><span class="rl-cell">tabletop</span></td>
+<td><span class="rl-cell">bc_positive</span></td>
+<td><span class="rl-cell"></span></td>
+<td><span class="rl-cell"></span></td>
+<td><span class="rl-cell">demo_scene_A</span></td>
+<td><span class="rl-cell">2.0</span></td>
+<td><span class="rl-cell">4.5</span></td>
+<td><span class="rl-cell">0.96</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9002</span></td>
+<td><span class="rl-cell">9002:observation.images.wrist_image_left:42</span></td>
+<td><span class="rl-cell">9002:observation.images.wrist_image_left</span></td>
+<td><span class="rl-cell">block</span></td>
+<td><span class="rl-cell">tabletop</span></td>
+<td><span class="rl-cell">failure_diagnosis_or_critic</span></td>
+<td><span class="rl-cell">lift</span></td>
+<td><span class="rl-cell">slip</span></td>
+<td><span class="rl-cell">demo_scene_B</span></td>
+<td><span class="rl-cell">2.0</span></td>
+<td><span class="rl-cell">4.5</span></td>
+<td><span class="rl-cell">0.95</span></td>
+</tr>
+<tr>
+<td><span class="rl-cell">9008</span></td>
+<td><span class="rl-cell">9008:observation.images.wrist_image_left:42</span></td>
+<td><span class="rl-cell">9008:observation.images.wrist_image_left</span></td>
+<td><span class="rl-cell">block</span></td>
+<td><span class="rl-cell">tabletop</span></td>
+<td><span class="rl-cell">failure_diagnosis_or_critic</span></td>
+<td><span class="rl-cell">lift</span></td>
+<td><span class="rl-cell">slip</span></td>
+<td><span class="rl-cell">demo_scene_H</span></td>
+<td><span class="rl-cell">2.0</span></td>
+<td><span class="rl-cell">4.5</span></td>
+<td><span class="rl-cell">0.89</span></td>
+</tr>
+</tbody>
+</table></div></details><p class="rl-case-note">编号 9001–9008、标注、相似度均为虚构示例。使用项目现有统计与选样 SQL 在独立内存数据上计算；未写入 Doris，也不替代真实检索结果。</p></div>
 </div>
 </div>
 </div>
